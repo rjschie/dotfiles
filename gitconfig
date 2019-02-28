@@ -1,0 +1,83 @@
+[user]
+	name = Ryan Schie
+	email = rjschie@gmail.com
+	signingkey = E5CF1CB0981398B8
+[core]
+	excludesfile = /Users/ryanschie/.gitignore_global
+	autocrlf = false
+	editor = /usr/local/bin/vim
+  pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
+[color]
+	ui = auto
+[color "branch"]
+	current = green
+	local = yellow
+	remote = red
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = magenta
+	branch = yellow
+[alias]
+	a = add
+	ai = add -i
+	ap = add -p
+	ua = reset HEAD
+
+  cln = clean -fd
+
+  br = branch --sort=-committerdate
+  #brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" | xargs -r git branch -d; }; f"
+  brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" }; f"
+
+	co = checkout
+  cmt = "!f() { if [ $# -eq 0 ]; then git commit; else git commit -m \"$1\" ; fi }; f"
+  chp = cherry-pick
+
+	# Diff
+	d = diff
+	dw = diff --word-diff
+	dd = diff --cached
+	ddw = diff --word-diff --cached
+	dst = diff --stat
+
+  f = fetch
+
+	# Logs
+	l = log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
+	ls = log --topo-order --stat --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
+	ld = log --topo-order --stat --patch --full-diff --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
+	lo = log --topo-order --oneline --pretty=format:'%C(magenta)%h %C(blue)<%an>%C(reset) %s %C(yellow)(%cr) %C(bold blue)%d%C(reset) '
+	lg = log --topo-order --all --graph --pretty=format:'%C(magenta)%h %C(blue)<%an>%C(reset) %s %C(yellow)(%cr) %C(bold blue)%d%C(reset) '
+	lc = shortlog --summary --numbered
+	slog = "!f() { if [ $# -eq 0 ]; then git log --stat master.. ; else git log --stat $1..; fi }; f"
+
+	s = status
+	su = ls-files -o --exclude-standard
+
+	sup = submodule update
+
+	# Stash
+	sl = stash list
+	ss = "!f() { if [ $# -eq 0 ]; then git stash show ; else git stash show stash@{$1} ; fi }; f"
+	ssp = "!f() { if [ $# -eq 0 ]; then git stash show -p ; else git stash show -p stash@{$1} ; fi }; f"
+	stp = "!f() { if [ $# -eq 0 ]; then git stash pop ; else git stash pop stash@{$1} ; fi }; f"
+	sta = "!f() { if [ $# -eq 0 ]; then git stash apply ; else git stash apply stash@{$1} ; fi }; f"
+	stx = "!f() { if [ $# -eq 0 ]; then git stash drop ; else git stash drop stash@{$1} ; fi }; f"
+  # stk: stashes staged files only
+	stk = "!f() { git stash save -k && git stash save ${1} && git stash drop stash@{1}; }; f"
+	sts = "!f() { git stash save "$(date +"%m/%d"): ${1}"; }; f"
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[push]
+	default = current
+[url "git@github.com:"]
+      insteadOf = https://github.com/
+[commit]
+	gpgsign = true
+[fetch]
+	prune = true
+[diff]
+	tool = vimdiff

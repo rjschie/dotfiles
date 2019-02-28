@@ -1,0 +1,189 @@
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+set timeoutlen=1000 ttimeoutlen=5
+
+" Vundle
+call plug#begin('~/.vim/bundle')
+
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'leafgarland/typescript-vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'rakr/vim-one'
+Plug 'itchyny/lightline.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'airblade/vim-gitgutter'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'vue'] }
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
+call plug#end()
+
+
+
+
+
+
+" Other
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  set backupdir=~/.vim/backups    " Store backups in specific folder
+  set directory^=$HOME/.vim/tmp//
+endif
+
+" Display Settings
+" let g:airline_theme='simple'
+set nowrap          " no line wrapping
+set scrolloff=3     " when scrolling, keep cursor 3 lines away from edge
+set number          " show line numbers
+set ruler           " show the cursor position all the time
+set showmode        " show current mode ("insert", "visual")
+set showcmd         " display incomplete commands
+set title           " show file title
+set matchpairs+=<:> " add to matching pairs
+set colorcolumn=81  " add column bar at 81 chars
+
+" Editor Settings
+set backspace=indent,eol,start
+set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+set ignorecase
+set smartcase
+let mapleader = ','
+
+" System Settings
+set hidden          " remember undo after quitting
+set history=50		" keep 50 lines of command line history
+set incsearch		" do incremental searching
+set updatetime=600
+
+
+" Key mappings
+" nnoremap ZZ :bw<cr>
+nnoremap <leader>p :Files<cr>
+nnoremap <leader><leader>e :bn<cr>
+nnoremap <leader><leader>w :bw<cr>
+
+" Lightline Config
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+        \ 'left': [
+        \   ['mode', 'paste'],
+        \   ['gitbranch', 'readonly', 'filename', 'modified']
+        \ ]
+      \ },
+      \ 'component': {
+      \   'lineinfo': '%3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \ },
+    \ }
+let g:bufferline_echo = 0
+set laststatus=2 " Enable lightline
+set showtabline=2
+
+
+" GitGutter
+if exists('&signcolumn')
+  set signcolumn=yes
+else
+  let g:gitgutter_sign_column_always = 1
+endif
+
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+  set termguicolors
+  set background=dark
+
+  " Custom color overrides
+  " call one#highlight('Comment', 'cccccc', '', 'none')
+
+  colorscheme one
+endif
+
+
+
+
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+  augroup END
+
+  " Remove trailing whitespace on save
+  " augroup trim_trailing
+  "   au!
+  "   autocmd BufWritePre * %s/\s\+$//e
+  " augroup END
+
+else
+
+  set autoindent		" always set autoindenting on
+
+endif " has("autocmd")
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
+if has('langmap') && exists('+langnoremap')
+  " Prevent that the langmap option applies to characters that result from a
+  " mapping.  If unset (default), this may break plugins (but it's backward
+  " compatible).
+  set langnoremap
+endif
+
+" Set iTerm block selector to underline in INSERT mode.
+if $TERM_PROGRAM =~ 'iTerm'
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+endif
+
