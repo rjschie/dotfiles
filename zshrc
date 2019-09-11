@@ -20,7 +20,6 @@ compinit
 source ~/.zprezto/init.zsh
 
 
-
 # Use VIM Mode
 bindkey -v
 set -o vi
@@ -30,6 +29,7 @@ export KEYTIMEOUT=1
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 export ANDROID_HOME=${HOME}/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/emulator
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/tools/bin
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
@@ -80,7 +80,7 @@ sarfd () { fd -t f -x perl -p -i -e "$1" -- {} }
 search () { find -L $1 -name "$2" ${*:3} }
 alias findlinks="find node_modules -type l -ls -maxdepth 1"
 
-#$(aws ecr get-login --no-include-email --region us-west-2)
+ecrlogin () { $(aws ecr get-login --no-include-email --region us-west-2) }
 
 # Application Aliases
 alias v="vim"
@@ -90,7 +90,15 @@ alias g="git"
 alias t="tmux"
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
+# Docker aliases
+alias dk="docker"
+alias dkk="docker-compose"
+alias dkku="docker-compose up"
+alias dkkd="docker-compose down"
+dkconn () { docker exec -it $1 /bin/bash }
+
 # Directory Aliases
+alias sub="cd /Users/ryanschie/code/Subsplash"
 alias dash="cd /Users/ryanschie/code/Subsplash/dashboard-client"
 alias dash2="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-2"
 alias db="cd /Users/ryanschie/code/Subsplash/ember/dashboard/application"
@@ -112,6 +120,7 @@ alias web="cd /Users/ryanschie/code/Subsplash/web-client"
 alias webdev="cd /Users/ryanschie/code/Subsplash/webdev-env-setup"
 alias uidocs="cd /Users/ryanschie/code/Subsplash/ui-docs"
 alias wallet="cd /Users/ryanschie/code/Subsplash/_wallet/wallet"
+alias wallet2="cd /Users/ryanschie/code/Subsplash/_wallet/wallet2"
 alias monaco="cd /Users/ryanschie/code/Subsplash/monaco"
 alias promo="cd /Users/ryanschie/code/Subsplash/promo-automation-agent"
 alias blank="cd /Users/ryanschie/code/ember-test/blank-app"
@@ -120,8 +129,12 @@ alias goaccounts="cd $GOPATH/src/subsplash.io/go/accounts"
 alias gobuilder="cd $GOPATH/src/subsplash.io/go/builder"
 alias goevents="cd $GOPATH/src/subsplash.io/go/events"
 alias gomedia="cd $GOPATH/src/subsplash.io/go/media"
+alias godonorux="cd $GOPATH/src/subsplash.io/go/donor-ux"
 
 alias walletssh="ssh -L 3306:db.dev.giving.subsplash.net:3306 rschie@bastion.subsplash.net"
+export blackcomb=/usr/local/etc/php/5.6/conf.d/20-blackcomb.ini
+export php_error=/usr/local/var/log/php_errors.log
+export php_ini=/usr/local/etc/php/5.6/php.ini
 
 # Ember Commands
 alias em="ember"
@@ -136,8 +149,10 @@ alias yarnf="yarn --force"
 
 # Go Commands
 alias gosrc="cd $GOPATH/src"
-gobin () { var=`basename $(pwd)`; go install ./...; $GOPATH/bin/${var} config/config.json }
+alias gosub="cd $GOPATH/src/subsplash.io/go"
+gobin () { var=`basename $(pwd)`; go install ./...; $GOPATH/bin/${var} config/$1.json }
 gogbin () { var=`basename $(pwd)`; go generate ./...; go install ./...; $GOPATH/bin/${var} config/config.json }
+gotest () { go test ./... | grep -v '\[no test files\]' }
 
 # React Commands
 alias rn="react-native"
@@ -145,8 +160,6 @@ alias rn="react-native"
 # OTHER
 alias watchreset="watchman watch-del-all"
 alias fixn="curl -0 -L https://npmjs.com/install.sh | sudo sh"
-
-
 
 
 ####### NOT NORMALLY USEFUL #######
@@ -174,4 +187,12 @@ function zle-line-finish
 zle -N zle-line-finish
 # zle -N zle-keymap-select
 
+fkill() {
+    local pid 
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi  
+}
