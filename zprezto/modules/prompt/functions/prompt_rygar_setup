@@ -26,17 +26,6 @@
 # Load dependencies.
 pmodload 'helper'
 
-function prompt_rygar_pwd {
-  local pwd="${PWD/#$HOME/~}"
-
-  if [[ "$pwd" == (#m)[/~] ]]; then
-    _prompt_rygar_pwd="$MATCH"
-    unset MATCH
-  else
-    _prompt_rygar_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
-  fi
-}
-
 function prompt_rygar_git_info {
   if (( _prompt_rygar_precmd_async_pid > 0 )); then
     # Append Git status.
@@ -71,7 +60,7 @@ function prompt_rygar_precmd {
   unsetopt XTRACE KSH_ARRAYS
 
   # Format PWD.
-  prompt_rygar_pwd
+  _prompt_rygar_pwd=$(prompt-pwd)
 
   # Define prompts.
   RPROMPT='${editor_info[overwrite]}%(?:: %F{1}⏎%f)${VIM:+" %B%F{6}V%f%b"}'
@@ -99,6 +88,9 @@ function prompt_rygar_setup {
 
   # Add hook for calling git-info before each command.
   add-zsh-hook precmd prompt_rygar_precmd
+
+  # Tell prezto we can manage this prompt
+  zstyle ':prezto:module:prompt' managed 'yes'
 
   # Set editor-info parameters.
   zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
@@ -140,3 +132,4 @@ function prompt_rygar_preview {
 }
 
 prompt_rygar_setup "$@"
+# vim: ft=zsh
