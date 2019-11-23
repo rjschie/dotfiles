@@ -29,6 +29,7 @@ export KEYTIMEOUT=1
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 export ANDROID_HOME=${HOME}/Library/Android/sdk
+export PATH=${HOME}/.bin:${PATH}
 export PATH=${PATH}:${ANDROID_HOME}/emulator
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/tools/bin
@@ -36,10 +37,9 @@ export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 export PATH=${HOME}/.npm-global/bin:${PATH}
 export PATH="/usr/local/opt/php@5.6/bin:$PATH"
 export PATH="/usr/local/opt/php@5.6/sbin:$PATH"
-export PATH=${HOME}/.bin:${PATH}
 
 export AWS_SDK_LOAD_CONFIG=1
-export HOMEBREW_GITHUB_API_TOKEN=81477ffea61e1cbad6d929516be24326a9f12e68
+export HOMEBREW_GITHUB_API_TOKEN=c269e5df57576afbca9b4054e8bcd9446f7a55c9
 export GPG_TTY=$(tty)
 
 export GREP_COLORS='mt=01;31:fn=36'
@@ -55,6 +55,9 @@ unsetopt correct_all
 
 ####### USEFUL THINGS #######
 
+alias pfix="prompt -p &> /dev/null"
+alias pry="prompt rygar"
+
 # Main Aliases
 alias rsrc="source ~/.zshrc"
 alias orc="vim ~/.zshrc"
@@ -63,7 +66,6 @@ alias l="ls -lFhH"
 alias la="ls -lFAHh"
 alias -g G="| ggrep"
 alias pwdc="echo -n $(pwd) | pbcopy"
-
 
 # Helpers
 alias rmrf="rm -rf"
@@ -123,7 +125,9 @@ alias wallet="cd /Users/ryanschie/code/Subsplash/_wallet/wallet"
 alias wallet2="cd /Users/ryanschie/code/Subsplash/_wallet/wallet2"
 alias monaco="cd /Users/ryanschie/code/Subsplash/monaco"
 alias promo="cd /Users/ryanschie/code/Subsplash/promo-automation-agent"
-alias blank="cd /Users/ryanschie/code/ember-test/blank-app"
+alias ci="cd /Users/ryanschie/code/Subsplash/ember/ci"
+alias giving="cd /Users/ryanschie/code/Subsplash/ember/giving"
+alias glimmer="cd $GOPATH/src/subsplash.io/go/donor-ux/glimmer"
 
 alias goaccounts="cd $GOPATH/src/subsplash.io/go/accounts"
 alias gobuilder="cd $GOPATH/src/subsplash.io/go/builder"
@@ -139,9 +143,10 @@ export php_ini=/usr/local/etc/php/5.6/php.ini
 # Ember Commands
 alias em="ember"
 alias es="ember serve"
-alias esl="ember start --disable-fastboot --e=local"
-alias est="ember start"
-alias esm="ember start --disable-fastboot"
+alias esl="ember serve --e=local"
+alias ys="yarn run start"
+alias y="yarn"
+alias yf="yarn --force"
 
 alias qunitcodemod="jscodeshift -t https://rawgit.com/rwjblue/ember-qunit-codemod/master/ember-qunit-codemod.js"
 
