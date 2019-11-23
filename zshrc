@@ -15,10 +15,8 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-
 # Loading files
 source ~/.zprezto/init.zsh
-
 
 # Use VIM Mode
 bindkey -v
@@ -54,9 +52,6 @@ unsetopt correct
 unsetopt correct_all
 
 ####### USEFUL THINGS #######
-
-alias pfix="prompt -p &> /dev/null"
-alias pry="prompt rygar"
 
 # Main Aliases
 alias rsrc="source ~/.zshrc"
@@ -101,44 +96,29 @@ dkconn () { docker exec -it $1 /bin/bash }
 
 # Directory Aliases
 alias sub="cd /Users/ryanschie/code/Subsplash"
-alias dash="cd /Users/ryanschie/code/Subsplash/dashboard-client"
-alias dash2="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-2"
-alias db="cd /Users/ryanschie/code/Subsplash/ember/dashboard/application"
-alias dbbuilder="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-builder"
-alias dbgiving="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-giving"
-alias dbanalytics="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-analytics"
-alias dblibrary="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-library"
-alias dbpush="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-push"
-alias dbsettings="cd /Users/ryanschie/code/Subsplash/ember/dashboard/engine-settings"
-alias dblib="cd /Users/ryanschie/code/Subsplash/ember/dashboard/lib"
-alias dashboard="cd /Users/ryanschie/code/Subsplash/dashboard"
-alias sap="cd /Users/ryanschie/code/Subsplash/dashboard/libraries/sap_core"
-alias kit="cd /Users/ryanschie/code/Subsplash/ember-kit"
-alias kit2="cd /Users/ryanschie/code/Subsplash/_secondary/ember-kit-2"
-alias hub="cd /Users/ryanschie/code/Subsplash/hub"
-alias native="cd /Users/ryanschie/code/Subsplash/native-web"
-alias sui="cd /Users/ryanschie/code/Subsplash/sui"
-alias web="cd /Users/ryanschie/code/Subsplash/web-client"
-alias webdev="cd /Users/ryanschie/code/Subsplash/webdev-env-setup"
-alias uidocs="cd /Users/ryanschie/code/Subsplash/ui-docs"
-alias wallet="cd /Users/ryanschie/code/Subsplash/_wallet/wallet"
-alias wallet2="cd /Users/ryanschie/code/Subsplash/_wallet/wallet2"
 alias monaco="cd /Users/ryanschie/code/Subsplash/monaco"
 alias promo="cd /Users/ryanschie/code/Subsplash/promo-automation-agent"
-alias ci="cd /Users/ryanschie/code/Subsplash/ember/ci"
-alias giving="cd /Users/ryanschie/code/Subsplash/ember/giving"
-alias glimmer="cd $GOPATH/src/subsplash.io/go/donor-ux/glimmer"
+alias dashboard="cd /Users/ryanschie/code/Subsplash/dashboard && title dashboard"
+alias dash="cd /Users/ryanschie/code/Subsplash/dashboard-client && title dash"
+alias dash2="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-2 && title dash2"
+alias kit="cd /Users/ryanschie/code/Subsplash/ember-kit && title kit"
+alias kit2="cd /Users/ryanschie/code/Subsplash/_secondary/ember-kit-2 && title kit2"
+alias hub="cd /Users/ryanschie/code/Subsplash/hub && title hub"
+alias native="cd /Users/ryanschie/code/Subsplash/native-web && title native-web"
+alias sui="cd /Users/ryanschie/code/Subsplash/sui && title sui"
+alias web="cd /Users/ryanschie/code/Subsplash/web-client && title web-client"
+alias webdev="cd /Users/ryanschie/code/Subsplash/webdev-env-setup"
+alias wallet="cd /Users/ryanschie/code/Subsplash/_wallet/wallet && title wallet"
+alias wallet2="cd /Users/ryanschie/code/Subsplash/_wallet/wallet2 && title wallet2"
+alias ci="cd /Users/ryanschie/code/Subsplash/ember/ci && title ci"
+alias giving="cd /Users/ryanschie/code/Subsplash/ember/giving && title giving"
+alias glimmer="cd $GOPATH/src/subsplash.io/go/donor-ux/glimmer && title glimmer"
 
 alias goaccounts="cd $GOPATH/src/subsplash.io/go/accounts"
 alias gobuilder="cd $GOPATH/src/subsplash.io/go/builder"
 alias goevents="cd $GOPATH/src/subsplash.io/go/events"
 alias gomedia="cd $GOPATH/src/subsplash.io/go/media"
 alias godonorux="cd $GOPATH/src/subsplash.io/go/donor-ux"
-
-alias walletssh="ssh -L 3306:db.dev.giving.subsplash.net:3306 rschie@bastion.subsplash.net"
-export blackcomb=/usr/local/etc/php/5.6/conf.d/20-blackcomb.ini
-export php_error=/usr/local/var/log/php_errors.log
-export php_ini=/usr/local/etc/php/5.6/php.ini
 
 # Ember Commands
 alias em="ember"
@@ -147,10 +127,6 @@ alias esl="ember serve --e=local"
 alias ys="yarn run start"
 alias y="yarn"
 alias yf="yarn --force"
-
-alias qunitcodemod="jscodeshift -t https://rawgit.com/rwjblue/ember-qunit-codemod/master/ember-qunit-codemod.js"
-
-alias yarnf="yarn --force"
 
 # Go Commands
 alias gosrc="cd $GOPATH/src"
