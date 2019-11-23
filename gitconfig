@@ -1,7 +1,8 @@
+[include]
+  path = ~/.gitconfig-override
 [user]
   name = Ryan Schie
   email = rjschie@gmail.com
-  signingkey = E5CF1CB0981398B8
 [core]
   excludesfile = /Users/ryanschie/.gitignore_global
   autocrlf = false
