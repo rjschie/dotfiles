@@ -41,17 +41,30 @@
 	dd = diff --cached
 	ddw = diff --word-diff --cached
 	dst = diff --stat
+  dn = diff --name-only
 
+  showno = show --name-only
+
+  # Rebase
+  rscp = rebase --show-current-patch
+  rc = rebase --continue
+  ra = rebase --abort
+  rs = rebase --skip
+
+  # Remote managament
   f = fetch
+  p = push
+  pf = push --force-with-lease
 
 	# Logs
-	l = log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
+  l = lo
+	ld = log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
 	ls = log --topo-order --stat --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
-	ld = log --topo-order --stat --patch --full-diff --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
+	lp = log --topo-order --stat --patch --full-diff --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
 	lo = log --topo-order --oneline --pretty=format:'%C(magenta)%h %C(blue)<%an>%C(reset) %s %C(yellow)(%cr) %C(bold blue)%d%C(reset) '
-	lg = log --topo-order --all --graph --pretty=format:'%C(magenta)%h %C(blue)<%an>%C(reset) %s %C(yellow)(%cr) %C(bold blue)%d%C(reset) '
+	lg = log --topo-order --graph --pretty=format:'%C(magenta)%h %C(blue)<%an>%C(reset) %s %C(yellow)(%cr) %C(bold blue)%d%C(reset) '
 	lc = shortlog --summary --numbered
-	slog = "!f() { if [ $# -eq 0 ]; then git log --stat master.. ; else git log --stat $1..; fi }; f"
+	slog = "!f() { if [ $# -eq 0 ]; then git log --oneline master.. ; else git log --oneline $1..; fi }; f"
 
 	s = status
 	su = ls-files -o --exclude-standard
@@ -74,6 +87,8 @@
 	required = true
 [push]
 	default = current
+[pull]
+  rebase = true
 [url "git@github.com:"]
       insteadOf = https://github.com/
 [commit]
