@@ -40,6 +40,7 @@ export AWS_SDK_LOAD_CONFIG=1
 export HOMEBREW_GITHUB_API_TOKEN=c269e5df57576afbca9b4054e8bcd9446f7a55c9
 export GPG_TTY=$(tty)
 
+export CLICOLOR_FORCE=''
 export GREP_COLORS='mt=01;31:fn=36'
 
 export FZF_DEFAULT_COMMAND='fd --type f'
@@ -60,6 +61,7 @@ alias vimrc="vim ~/.vim/vimrc"
 alias l="ls -lFhH"
 alias la="ls -lFAHh"
 alias -g G="| ggrep"
+alias -g LS="| less -r"
 alias pwdc="echo -n $(pwd) | pbcopy"
 
 # Helpers
@@ -86,6 +88,8 @@ alias fv="vim \$(fzf)"
 alias g="git"
 alias t="tmux"
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+
+alias gconf="git config --global -e"
 
 # Docker aliases
 alias dk="docker"
@@ -122,9 +126,8 @@ alias godonorux="cd $GOPATH/src/subsplash.io/go/donor-ux"
 
 # Ember Commands
 alias em="ember"
-alias es="ember serve"
-alias esl="ember serve --e=local"
 alias ys="yarn run start"
+alias yl="yarn run local"
 alias y="yarn"
 alias yf="yarn --force"
 
