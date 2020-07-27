@@ -93,30 +93,52 @@ alias gconf="git config --global -e"
 
 # Docker aliases
 alias dk="docker"
+alias dki="docker image"
+alias dkc="docker container"
+
+#Docker compose
 alias dkk="docker-compose"
 alias dkku="docker-compose up"
 alias dkkd="docker-compose down"
-dkconn () { docker exec -it $1 /bin/bash }
+
+dkrun () { docker run -it $@ /bin/bash }
+dkconn () { docker exec -it $@ /bin/bash }
 
 # Directory Aliases
 alias sub="cd /Users/ryanschie/code/Subsplash"
-alias monaco="cd /Users/ryanschie/code/Subsplash/monaco"
-alias promo="cd /Users/ryanschie/code/Subsplash/promo-automation-agent"
-alias dashboard="cd /Users/ryanschie/code/Subsplash/dashboard && title dashboard"
-alias dash="cd /Users/ryanschie/code/Subsplash/dashboard-client && title dash"
-alias dash2="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-2 && title dash2"
-alias kit="cd /Users/ryanschie/code/Subsplash/ember-kit && title kit"
-alias kit2="cd /Users/ryanschie/code/Subsplash/_secondary/ember-kit-2 && title kit2"
-alias hub="cd /Users/ryanschie/code/Subsplash/hub && title hub"
-alias native="cd /Users/ryanschie/code/Subsplash/native-web && title native-web"
-alias sui="cd /Users/ryanschie/code/Subsplash/sui && title sui"
-alias web="cd /Users/ryanschie/code/Subsplash/web-client && title web-client"
+alias dashboard="cd /Users/ryanschie/code/Subsplash/php/dashboard && title dashboard"
+alias wallet="cd /Users/ryanschie/code/Subsplash/php/wallet && title wallet"
+alias monaco="cd /Users/ryanschie/code/Subsplash/php/monaco"
 alias webdev="cd /Users/ryanschie/code/Subsplash/webdev-env-setup"
-alias wallet="cd /Users/ryanschie/code/Subsplash/_wallet/wallet && title wallet"
-alias wallet2="cd /Users/ryanschie/code/Subsplash/_wallet/wallet2 && title wallet2"
-alias ci="cd /Users/ryanschie/code/Subsplash/ember/ci && title ci"
+
+alias subem="cd /Users/ryanschie/code/Subsplash/ember"
+
+alias kit="cd /Users/ryanschie/code/Subsplash/ember/kit && title kit"
+alias dash="cd /Users/ryanschie/code/Subsplash/ember/dashboard-client && title dash"
 alias giving="cd /Users/ryanschie/code/Subsplash/ember/giving && title giving"
+alias blueprints="cd /Users/ryanschie/code/Subsplash/ember/blueprints && title blueprints"
+alias web="cd /Users/ryanschie/code/Subsplash/ember/web-client && title web-client"
+alias native="cd /Users/ryanschie/code/Subsplash/ember/native-web && title native-web"
+alias signup="cd /Users/ryanschie/code/Subsplash/ember/signup && title signup"
+alias ci="cd /Users/ryanschie/code/Subsplash/ember/ci && title ci"
+alias hub="cd /Users/ryanschie/code/Subsplash/ember/hub && title hub"
+alias sui="cd /Users/ryanschie/code/Subsplash/ember/sui && title sui"
+
+alias tcarn="cd /Users/ryanschie/code/Subsplash/tca/tca-react-native && title tca react native"
+alias tcaios="cd /Users/ryanschie/code/Subsplash/tca/tca-ios && title tca ios"
+
+alias wallet2="cd /Users/ryanschie/code/Subsplash/_secondary/wallet && title wallet2"
+alias kit2="cd /Users/ryanschie/code/Subsplash/_secondary/ember-kit-2 && title kit2"
+alias kit3="cd /Users/ryanschie/code/Subsplash/_secondary/ember-kit-3 && title kit3"
+alias dash2="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-2 && title dash2"
+alias dash3="cd /Users/ryanschie/code/Subsplash/_secondary/dashboard-client-3 && title dash3"
+alias giving2="cd /Users/ryanschie/code/Subsplash/_secondary/giving2 && title giving2"
+
 alias glimmer="cd $GOPATH/src/subsplash.io/go/donor-ux/glimmer && title glimmer"
+# alias donorux="cd $GOPATH/src/subsplash.io/go/donor-ux/ember-app && title donor ember"
+
+alias mydash="cd /Users/ryanschie/code/rschie/ember/dashboard-client && title my-dash"
+alias mykit="cd /Users/ryanschie/code/rschie/ember/kit && title my-kit"
 
 alias goaccounts="cd $GOPATH/src/subsplash.io/go/accounts"
 alias gobuilder="cd $GOPATH/src/subsplash.io/go/builder"
@@ -130,6 +152,7 @@ alias ys="yarn run start"
 alias yl="yarn run local"
 alias y="yarn"
 alias yf="yarn --force"
+alias yup="yarn upgrade-interactive"
 
 # Go Commands
 alias gosrc="cd $GOPATH/src"
@@ -145,6 +168,25 @@ alias rn="react-native"
 alias watchreset="watchman watch-del-all"
 alias fixn="curl -0 -L https://npmjs.com/install.sh | sudo sh"
 
+nodeinspect() { node --inspect-brk node_modules/.bin/"$@" }
+
+# Gitlab Runner
+alias grn="gitlab-runner"
+gitlabrun() { gitlab-runner exec docker --env "SSH_KEY=$(cat ~/.ssh/id_rsa)" --env "SSH_KNOWN_HOSTS=$(cat ~/.ssh/known_hosts)" "$@" }
+
+# My helper functions
+,,mymrs() { open "https://subsplash.io/dashboard/merge_requests?assignee_username=rschie" }
+,,omrs() { open "https://subsplash.io/dashboard/merge_requests?author_username=$1" }
+
+,,git() { 
+  open "$(g remote get-url origin | sed 's git@ https:// g; s io: io/ g')"
+}
+,,gitm() {
+  open "$(g remote get-url origin | sed 's git@ https:// g; s io: io/ g')/-/merge_requests"
+}
+,,gitp() { 
+  open "$(g remote get-url origin | sed 's git@ https:// g; s io: io/ g')/pipelines"
+}
 
 ####### NOT NORMALLY USEFUL #######
 
@@ -180,3 +222,7 @@ fkill() {
         echo $pid | xargs kill -${1:-9}
     fi  
 }
+
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
