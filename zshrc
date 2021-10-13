@@ -62,14 +62,21 @@ alias l="ls -lFhH"
 alias la="ls -lFAHh"
 alias -g G="| ggrep"
 alias -g LS="| less -r"
-alias pwdc="echo -n $(pwd) | pbcopy"
+
+function pcopy { pwd | pbcopy }
 
 # Helpers
 alias rmrf="rm -rf"
 alias mk="mkdir -p"
 alias grep="nocorrect ggrep --color=auto"
 alias grip="nocorrect ggrep --color=auto -riP"
+alias mmv="noglob zmv -W"
 mkd () { mkdir -p $*; cd $* }
+touch() { 
+  local dir=$(dirname $*)
+  if [ ! -d $dir ]; then mkdir -p $dir; fi
+  /usr/bin/touch $*
+}
 trash () { mv $* ~/.Trash/ }
 title () { set-tab-title $* }
 
@@ -105,6 +112,8 @@ dkrun () { docker run -it $@ /bin/bash }
 dkconn () { docker exec -it $@ /bin/bash }
 
 # Directory Aliases
+alias mygit="cd /Users/ryanschie/code/github.com/rjschie"
+
 alias sub="cd /Users/ryanschie/code/Subsplash"
 alias dashboard="cd /Users/ryanschie/code/Subsplash/php/dashboard && title dashboard"
 alias wallet="cd /Users/ryanschie/code/Subsplash/php/wallet && title wallet"
