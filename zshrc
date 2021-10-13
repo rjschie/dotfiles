@@ -36,6 +36,10 @@ export PATH=${HOME}/.npm-global/bin:${PATH}
 export PATH="/usr/local/opt/php@5.6/bin:$PATH"
 export PATH="/usr/local/opt/php@5.6/sbin:$PATH"
 
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/liberica-jdk-8-full.jdk/Contents/Home"
+
 export AWS_SDK_LOAD_CONFIG=1
 export HOMEBREW_GITHUB_API_TOKEN=c269e5df57576afbca9b4054e8bcd9446f7a55c9
 export GPG_TTY=$(tty)
@@ -62,6 +66,8 @@ alias l="ls -lFhH"
 alias la="ls -lFAHh"
 alias -g G="| ggrep"
 alias -g LS="| less -r"
+
+alias py3="python3"
 
 function pcopy { pwd | pbcopy }
 
@@ -173,6 +179,12 @@ gotest () { go test ./... | grep -v '\[no test files\]' }
 # React Commands
 alias rn="react-native"
 
+alias fqapi="cd ~/code/github.com/rjschie/fq-graphql && title fq-graphql"
+alias fqcms="cd ~/code/github.com/rjschie/fq-cms && title fq-cms"
+alias pictimeapi="cd ~/.a/.nw/pic-time/api && title api"
+alias pictimeclient="cd ~/.a/.nw/pic-time/client && title client"
+alias expen="cd ~/code/github.com/rjschie/expencier && title expencier"
+
 # OTHER
 alias watchreset="watchman watch-del-all"
 alias fixn="curl -0 -L https://npmjs.com/install.sh | sudo sh"
@@ -235,3 +247,9 @@ fkill() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+
+source /Users/ryanschie/.config/broot/launcher/bash/br

@@ -26,10 +26,7 @@ Plug 'will133/vim-dirdiff'
 
 call plug#end()
 
-
-
-
-
+set guifont=Menlo:h14
 
 " Other
 if has("vms")
