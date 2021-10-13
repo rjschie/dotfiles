@@ -55,7 +55,7 @@ unsetopt correct_all
 ####### USEFUL THINGS #######
 
 # Main Aliases
-alias rsrc="source ~/.zshrc"
+alias src="source ~/.zshrc"
 alias orc="vim ~/.zshrc"
 alias vimrc="vim ~/.vim/vimrc"
 alias l="ls -lFhH"
@@ -71,6 +71,7 @@ alias mk="mkdir -p"
 alias grep="nocorrect ggrep --color=auto"
 alias grip="nocorrect ggrep --color=auto -riP"
 alias mmv="noglob zmv -W"
+tch () { mkdir -p $(dirname $*); touch $* }
 mkd () { mkdir -p $*; cd $* }
 touch() { 
   local dir=$(dirname $*)
@@ -90,8 +91,8 @@ ecrlogin () { $(aws ecr get-login --no-include-email --region us-west-2) }
 
 # Application Aliases
 alias v="vim"
-alias -g F="\$(fzf)"
-alias fv="vim \$(fzf)"
+# alias -g F="\$(fzf)"
+# alias fv="vim \$(fzf)"
 alias g="git"
 alias t="tmux"
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
@@ -104,9 +105,10 @@ alias dki="docker image"
 alias dkc="docker container"
 
 #Docker compose
-alias dkk="docker-compose"
-alias dkku="docker-compose up"
-alias dkkd="docker-compose down"
+alias dkk="docker compose"
+alias dkku="docker compose up"
+alias dkkb="docker compose build"
+alias dkkd="docker compose down"
 
 dkrun () { docker run -it $@ /bin/bash }
 dkconn () { docker exec -it $@ /bin/bash }
@@ -155,13 +157,19 @@ alias goevents="cd $GOPATH/src/subsplash.io/go/events"
 alias gomedia="cd $GOPATH/src/subsplash.io/go/media"
 alias godonorux="cd $GOPATH/src/subsplash.io/go/donor-ux"
 
-# Ember Commands
-alias em="ember"
-alias ys="yarn run start"
-alias yl="yarn run local"
+# FE Commands
+alias ys="yarn start"
+alias ysn="yarn start:no-mirage"
+alias yl="yarn local"
 alias y="yarn"
 alias yf="yarn --force"
 alias yup="yarn upgrade-interactive"
+yp() {
+  yarn packages/$1 $@[2,-1]
+}
+
+alias em="ember"
+alias tf="terraform"
 
 # Go Commands
 alias gosrc="cd $GOPATH/src"
@@ -235,3 +243,6 @@ fkill() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform

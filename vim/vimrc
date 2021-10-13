@@ -27,10 +27,6 @@ Plug 'will133/vim-dirdiff'
 call plug#end()
 
 
-
-
-
-
 " Other
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -64,7 +60,7 @@ set hidden          " remember undo after quitting
 set history=50		" keep 50 lines of command line history
 set incsearch		" do incremental searching
 set updatetime=100
-
+set guifont=Menlo:h14
 
 " Key mappings
 " nnoremap ZZ :bw<cr>
