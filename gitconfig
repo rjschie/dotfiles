@@ -2,7 +2,8 @@
   path = ~/.gitconfig-override
 [user]
   name = Ryan Schie
-  email = rjschie@gmail.com
+  email = rschie@subsplash.com
+	signingkey = 1BC47A5AC3C2DF6E
 [core]
   excludesfile = /Users/ryanschie/.gitignore_global
   autocrlf = false
@@ -24,9 +25,10 @@
   ai = add -i
   ap = add -p
   apnw = !sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
-  ua = reset HEAD
+  ua = reset
 
   cln = clean -fd
+  clnall = "!f() { git checkout .; git clean -fd; }; f"
 
   br = branch --sort=-committerdate
   #brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" | xargs -r git branch -d; }; f"
@@ -36,18 +38,25 @@
 	cb = checkout -b
   cmt = "!f() { if [ $# -eq 0 ]; then git commit; else git commit -m \"$1\" ; fi }; f"
   cmta = commit --amend
-  chp = cherry-pick
+
+  rst = "!f() { if [ $# -eq 0 ]; then git reset; else git reset HEAD~\"$1\" ; fi }; f"
 
   # Diff
   d = diff
   dw = diff --word-diff
   dd = diff --cached
   ddw = diff --word-diff --cached
-  ds = diff --shortstat
-  dst = diff --stat
-  dn = diff --name-only
+  dc = diff --shortstat
+  ddc = diff --cached --shortstat
+  ds = diff --stat
+  df = diff --name-only
 
   showno = show --name-only
+
+  # Cherry-pick
+  chp = cherry-pick
+  chpa = cherry-pick --abort
+  chpc = cherry-pick --continue
 
   # Rebase
   rscp = rebase --show-current-patch
@@ -109,3 +118,8 @@
   prune = true
 [diff]
   tool = vimdiff
+
+[url "git@subsplash.io:"]
+	insteadof = https://subsplash.io
+[init]
+	defaultBranch = main
