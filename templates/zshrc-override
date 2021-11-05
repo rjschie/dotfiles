@@ -1,0 +1,7 @@
+# Set up any system-specific aliases / functions here
+
+export AWS_SDK_LOAD_CONFIG=1
+
+# Directory Aliases
+alias mygit="cd $HOME/code/github.com/rjschie"
+alias dotfiles="cd $HOME/code/github.com/rjschie/dotfiles"

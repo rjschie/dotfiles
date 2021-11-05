@@ -12,6 +12,7 @@ Plug 'tpope/vim-commentary'
 Plug 'leafgarland/typescript-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'rakr/vim-one'
+" Plug 'joshdick/onedark.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
@@ -37,7 +38,6 @@ else
 endif
 
 " Display Settings
-" let g:airline_theme='simple'
 set nowrap          " no line wrapping
 set scrolloff=3     " when scrolling, keep cursor 3 lines away from edge
 set number          " show line numbers
@@ -70,24 +70,23 @@ nnoremap <leader><leader>w :bw<cr>
 
 " Lightline Config
 let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-        \ 'left': [
-        \   ['mode', 'paste'],
-        \   ['gitbranch', 'readonly', 'filename', 'modified']
-        \ ]
-      \ },
-      \ 'component': {
-      \   'lineinfo': '%3l:%-2v',
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \ },
-    \ }
+\ 'colorscheme': 'one',
+\   'active': {
+\     'left': [
+\       ['mode', 'paste'],
+\       ['gitbranch', 'readonly', 'filename', 'modified']
+\     ]
+\   },
+\   'component': {
+\     'lineinfo': '%3l:%-2v',
+\   },
+\   'component_function': {
+\     'gitbranch': 'fugitive#head',
+\   },
+\ }
 let g:bufferline_echo = 0
 set laststatus=2 " Enable lightline
 set showtabline=2
-
 
 " GitGutter
 if exists('&signcolumn')
@@ -96,23 +95,25 @@ else
   let g:gitgutter_sign_column_always = 1
 endif
 
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-  set termguicolors
-  set background=dark
-
-  " Custom color overrides
-  " call one#highlight('Comment', 'cccccc', '', 'none')
-
-  colorscheme one
-endif
-
-
-
+syntax on
+set hlsearch
+set background=dark
+colorscheme one
+" highlight Normal ctermbg=None
+" highlight CursorLineNr ctermbg=None
+" highlight CursorColumn ctermbg=None
 
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,

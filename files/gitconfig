@@ -1,8 +1,5 @@
 [include]
   path = ~/.gitconfig-override
-[user]
-  name = Ryan Schie
-  email = rjschie@gmail.com
 [core]
   excludesfile = /Users/ryanschie/.gitignore_global
   autocrlf = false
@@ -111,8 +108,6 @@
   rebase = true
 [url "git@github.com:"]
   insteadOf = https://github.com/
-[commit]
-  gpgsign = true
 [fetch]
   prune = true
 [diff]
