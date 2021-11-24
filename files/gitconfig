@@ -3,8 +3,7 @@
 [core]
   excludesfile = /Users/ryanschie/.gitignore_global
   autocrlf = false
-  editor = /usr/local/bin/vim
-  pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
+  editor = vim
 [color]
   ui = auto
 [color "branch"]
