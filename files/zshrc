@@ -36,6 +36,7 @@ unsetopt correct_all
 # Main Aliases
 alias src="source ~/.zshrc"
 alias orc="vim ~/.zshrc"
+alias orcoverride="vim ~/.zshrc-override"
 alias vimrc="vim ~/.vim/vimrc"
 alias l="ls -lFhH"
 alias la="ls -lFAHh"
@@ -61,6 +62,7 @@ search () { find -L $1 -name "$2" ${*:3} }
 # Git
 alias g="git"
 alias gconf="git config --global -e"
+alias gconfoverride="vim ~/.gitconfig-override"
 
 # Docker
 alias dk="docker"
