@@ -55,7 +55,7 @@ alias mmv="noglob zmv -W"
 
 pcopy() { pwd | pbcopy }
 tch () { mkdir -p $(dirname $*); touch $* }
-mkd () { mkdir -p $*; cd $* }
+mkcd () { mkdir -p $*; cd $* }
 trash () { mv $* ~/.Trash/ }
 title () { set-tab-title $* }
 
