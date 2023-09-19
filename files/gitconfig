@@ -4,6 +4,7 @@
   excludesfile = /Users/ryanschie/.gitignore_global
   autocrlf = false
   editor = vim
+  pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
 [color]
   ui = auto
 [color "branch"]

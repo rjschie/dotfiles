@@ -24,10 +24,12 @@ bindkey -v
 set -o vi
 export KEYTIMEOUT=1
 
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # PATHS
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
-export PATH=${HOME}/.bin:${PATH}
+export PATH=${HOME}/.bin:${HOME}/.go/bin:${HOME}/.cargo/bin:${PATH}
 export GPG_TTY=$(tty)
 export CLICOLOR_FORCE=''
 export GREP_COLORS='mt=01;31:fn=36'
@@ -38,6 +40,9 @@ unsetopt correct_all
 
 ####### USEFUL THINGS #######
 
+# Disable press and hold for accent characters
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 # Main Aliases
 alias src="source ~/.zshrc"
 alias orc="vim ~/.zshrc"
@@ -45,12 +50,12 @@ alias orcoverride="vim ~/.zshrc-override"
 alias vimrc="vim ~/.vim/vimrc"
 alias l="ls -lFhH"
 alias la="ls -lFAHh"
-alias -g G="| ggrep"
+alias -g G="| grep"
 alias -g LS="| less -r"
 alias rmrf="rm -rf"
 alias mk="mkdir -p"
-alias grep="nocorrect ggrep --color=auto"
-alias grip="nocorrect ggrep --color=auto -riP"
+#alias grep="nocorrect grep --color=auto"
+#alias grip="nocorrect grep --color=auto -riP"
 alias mmv="noglob zmv -W"
 
 pcopy() { pwd | pbcopy }
@@ -63,6 +68,8 @@ title () { set-tab-title $* }
 sar () { find $1 -name "*.$2" -type f -exec perl -p -i -e "$3" -- {} + }
 sarfd () { fd -t f -x perl -p -i -e "$1" -- {} }
 search () { find -L $1 -name "$2" ${*:3} }
+
+brave () { open -a "/Applications/Brave Browser.app" "$1" }
 
 # Git
 alias g="git"
@@ -93,11 +100,15 @@ alias yl="yarn local"
 alias y="yarn"
 alias yf="yarn --force"
 alias yup="yarn upgrade-interactive"
+alias pn="pnpm"
 alias rn="react-native"
 alias watchreset="watchman watch-del-all"
 
 yp() {
   yarn packages/$1 $@[2,-1]
+}
+ype() {
+  yarn packages/$1 exec $@[2,-1]
 }
 nodeinspect() { node --inspect-brk node_modules/.bin/"$@" }
 
