@@ -25,18 +25,43 @@ set -o vi
 export KEYTIMEOUT=1
 
 export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 
 # PATHS
-export EDITOR=/usr/local/bin/vim
-export VISUAL=/usr/local/bin/vim
+export EDITOR=${HOMEBREW_PREFIX}/bin/nvim
+export VISUAL=${HOMEBREW_PREFIX}/bin/nvim
 export PATH=${HOME}/.bin:${HOME}/.go/bin:${HOME}/.cargo/bin:${PATH}
 export GPG_TTY=$(tty)
 export CLICOLOR_FORCE=''
 export GREP_COLORS='mt=01;31:fn=36'
 
+export COLOR_RESET="\e[0m"
+export COLOR_BLACK="\e[0;30m"
+export COLOR_RED="\e[0;31m"
+export COLOR_GREEN="\e[0;32m"
+export COLOR_YELLOW="\e[0;33m"
+export COLOR_BLUE="\e[0;34m"
+export COLOR_PURPLE="\e[0;35m"
+export COLOR_CYAN="\e[0;36m"
+export COLOR_WHITE="\e[0;37m"
+
 # Custom OPTS
 unsetopt correct
 unsetopt correct_all
+
+conf() {
+  local wut=$1
+  local file=~/.config/kitty/kitty.conf
+
+  case $wut in
+    k || kitty)        $EDITOR ~/.config/kitty/kitty.conf ;;
+    alacritty)    $EDITOR ~/.config/alacritty/alacritty.toml ;;
+    sk || skhd)         $EDITOR ~/.config/skhd/skhdrc ;;
+    z || zsh)          $EDITOR ~/.zshrc ;;
+    zo || zsh-override) $EDITOR ~/.zshrc-override ;;
+    nv || nvim)         $EDITOR ~/.config/nvim/ ;;
+  esac
+}
 
 ####### USEFUL THINGS #######
 
@@ -45,9 +70,9 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Main Aliases
 alias src="source ~/.zshrc"
-alias orc="vim ~/.zshrc"
-alias orcoverride="vim ~/.zshrc-override"
-alias vimrc="vim ~/.vim/vimrc"
+alias orc="$EDITOR ~/.zshrc"
+alias orcoverride="$EDITOR ~/.zshrc-override"
+alias vimrc="$EDITOR ~/.vim/vimrc"
 alias l="ls -lFhH"
 alias la="ls -lFAHh"
 alias -g G="| grep"
@@ -58,7 +83,7 @@ alias mk="mkdir -p"
 #alias grip="nocorrect grep --color=auto -riP"
 alias mmv="noglob zmv -W"
 
-pcopy() { pwd | pbcopy }
+fcopy() { pwd | pbcopy }
 tch () { mkdir -p $(dirname $*); touch $* }
 mkcd () { mkdir -p $*; cd $* }
 trash () { mv $* ~/.Trash/ }
@@ -69,12 +94,38 @@ sar () { find $1 -name "*.$2" -type f -exec perl -p -i -e "$3" -- {} + }
 sarfd () { fd -t f -x perl -p -i -e "$1" -- {} }
 search () { find -L $1 -name "$2" ${*:3} }
 
-brave () { open -a "/Applications/Brave Browser.app" "$1" }
-
 # Git
 alias g="git"
 alias gconf="git config --global -e"
-alias gconfoverride="vim ~/.gitconfig-override"
+alias gconfoverride="$EDITOR ~/.gitconfig-override"
+
+_gcl_getFolder() {
+  local L_GIT_PATH="$(echo $1 | cut -d"@" -f 2 | sed -e 's_https://__' -e 's/\.git//g' -e 's_:_/_g' )"
+  [[ $2 = "0" || $2 = "1"  ]] && local L_ITER="" || local L_ITER=$2
+  local L_FOLDER_BASE=${3-$(echo $L_GIT_PATH | cut -d"/" -f1 | xargs ssh -tt -G | awk '$1 == "hostname" {print $2 }' )}
+  local L_FOLDER_PATH=$(echo $L_GIT_PATH | cut -d"/" -f2-)
+  local L_FOLDER="$HOME/code/$L_FOLDER_BASE/${L_FOLDER_PATH}${L_ITER}"
+
+  echo -n "$L_FOLDER"
+}
+gcl () {
+  local L_FOLDER="$(_gcl_getFolder $@)"
+
+  echo "
+Cloning Repo: ${COLOR_GREEN}$1${COLOR_RESET}
+          to: ${COLOR_GREEN}$L_FOLDER${COLOR_RESET}\n";
+
+  if [ ! -d $L_FOLDER ]; then
+    git clone $1 $L_FOLDER;
+  else
+    echo "${COLOR_YELLOW}Skipping${COLOR_RESET}: already cloned.";
+  fi
+}
+gclcd () {
+  (gcl $@) || return;
+  cd $(_gcl_getFolder $@)
+  echo "PWD: ${COLOR_CYAN}$PWD${COLOR_RESET}"
+}
 
 # Docker
 alias dk="docker"
@@ -101,16 +152,81 @@ alias y="yarn"
 alias yf="yarn --force"
 alias yup="yarn upgrade-interactive"
 alias pn="pnpm"
+alias p="pnpm"
 alias rn="react-native"
-alias watchreset="watchman watch-del-all"
+alias watchresetall="watchman watch-del-all"
+
+watchreset() {
+  watchman watch-del $PWD
+}
 
 yp() {
   yarn packages/$1 $@[2,-1]
 }
-ype() {
-  yarn packages/$1 exec $@[2,-1]
+
+#### --- HELPERS --- ####
+
+sound() {
+  if ! type "SwitchAudioSource" > /dev/null; then
+    echo "${COLOR_YELLOW}That command doesn't exist.${COLOR_RESET} \nTry installing switchaudio-osx: ${COLOR_GREEN}\`brew install switchaudio-osx\`${COLOR_RESET}";
+    return;
+  fi
+
+  CONTEXT="${1:-reset}"
+  IN_MIC="MacBook Pro Microphone"
+  OUT_SPEAKERS="MacBook Pro Speakers"
+  OUT_HEADPHONES="New Headphones"
+  AIRPODS="New Headphones"
+
+  case $CONTEXT in
+    -h)
+      echo "sound mute | calls | speakers | headphones";
+      ;;
+    r || reset)
+      SwitchAudioSource -t input -s $IN_MIC;
+      SwitchAudioSource -t output -s $OUT_SPEAKERS;
+      osascript -e "set volume input volume 0";
+      osascript -e "set volume output volume 0";
+
+      if SwitchAudioSource -a -t output | grep -q $OUT_HEADPHONES; then
+        SwitchAudioSource -t input -s $IN_MIC;
+        SwitchAudioSource -t output -s $OUT_HEADPHONES;
+        osascript -e "set volume input volume 0";
+        osascript -e "set volume output volume 25";
+      fi
+      ;;
+    m || mute)
+      SwitchAudioSource -t input -s $IN_MIC;
+      SwitchAudioSource -t output -s $OUT_SPEAKERS;
+      osascript -e "set volume input volume 0";
+      osascript -e "set volume output volume 0";
+      ;;
+    ac || acall || acalls)
+      SwitchAudioSource -t input -s $AIRPODS;
+      SwitchAudioSource -t output -s $AIRPODS;
+      osascript -e "set volume input volume 50";
+      osascript -e "set volume output volume 35";
+      ;;
+    c || call || calls)
+      SwitchAudioSource -t input -s $IN_MIC;
+      SwitchAudioSource -t output -s $OUT_SPEAKERS;
+      osascript -e "set volume input volume 50";
+      osascript -e "set volume output volume 35";
+      ;;
+    s || speaker || speakers)
+      SwitchAudioSource -t input -s $IN_MIC;
+      SwitchAudioSource -t output -s $OUT_SPEAKERS;
+      osascript -e "set volume input volume 0";
+      osascript -e "set volume output volume 25";
+      ;;
+    h || headphone || headphones)
+      SwitchAudioSource -t input -s $IN_MIC;
+      SwitchAudioSource -t output -s $OUT_HEADPHONES;
+      osascript -e "set volume input volume 0";
+      osascript -e "set volume output volume 25";
+      ;;
+  esac
 }
-nodeinspect() { node --inspect-brk node_modules/.bin/"$@" }
 
 ####### NOT NORMALLY USEFUL #######
 
@@ -134,7 +250,7 @@ autoload -U +X bashcompinit && bashcompinit
 if [ -f "${HOME}/.zshrc-override" ]; then
   source "${HOME}/.zshrc-override";
 fi
-
+[ -f "${HOME}/.env" ] && source "${HOME}/.env"
 
 # pnpm
 export PNPM_HOME="${HOME}/Library/pnpm"
@@ -147,3 +263,16 @@ esac
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# bun completions
+[ -s "/Users/ryanschie/.bun/_bun" ] && source "/Users/ryanschie/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Yarn Completions
+if [ -d "$HOME/code/github.com/jungomi/yarn-bash-completion" ]; then
+  source "$HOME/code/github.com/jungomi/yarn-bash-completion/yarn.bash-completion";
+fi
+

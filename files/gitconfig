@@ -30,6 +30,7 @@
   #brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" | xargs -r git branch -d; }; f"
   brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" }; f"
 
+  c = "!f() { FOLDER=$(echo $1 | cut -d\":\" -f 2); git clone $1 $FOLDER; }; f"
   co = checkout
 	cb = checkout -b
   cmt = "!f() { if [ $# -eq 0 ]; then git commit; else git commit -m \"$1\" ; fi }; f"
@@ -55,6 +56,7 @@
   chpc = cherry-pick --continue
 
   # Rebase
+  ri = rebase -i
   rscp = rebase --show-current-patch
   rc = rebase --continue
   ra = rebase --abort
@@ -93,19 +95,23 @@
   # stk: stashes staged files only
   stk = "!f() { git stash save -k && git stash save ${1} && git stash drop stash@{1}; }; f"
   sts = "!f() { git stash save "$(date +"%m/%d"): ${1}"; }; f"
+  #
 
   tags = "tag -l --sort=-v:refname"
 
   copyhash = "!f() { git rev-parse --short HEAD | pbcopy; }; f"
 
 [filter "lfs"]
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
   required = true
+	process = git-lfs filter-process
 [push]
   default = current
 [pull]
   rebase = true
+[url "git@subsplash.io:"]
+  insteadOf = https://subsplash.io/
 [url "git@github.com:"]
   insteadOf = https://github.com/
 [fetch]
@@ -114,3 +120,10 @@
   tool = vimdiff
 [init]
 	defaultBranch = main
+
+[includeIf "gitdir:~/code/subsplash.io/"]
+  path = ~/.gitconfig-subsplash
+
+[includeIf "gitdir:~/code/github.com/subsplash/"]
+  path = ~/.gitconfig-subsplash
+
