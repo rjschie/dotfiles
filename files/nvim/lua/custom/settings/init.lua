@@ -1,2 +1,0 @@
--- vim.cmd.colorscheme 'tokyonight-storm'
--- vim.cmd.hi 'Comment gui=none'

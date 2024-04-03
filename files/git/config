@@ -1,21 +1,61 @@
-[include]
-  path = ~/.gitconfig-user
 [core]
-  excludesfile = /Users/ryanschie/.gitignore_global
+  excludesfile = "~/.config/git/global_ignore"
   autocrlf = false
-  editor = vim
+  editor = nvim
   ; pager = (brew --prefix git)/share/git-core/contrib/diff-highlight/diff-highlight | less
+
+[init]
+  defaultBranch = main
+
+[diff]
+  tool = nvimdiff1
+
+[fetch]
+  prune = true
+
+[push]
+  default = current
+  followTags = true
+  useForceIfIncludes = true
+
+[pull]
+  rebase = true
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  required = true
+  process = git-lfs filter-process
+
 [color]
   ui = auto
+
 [color "branch"]
   current = green
   local = yellow
   remote = red
+
 [color "status"]
   added = green
   changed = yellow
   untracked = magenta
   branch = yellow
+
+[url "git@subsplash.io:"]
+  insteadOf = https://subsplash.io/
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+
+[include]
+  path = "~/.config/git/user_config"
+
+[includeIf "gitdir:~/code/subsplash.io/"]
+  path = "~/.gitconfig-subsplash"
+
+[includeIf "gitdir:~/code/github.com/subsplash/"]
+  path = "~/.gitconfig-subsplash"
+
 [alias]
   a = add
   ai = add -i
@@ -67,7 +107,8 @@
   p = push
   pt = push --follow-tags
   pu = push -u
-  pf = push --force-with-lease
+  pf = push --force-if-includes
+  pff = push --force-with-lease
   pl = pull
 
   # Logs
@@ -100,30 +141,4 @@
   tags = "tag -l --sort=-v:refname"
 
   copyhash = "!f() { git rev-parse --short HEAD | pbcopy; }; f"
-
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  required = true
-  process = git-lfs filter-process
-[push]
-  default = current
-[pull]
-  rebase = true
-[url "git@subsplash.io:"]
-  insteadOf = https://subsplash.io/
-[url "git@github.com:"]
-  insteadOf = https://github.com/
-[fetch]
-  prune = true
-[diff]
-  tool = vimdiff
-[init]
-  defaultBranch = main
-
-[includeIf "gitdir:~/code/subsplash.io/"]
-  path = ~/.gitconfig-subsplash
-
-[includeIf "gitdir:~/code/github.com/subsplash/"]
-  path = ~/.gitconfig-subsplash
 

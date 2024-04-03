@@ -6,7 +6,9 @@ if status is-interactive
   alias rmrf="rm -rf"
   alias mk="mkdir -p"
   alias g="git"
-  alias gconf="git config --global -e"
+
+  alias vim="nvim"
+  alias nv="nvim"
 
   #: Docker
   alias dk="docker"

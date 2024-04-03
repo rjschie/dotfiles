@@ -10,6 +10,7 @@ brew "gpg"
 brew "openssl"
 brew "skhd"
 brew "tmux"
+brew "tpm"
 brew "eza"
 brew "font-fira-mono-nerd-font"
 

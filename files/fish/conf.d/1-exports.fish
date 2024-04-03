@@ -1,5 +1,7 @@
 if status is-interactive
 
+  set -gx GPG_TTY (tty)
+
   set -gx EDITOR $HOMEBREW_PREFIX/bin/nvim
   set -gx VISUAL $HOMEBREW_PREFIX/bin/nvim
 
@@ -8,4 +10,6 @@ if status is-interactive
   set -gx DOTFILES $CODE/github.com/rjschie/dotfiles
 
   set -gx STARSHIP_CONFIG $CONFIG/starship/config.toml
+
 end
+
