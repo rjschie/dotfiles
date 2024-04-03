@@ -1,0 +1,7 @@
+.blacklist [
+	"kitty"
+]
+
+cmd + shift - l : open -a /Applications/kitty.app
+# cmd + shift - l : open -a /Applications/iTerm.app
+

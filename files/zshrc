@@ -1,278 +1,283 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/Users/ryanschie/.zshrc'
+# #: Lines configured by zsh-newuser-install
+# HISTFILE=~/.histfile
+# HISTSIZE=1000
+# SAVEHIST=1000
+# setopt appendhistory autocd
+# #: End of lines configured by zsh-newuser-install
+# #: The following lines were added by compinstall
+# zstyle :compinstall filename '/Users/ryanschie/.zshrc'
 
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-fi
+# if type brew &>/dev/null
+# then
+#   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+# fi
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
+# autoload -Uz compinit
+# compinit
+#: End of lines added by compinstall
 
-# Loading files
-source ~/.zprezto/init.zsh
+# #: Loading files
+# source ~/.zprezto/init.zsh
 
-# Use VIM Mode
-bindkey -v
-set -o vi
-export KEYTIMEOUT=1
+# #: Use VIM Mode
+# bindkey -v
+# set -o vi
+# export KEYTIMEOUT=1
 
-export HOMEBREW_NO_AUTO_UPDATE=1
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+# export PATH=/opt/homebrew/bin:$PATH
 
-# PATHS
-export EDITOR=${HOMEBREW_PREFIX}/bin/nvim
-export VISUAL=${HOMEBREW_PREFIX}/bin/nvim
-export PATH=${HOME}/.bin:${HOME}/.go/bin:${HOME}/.cargo/bin:${PATH}
-export GPG_TTY=$(tty)
-export CLICOLOR_FORCE=''
-export GREP_COLORS='mt=01;31:fn=36'
+# export HOMEBREW_NO_AUTO_UPDATE=1
+# export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+# export HOMEBREW_PREFIX=/opt/homebrew
 
-export COLOR_RESET="\e[0m"
-export COLOR_BLACK="\e[0;30m"
-export COLOR_RED="\e[0;31m"
-export COLOR_GREEN="\e[0;32m"
-export COLOR_YELLOW="\e[0;33m"
-export COLOR_BLUE="\e[0;34m"
-export COLOR_PURPLE="\e[0;35m"
-export COLOR_CYAN="\e[0;36m"
-export COLOR_WHITE="\e[0;37m"
+#: PATHS
+# export EDITOR=${HOMEBREW_PREFIX}/bin/nvim
+# export VISUAL=${HOMEBREW_PREFIX}/bin/nvim
+# export PATH=${HOME}/.bin:${HOME}/.go/bin:${HOME}/.cargo/bin:${PATH}
+# export GPG_TTY=$(tty)
+# export CLICOLOR_FORCE=''
+# export GREP_COLORS='mt=01;31:fn=36'
 
-# Custom OPTS
-unsetopt correct
-unsetopt correct_all
+# export COLOR_RESET="\e[0m"
+# export COLOR_BLACK="\e[0;30m"
+# export COLOR_RED="\e[0;31m"
+# export COLOR_GREEN="\e[0;32m"
+# export COLOR_YELLOW="\e[0;33m"
+# export COLOR_BLUE="\e[0;34m"
+# export COLOR_PURPLE="\e[0;35m"
+# export COLOR_CYAN="\e[0;36m"
+# export COLOR_WHITE="\e[0;37m"
 
-conf() {
-  local wut=$1
-  local file=~/.config/kitty/kitty.conf
+# #: Custom OPTS
+# unsetopt correct
+# unsetopt correct_all
 
-  case $wut in
-    k || kitty)        $EDITOR ~/.config/kitty/kitty.conf ;;
-    alacritty)    $EDITOR ~/.config/alacritty/alacritty.toml ;;
-    sk || skhd)         $EDITOR ~/.config/skhd/skhdrc ;;
-    z || zsh)          $EDITOR ~/.zshrc ;;
-    zo || zsh-override) $EDITOR ~/.zshrc-override ;;
-    nv || nvim)         $EDITOR ~/.config/nvim/ ;;
-  esac
-}
+# export DOTFILES=~/code/github.com/rjschie/dotfiles
 
-####### USEFUL THINGS #######
+# conf() {
+#   local wut=$1
+#   local file=~/.config/kitty/kitty.conf
 
-# Disable press and hold for accent characters
-defaults write -g ApplePressAndHoldEnabled -bool false
+#   case $wut in
+#     k || kitty)        $EDITOR ~/.config/kitty/kitty.conf ;;
+#     alacritty)    $EDITOR ~/.config/alacritty/alacritty.toml ;;
+#     sk || skhd)         $EDITOR ~/.config/skhd/skhdrc ;;
+#     z || zsh)          $EDITOR ~/.zshrc ;;
+#     zo || zsh-override) $EDITOR ~/.zshrc-override ;;
+#     nv || nvim)         $EDITOR ~/.config/nvim/ ;;
+#   esac
+# }
 
-# Main Aliases
-alias src="source ~/.zshrc"
-alias orc="$EDITOR ~/.zshrc"
-alias orcoverride="$EDITOR ~/.zshrc-override"
-alias vimrc="$EDITOR ~/.vim/vimrc"
-alias l="ls -lFhH"
-alias la="ls -lFAHh"
-alias -g G="| grep"
-alias -g LS="| less -r"
-alias rmrf="rm -rf"
-alias mk="mkdir -p"
-#alias grep="nocorrect grep --color=auto"
-#alias grip="nocorrect grep --color=auto -riP"
-alias mmv="noglob zmv -W"
+# #: ####### USEFUL THINGS #######
 
-fcopy() { pwd | pbcopy }
-tch () { mkdir -p $(dirname $*); touch $* }
-mkcd () { mkdir -p $*; cd $* }
-trash () { mv $* ~/.Trash/ }
-title () { set-tab-title $* }
+# #: Disable press and hold for accent characters
+# defaults write -g ApplePressAndHoldEnabled -bool false
 
-# Finding
-sar () { find $1 -name "*.$2" -type f -exec perl -p -i -e "$3" -- {} + }
-sarfd () { fd -t f -x perl -p -i -e "$1" -- {} }
-search () { find -L $1 -name "$2" ${*:3} }
+# #: Main Aliases
+# alias src="source ~/.zshrc"
+# alias orc="$EDITOR ~/.zshrc"
+# alias orcoverride="$EDITOR ~/.zshrc-override"
+# alias vimrc="$EDITOR ~/.vim/vimrc"
+# alias l="ls -lFhH"
+# alias la="ls -lFAHh"
+# alias -g G="| grep"
+# alias -g LS="| less -r"
+# alias rmrf="rm -rf"
+# alias mk="mkdir -p"
+# #alias grep="nocorrect grep --color=auto"
+# #alias grip="nocorrect grep --color=auto -riP"
+# alias mmv="noglob zmv -W"
 
-# Git
-alias g="git"
-alias gconf="git config --global -e"
-alias gconfoverride="$EDITOR ~/.gitconfig-override"
+# fcopy() { pwd | pbcopy }
+# tch () { mkdir -p $(dirname $*); touch $* }
+# mkcd () { mkdir -p $*; cd $* }
+# trash () { mv $* ~/.Trash/ }
+# title () { set-tab-title $* }
 
-_gcl_getFolder() {
-  local L_GIT_PATH="$(echo $1 | cut -d"@" -f 2 | sed -e 's_https://__' -e 's/\.git//g' -e 's_:_/_g' )"
-  [[ $2 = "0" || $2 = "1"  ]] && local L_ITER="" || local L_ITER=$2
-  local L_FOLDER_BASE=${3-$(echo $L_GIT_PATH | cut -d"/" -f1 | xargs ssh -tt -G | awk '$1 == "hostname" {print $2 }' )}
-  local L_FOLDER_PATH=$(echo $L_GIT_PATH | cut -d"/" -f2-)
-  local L_FOLDER="$HOME/code/$L_FOLDER_BASE/${L_FOLDER_PATH}${L_ITER}"
+# #: Finding
+# sar () { find $1 -name "*.$2" -type f -exec perl -p -i -e "$3" -- {} + }
+# sarfd () { fd -t f -x perl -p -i -e "$1" -- {} }
+# search () { find -L $1 -name "$2" ${*:3} }
 
-  echo -n "$L_FOLDER"
-}
-gcl () {
-  local L_FOLDER="$(_gcl_getFolder $@)"
+# #: Git
+# alias g="git"
+# alias gconf="git config --global -e"
+# alias gconfoverride="$EDITOR ~/.gitconfig-override"
 
-  echo "
-Cloning Repo: ${COLOR_GREEN}$1${COLOR_RESET}
-          to: ${COLOR_GREEN}$L_FOLDER${COLOR_RESET}\n";
+# _gcl_getFolder() {
+#   local L_GIT_PATH="$(echo $1 | cut -d"@" -f 2 | sed -e 's_https://__' -e 's/\.git//g' -e 's_:_/_g' )"
+#   [[ $2 = "0" || $2 = "1"  ]] && local L_ITER="" || local L_ITER=$2
+#   local L_FOLDER_BASE=${3-$(echo $L_GIT_PATH | cut -d"/" -f1 | xargs ssh -tt -G | awk '$1 == "hostname" {print $2 }' )}
+#   local L_FOLDER_PATH=$(echo $L_GIT_PATH | cut -d"/" -f2-)
+#   local L_FOLDER="$HOME/code/$L_FOLDER_BASE/${L_FOLDER_PATH}${L_ITER}"
 
-  if [ ! -d $L_FOLDER ]; then
-    git clone $1 $L_FOLDER;
-  else
-    echo "${COLOR_YELLOW}Skipping${COLOR_RESET}: already cloned.";
-  fi
-}
-gclcd () {
-  (gcl $@) || return;
-  cd $(_gcl_getFolder $@)
-  echo "PWD: ${COLOR_CYAN}$PWD${COLOR_RESET}"
-}
+#   echo -n "$L_FOLDER"
+# }
+# gcl () {
+#   local L_FOLDER="$(_gcl_getFolder $@)"
 
-# Docker
-alias dk="docker"
-alias dki="docker image"
-alias dkc="docker container"
-alias dkk="docker compose"
-alias dkku="docker compose up"
-alias dkkb="docker compose build"
-alias dkkd="docker compose down"
+#   echo "
+# Cloning Repo: ${COLOR_GREEN}$1${COLOR_RESET}
+#           to: ${COLOR_GREEN}$L_FOLDER${COLOR_RESET}\n";
 
-dkrun () { docker run -it $@ /bin/bash }
-dkconn () { docker exec -it $@ /bin/bash }
+#   if [ ! -d $L_FOLDER ]; then
+#     git clone $1 $L_FOLDER;
+#   else
+#     echo "${COLOR_YELLOW}Skipping${COLOR_RESET}: already cloned.";
+#   fi
+# }
+# gclcd () {
+#   (gcl $@) || return;
+#   cd $(_gcl_getFolder $@)
+#   echo "PWD: ${COLOR_CYAN}$PWD${COLOR_RESET}"
+# }
 
-# Go
-gobin () { var=`basename $(pwd)`; go install ./...; $GOPATH/bin/${var} config/$1.json }
-gogbin () { var=`basename $(pwd)`; go generate ./...; go install ./...; $GOPATH/bin/${var} config/config.json }
-gotest () { go test ./... | grep -v '\[no test files\]' }
+# #: Docker
+# alias dk="docker"
+# alias dki="docker image"
+# alias dkc="docker container"
+# alias dkk="docker compose"
+# alias dkku="docker compose up"
+# alias dkkb="docker compose build"
+# alias dkkd="docker compose down"
 
-# FE-related
-alias em="ember"
-alias ys="yarn start"
-alias yl="yarn local"
-alias y="yarn"
-alias yf="yarn --force"
-alias yup="yarn upgrade-interactive"
-alias pn="pnpm"
-alias p="pnpm"
-alias rn="react-native"
-alias watchresetall="watchman watch-del-all"
+# dkrun () { docker run -it $@ /bin/bash }
+# dkconn () { docker exec -it $@ /bin/bash }
 
-watchreset() {
-  watchman watch-del $PWD
-}
+# #: Go
+# gobin () { var=`basename $(pwd)`; go install ./...; $GOPATH/bin/${var} config/$1.json }
+# gogbin () { var=`basename $(pwd)`; go generate ./...; go install ./...; $GOPATH/bin/${var} config/config.json }
+# gotest () { go test ./... | grep -v '\[no test files\]' }
 
-yp() {
-  yarn packages/$1 $@[2,-1]
-}
+# #: FE-related
+# alias em="ember"
+# alias ys="yarn start"
+# alias yl="yarn local"
+# alias y="yarn"
+# alias yf="yarn --force"
+# alias yup="yarn upgrade-interactive"
+# alias pn="pnpm"
+# alias p="pnpm"
+# alias rn="react-native"
+# alias watchresetall="watchman watch-del-all"
 
-#### --- HELPERS --- ####
+# watchreset() {
+#   watchman watch-del $PWD
+# }
 
-sound() {
-  if ! type "SwitchAudioSource" > /dev/null; then
-    echo "${COLOR_YELLOW}That command doesn't exist.${COLOR_RESET} \nTry installing switchaudio-osx: ${COLOR_GREEN}\`brew install switchaudio-osx\`${COLOR_RESET}";
-    return;
-  fi
+# yp() {
+#   yarn packages/$1 $@[2,-1]
+# }
 
-  CONTEXT="${1:-reset}"
-  IN_MIC="MacBook Pro Microphone"
-  OUT_SPEAKERS="MacBook Pro Speakers"
-  OUT_HEADPHONES="New Headphones"
-  AIRPODS="New Headphones"
+# #: #### --- HELPERS --- ####
 
-  case $CONTEXT in
-    -h)
-      echo "sound mute | calls | speakers | headphones";
-      ;;
-    r || reset)
-      SwitchAudioSource -t input -s $IN_MIC;
-      SwitchAudioSource -t output -s $OUT_SPEAKERS;
-      osascript -e "set volume input volume 0";
-      osascript -e "set volume output volume 0";
+# sound() {
+#   if ! type "SwitchAudioSource" > /dev/null; then
+#     echo "${COLOR_YELLOW}That command doesn't exist.${COLOR_RESET} \nTry installing switchaudio-osx: ${COLOR_GREEN}\`brew install switchaudio-osx\`${COLOR_RESET}";
+#     return;
+#   fi
 
-      if SwitchAudioSource -a -t output | grep -q $OUT_HEADPHONES; then
-        SwitchAudioSource -t input -s $IN_MIC;
-        SwitchAudioSource -t output -s $OUT_HEADPHONES;
-        osascript -e "set volume input volume 0";
-        osascript -e "set volume output volume 25";
-      fi
-      ;;
-    m || mute)
-      SwitchAudioSource -t input -s $IN_MIC;
-      SwitchAudioSource -t output -s $OUT_SPEAKERS;
-      osascript -e "set volume input volume 0";
-      osascript -e "set volume output volume 0";
-      ;;
-    ac || acall || acalls)
-      SwitchAudioSource -t input -s $AIRPODS;
-      SwitchAudioSource -t output -s $AIRPODS;
-      osascript -e "set volume input volume 50";
-      osascript -e "set volume output volume 35";
-      ;;
-    c || call || calls)
-      SwitchAudioSource -t input -s $IN_MIC;
-      SwitchAudioSource -t output -s $OUT_SPEAKERS;
-      osascript -e "set volume input volume 50";
-      osascript -e "set volume output volume 35";
-      ;;
-    s || speaker || speakers)
-      SwitchAudioSource -t input -s $IN_MIC;
-      SwitchAudioSource -t output -s $OUT_SPEAKERS;
-      osascript -e "set volume input volume 0";
-      osascript -e "set volume output volume 25";
-      ;;
-    h || headphone || headphones)
-      SwitchAudioSource -t input -s $IN_MIC;
-      SwitchAudioSource -t output -s $OUT_HEADPHONES;
-      osascript -e "set volume input volume 0";
-      osascript -e "set volume output volume 25";
-      ;;
-  esac
-}
+#   CONTEXT="${1:-reset}"
+#   IN_MIC="MacBook Pro Microphone"
+#   OUT_SPEAKERS="MacBook Pro Speakers"
+#   OUT_HEADPHONES="New Headphones"
+#   AIRPODS="New Headphones"
 
-####### NOT NORMALLY USEFUL #######
+#   case $CONTEXT in
+#     -h)
+#       echo "sound mute | calls | speakers | headphones";
+#       ;;
+#     r || reset)
+#       SwitchAudioSource -t input -s $IN_MIC;
+#       SwitchAudioSource -t output -s $OUT_SPEAKERS;
+#       osascript -e "set volume input volume 0";
+#       osascript -e "set volume output volume 0";
 
-precmd() {
-  if [ $ITERM_SESSION_ID ]; then
-    echo -ne "\e]1;${PWD##*/}\a"
-  fi
-}
+#       if SwitchAudioSource -a -t output | grep -q $OUT_HEADPHONES; then
+#         SwitchAudioSource -t input -s $IN_MIC;
+#         SwitchAudioSource -t output -s $OUT_HEADPHONES;
+#         osascript -e "set volume input volume 0";
+#         osascript -e "set volume output volume 25";
+#       fi
+#       ;;
+#     m || mute)
+#       SwitchAudioSource -t input -s $IN_MIC;
+#       SwitchAudioSource -t output -s $OUT_SPEAKERS;
+#       osascript -e "set volume input volume 0";
+#       osascript -e "set volume output volume 0";
+#       ;;
+#     ac || acall || acalls)
+#       SwitchAudioSource -t input -s $AIRPODS;
+#       SwitchAudioSource -t output -s $AIRPODS;
+#       osascript -e "set volume input volume 50";
+#       osascript -e "set volume output volume 35";
+#       ;;
+#     c || call || calls)
+#       SwitchAudioSource -t input -s $IN_MIC;
+#       SwitchAudioSource -t output -s $OUT_SPEAKERS;
+#       osascript -e "set volume input volume 50";
+#       osascript -e "set volume output volume 35";
+#       ;;
+#     s || speaker || speakers)
+#       SwitchAudioSource -t input -s $IN_MIC;
+#       SwitchAudioSource -t output -s $OUT_SPEAKERS;
+#       osascript -e "set volume input volume 0";
+#       osascript -e "set volume output volume 25";
+#       ;;
+#     h || headphone || headphones)
+#       SwitchAudioSource -t input -s $IN_MIC;
+#       SwitchAudioSource -t output -s $OUT_HEADPHONES;
+#       osascript -e "set volume input volume 0";
+#       osascript -e "set volume output volume 25";
+#       ;;
+#   esac
+# }
 
-function zle-line-finish
-{
-  print -n -- "\E]50;CursorShape=0\C-G" # block
-}
+# #: ####### NOT NORMALLY USEFUL #######
 
-zle -N zle-line-finish
+# precmd() {
+#   if [ $ITERM_SESSION_ID ]; then
+#     echo -ne "\e]1;${PWD##*/}\a"
+#   fi
+# }
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# function zle-line-finish
+# {
+#   print -n -- "\E]50;CursorShape=0\C-G" # block
+# }
 
-autoload -U +X bashcompinit && bashcompinit
+# zle -N zle-line-finish
 
-if [ -f "${HOME}/.zshrc-override" ]; then
-  source "${HOME}/.zshrc-override";
-fi
-[ -f "${HOME}/.env" ] && source "${HOME}/.env"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# pnpm
-export PNPM_HOME="${HOME}/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+# autoload -U +X bashcompinit && bashcompinit
 
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+# if [ -f "${HOME}/.zshrc-override" ]; then
+#   source "${HOME}/.zshrc-override";
+# fi
+# [ -f "${HOME}/.env" ] && source "${HOME}/.env"
 
-# bun completions
-[ -s "/Users/ryanschie/.bun/_bun" ] && source "/Users/ryanschie/.bun/_bun"
+# #: pnpm
+# export PNPM_HOME="${HOME}/Library/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
+# #: pnpm end
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# #: tabtab source for packages
+# #: uninstall by removing these lines
+# [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
-# Yarn Completions
-if [ -d "$HOME/code/github.com/jungomi/yarn-bash-completion" ]; then
-  source "$HOME/code/github.com/jungomi/yarn-bash-completion/yarn.bash-completion";
-fi
+# #: bun completions
+# [ -s "/Users/ryanschie/.bun/_bun" ] && source "/Users/ryanschie/.bun/_bun"
+
+# #: bun
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
+
+# #: Yarn Completions
+# if [ -d "$HOME/code/github.com/jungomi/yarn-bash-completion" ]; then
+#   source "$HOME/code/github.com/jungomi/yarn-bash-completion/yarn.bash-completion";
+# fi
 

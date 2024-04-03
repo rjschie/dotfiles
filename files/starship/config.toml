@@ -1,0 +1,209 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+palette = 'rygar'
+add_newline = false
+
+format = """
+[╭](fg:grad_3)\
+[╼](fg:grad_2)\
+
+[](fg:grad_1)\
+$os\
+$username\
+[](fg:grad_1)\
+[](fg:grad_2)\
+$directory\
+[](fg:grad_2)\
+[](fg:grad_3)\
+$git_branch\
+$git_status\
+[](fg:grad_3)\
+[](fg:grad_4)\
+$c\
+$golang\
+$gradle\
+$nodejs\
+$rust\
+[](fg:grad_4)\
+[](fg:grad_5)\
+$time\
+[](fg:grad_5)\n\
+
+[╰](fg:grad_3)\
+[╼\\[](fg:grad_4)\
+$character\
+[\\]╼](fg:grad_6)\
+[ ](fg:grad_7)
+"""
+
+# add_newline = false
+
+[username]
+show_always = true
+style_user = "fg:white bg:grad_1"
+style_root = "bg:red"
+format = '[$user ]($style)'
+disabled = false
+
+[os]
+style = "fg:white bg:grad_1"
+disabled = false
+
+[directory]
+style = "fg:white bg:grad_2"
+repo_root_style = "fg:white bg:grad_2"
+format = "[ $path$read_only ]($style)"
+repo_root_format = "[ $repo_root$read_only$path ]($repo_root_style)"
+truncation_length = 3
+truncation_symbol = "/"
+truncate_to_repo = true
+home_symbol = "~"
+read_only = " 󰌾"
+
+[directory.substitutions]
+"code" = "CODE"
+"Documents" = "DOCS"
+"Downloads" = "DOWNS"
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch(:$remote_branch) ]($style)"
+style = "fg:white bg:grad_3"
+
+[git_status]
+format = '[$all_status$ahead_behind]($style)'
+style = 'fg:white bg:grad_3'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:white bg:grad_5"
+format = '[  $time ]($style)'
+
+[character]
+format = '$symbol($status)'
+success_symbol = '[|](fg:grad_5)'
+error_symbol = '[|](fg:grad_5)'
+vimcmd_symbol = '[N](bold fg:grad_magenta)'
+vimcmd_replace_one_symbol = '[N](bold fg:grad_magenta)'
+vimcmd_replace_symbol = '[R](bold fg:grad_orange)'
+vimcmd_visual_symbol = '[V](bold fg:grad_orange)'
+
+[memory_usage]
+symbol = "󰍛 "
+
+[hostname]
+ssh_symbol = " "
+
+[aws]
+symbol = "  "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[c]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[golang]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[lua]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[nix_shell]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[nodejs]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[package]
+symbol = "󰏗 "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[perl]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[python]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[ruby]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[rust]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[swift]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+[zig]
+symbol = " "
+style = 'fg:white bg:grad_4'
+format = "[$symbol($version )]($style)"
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[palettes.rygar]
+white = '#ffffff'
+grad_1 = '#e42dc0'
+grad_2 = '#bd4bcb'
+grad_3 = '#9b65d4'
+grad_4 = '#7483df'
+grad_5 = '#509fe9'
+grad_6 = '#27bff4'
+grad_7 = '#00ddff'
+grad_red = '#e73155'
+grad_cyan = '#06ecf8'
+grad_magenta = '#f913a9'
+grad_green = '#06f8a6'
+grad_orange = '#f8b606'
