@@ -6,6 +6,7 @@ if status is-interactive
   alias rmrf="rm -rf"
   alias mk="mkdir -p"
   alias g="git"
+  alias psa="ps -a"
 
   alias vim="nvim"
   alias nv="nvim"
