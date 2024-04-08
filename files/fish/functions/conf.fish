@@ -8,6 +8,8 @@ function conf -d "Edit common config files"
       $EDITOR $CONFIG/skhd/skhdrc
     case g git
       $EDITOR $CONFIG/git/config
+    case tm tmux
+      $EDITOR $CONFIG/tmux/tmux.conf
     case '*' f fish
       $EDITOR $CONFIG/fish/
   end
