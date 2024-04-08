@@ -1,7 +1,7 @@
 if status is-interactive
 
   set -g fish_greeting
-  fish_vi_key_bindings
+  set -g fish_key_bindings my_fish_key_bindings
 
   if command -q /opt/homebrew/bin/brew
     eval (/opt/homebrew/bin/brew shellenv)
