@@ -19,6 +19,7 @@ brew "neovim"
 brew "ripgrep"
 brew "fd"
 brew "lua"
+brew "ccat"
 
 # JS & Dev
 brew "n"

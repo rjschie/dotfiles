@@ -9,6 +9,7 @@ if status is-interactive
 
   alias vim="nvim"
   alias nv="nvim"
+  alias cat="ccat"
 
   #: Docker
   alias dk="docker"
