@@ -7,10 +7,14 @@ if status is-interactive
   alias mk="mkdir -p"
   alias g="git"
   alias psa="ps -a"
+  alias date="gdate"
 
+  alias _vim="/usr/bin/vim"
   alias vim="nvim"
   alias nv="nvim"
+  alias _cat="/bin/cat"
   alias cat="ccat"
+  alias trw="tmux rename-window"
 
   #: Docker
   alias dk="docker"
@@ -22,8 +26,10 @@ if status is-interactive
   alias dkkd="docker compose down"
 
   #: Dev
-  alias y="yarn"
+  # alias y="yarn"
   alias pn="pnpm"
   alias mygit="cd $CODE/github.com/rjschie"
+
+  abbr --add sub --set-cursor "cd $CODE/subsplash.io/%"
 
 end

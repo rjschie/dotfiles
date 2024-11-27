@@ -11,6 +11,10 @@ function sound -d "Controls the sound outputs/inputs"
   set -l OUT_HEADPHONES "New Headphones"
   set -l AIRPODS "New Headphones"
 
+  set -l HEADPHONE_VOLUME 30
+  set -l SPEAKER_VOLUME 60
+  set -l CALL_INPUT_VOLUME 60
+
   switch $argv[1]
     case -h
       echo "sound mute | calls | speakers | headphones"
@@ -22,23 +26,28 @@ function sound -d "Controls the sound outputs/inputs"
     case ac acall acalls
       SwitchAudioSource -t input -s $AIRPODS
       SwitchAudioSource -t output -s $AIRPODS
-      osascript -e "set volume input volume 50"
-      osascript -e "set volume output volume 35"
+      osascript -e "set volume input volume $CALL_INPUT_VOLUME"
+      osascript -e "set volume output volume $SPEAKER_VOLUME"
     case c call calls
       SwitchAudioSource -t input -s $IN_MIC
       SwitchAudioSource -t output -s $OUT_SPEAKERS
-      osascript -e "set volume input volume 50"
-      osascript -e "set volume output volume 35"
+      osascript -e "set volume input volume $CALL_INPUT_VOLUME"
+      osascript -e "set volume output volume $SPEAKER_VOLUME"
+    case hc headphonecall
+      SwitchAudioSource -t input -s $IN_MIC
+      SwitchAudioSource -t output -s $OUT_HEADPHONES
+      osascript -e "set volume input volume $CALL_INPUT_VOLUME"
+      osascript -e "set volume output volume $HEADPHONE_VOLUME"
     case s speaker speakers
       SwitchAudioSource -t input -s $IN_MIC
       SwitchAudioSource -t output -s $OUT_SPEAKERS
       osascript -e "set volume input volume 0"
-      osascript -e "set volume output volume 25"
+      osascript -e "set volume output volume $HEADPHONE_VOLUME"
     case h headphone headphones
       SwitchAudioSource -t input -s $IN_MIC
       SwitchAudioSource -t output -s $OUT_HEADPHONES
       osascript -e "set volume input volume 0"
-      osascript -e "set volume output volume 25"
+      osascript -e "set volume output volume $HEADPHONE_VOLUME"
     case '*' r reset
       SwitchAudioSource -t input -s $IN_MIC
       SwitchAudioSource -t output -s $OUT_SPEAKERS
@@ -49,7 +58,7 @@ function sound -d "Controls the sound outputs/inputs"
         SwitchAudioSource -t input -s $IN_MIC
         SwitchAudioSource -t output -s $OUT_HEADPHONES
         osascript -e "set volume input volume 0"
-        osascript -e "set volume output volume 25"
+        osascript -e "set volume output volume $HEADPHONE_VOLUME"
       end
   end
 end

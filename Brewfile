@@ -2,6 +2,7 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 
 # Commons
+brew "coreutils"
 brew "fish"
 brew "starship"
 brew "git"

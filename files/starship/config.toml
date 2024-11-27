@@ -24,6 +24,7 @@ $golang\
 $gradle\
 $nodejs\
 $rust\
+$python\
 [](fg:grad_4)\
 [](fg:grad_5)\
 $time\
@@ -130,7 +131,8 @@ format = "[$symbol($version )]($style)"
 [python]
 symbol = " "
 style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
+format = "[${symbol}${pyenv_prefix}(${version} )(\\(${virtualenv}\\) )]($style)"
+version_format = 'v${major}.${minor}'
 [ruby]
 symbol = " "
 style = 'fg:white bg:grad_4'

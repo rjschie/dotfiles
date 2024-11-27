@@ -1,3 +1,8 @@
 function watchreset -d "Reset watchman just at current dir"
-  watchman watch-del $PWD
+  switch $argv[1]
+  case all
+    watchman watch-del-all
+  case '*'
+    watchman watch-del $PWD
+  end
 end
