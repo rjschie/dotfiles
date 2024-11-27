@@ -1,0 +1,55 @@
+#!/bin/bash
+
+DOTFILES=$(pwd)
+CONFIG=${CONFIG:-$HOME/.config}
+
+setup_xcode() {
+	xcode-select install || true
+}
+
+setup_homebrew() {
+	command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+	brew update
+	brew upgrade
+	brew bundle --file=$(CURDIR)/Brewfile
+}
+
+setup_symlinks() {
+	echo $DOTFILES/files/fish $CONFIG/fish
+	echo $DOTFILES/files/hammerspoon $HOME/.hammerspoon
+	echo $DOTFILES/files/tmux $CONFIG/tmux
+	echo $DOTFILES/files/nvim $CONFIG/nvim
+	echo $DOTFILES/files/git $CONFIG/git
+	echo $DOTFILES/files/gh $CONFIG/gh
+	echo $DOTFILES/files/kitty $CONFIG/kitty
+	echo $DOTFILES/files/starship $CONFIG/starship
+}
+
+setup_rust() {
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+}
+
+main() {
+  echo "CONFIG: $CONFIG"
+  echo "DOTFILES: $DOTFILES"
+  echo ""
+
+  echo "Setting up XCode..."
+  setup_xcode
+  echo "XCode setup"
+
+  echo "Setting up Homebrew..."
+  setup_brew
+  echo "Homebrew setup"
+
+  echo "Setting up Symlinks..."
+  setup_symlinks
+  echo "Symlinks setup"
+
+  # echo "Setting up Rust..."
+  # setup_rust
+  # echo "Rust setup"
+}
+
+main
+
