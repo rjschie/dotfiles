@@ -10,8 +10,12 @@ if status is-interactive
   alias date="gdate"
 
   alias _vim="/usr/bin/vim"
-  alias vim="nvim"
-  alias nv="nvim"
+  alias _nvim="/opt/homebrew/bin/nvim"
+  alias nvim="_EDITOR_OPEN_"
+  alias vim="_EDITOR_OPEN_"
+  alias nv="_EDITOR_OPEN_"
+  alias vi="_EDITOR_OPEN_"
+
   alias _cat="/bin/cat"
   alias cat="ccat"
   alias trw="tmux rename-window"

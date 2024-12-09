@@ -1,20 +1,22 @@
 function conf -d "Edit common config files"
   switch $argv[1]
     case k kitty
-      $EDITOR $CONFIG/kitty/kitty.conf
-    case v vim nvim
-      $EDITOR $CONFIG/nvim/
-    case sk skhd
-      $EDITOR $CONFIG/skhd/skhdrc
+      _EDITOR_OPEN_ $CONFIG/kitty/kitty.conf
+    case v n vim nvim
+      _EDITOR_OPEN_ $CONFIG/nvim/
+    # case sk skhd
+    #   _EDITOR_OPEN_ $CONFIG/skhd/skhdrc
+    case h hs hammer hammerspoon
+      _EDITOR_OPEN_ $HOME/.hammerspoon/init.lua
     case ssh
-      $EDITOR ~/.ssh/config
+      _EDITOR_OPEN_ $HOME/.ssh/config
     case starship
-      $EDITOR $CONFIG/starship/config.toml
+      _EDITOR_OPEN_ $CONFIG/starship/config.toml
     case g git
-      $EDITOR $CONFIG/git/config
+      _EDITOR_OPEN_ $CONFIG/git/config
     case tm tmux
-      $EDITOR $CONFIG/tmux/tmux.conf
+      _EDITOR_OPEN_ $CONFIG/tmux/tmux.conf
     case '*' f fish
-      $EDITOR $CONFIG/fish/
+      _EDITOR_OPEN_ $CONFIG/fish/
   end
 end
