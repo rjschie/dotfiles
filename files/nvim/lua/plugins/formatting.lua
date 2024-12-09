@@ -11,19 +11,22 @@ return {
         -- languages here or re-enable it for the disabled ones.
         local disable_filetypes = { c = true, cpp = true }
         return {
-          timeout_ms = 500,
+          timeout_ms = 1000,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        --
-        -- is found.
+        python = { 'isort', 'black' },
         javascript = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
+        typescript = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
       },
     },
+    -- init = function()
+    --   local conform = require 'conform'
+    --   vim.keymap.set({ 'n', 'v' }, '<leader>ff', function()
+    --     conform.format()
+    --   end, { desc = 'Format file' })
+    -- end,
   },
 }

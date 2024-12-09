@@ -12,6 +12,7 @@ return {
         'html',
         'javascript',
         'typescript',
+        'python',
         'rust',
       },
       -- Autoinstall languages that are not installed
@@ -40,3 +41,4 @@ return {
     end,
   },
 }
+

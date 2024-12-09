@@ -47,6 +47,8 @@ vim.opt.signcolumn = 'yes'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
+vim.opt.backspace = 'indent,eol,start'
+
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
