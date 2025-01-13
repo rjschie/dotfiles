@@ -15,5 +15,5 @@ function _EDITOR_OPEN_ -d "My vim/nvim EDITOR opener"
   # echo "PATH: $resolved_path"
   # echo "CMD: $EDITOR $resolved_path --cmd \"cd $resolved_path\""
 
-  $EDITOR $resolved_path --cmd "cd $resolved_path"
+  $EDITOR $argv[1] --cmd "cd $resolved_path"
 end

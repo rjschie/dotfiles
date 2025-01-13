@@ -14,6 +14,7 @@ brew "hammerspoon"
 brew "tmux"
 brew "tpm"
 brew "eza"
+brew "fzf"
 brew "font-fira-mono-nerd-font"
 
 # Neovim & Helpers
@@ -21,7 +22,7 @@ brew "neovim"
 brew "ripgrep"
 brew "fd"
 brew "lua"
-brew "ccat"
+brew "bat"
 
 # JS & Dev
 brew "n"

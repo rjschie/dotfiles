@@ -1,5 +1,7 @@
-set -gx PYENV_ROOT $HOME/.pyenv
+if test -d $HOME/.pyenv
+  set -gx PYENV_ROOT $HOME/.pyenv
 
-fish_add_path $PYENV_ROOT/bin
+  fish_add_path $PYENV_ROOT/bin
 
-pyenv init - | source
+  pyenv init - | source
+end

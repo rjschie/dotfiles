@@ -3,7 +3,7 @@ if status is-interactive
   #: Common
   alias l="eza -l"
   alias la="eza -la"
-  alias rmrf="rm -rf"
+  alias rmr="rm -rI"
   alias mk="mkdir -p"
   alias g="git"
   alias psa="ps -a"
@@ -17,7 +17,7 @@ if status is-interactive
   alias vi="_EDITOR_OPEN_"
 
   alias _cat="/bin/cat"
-  alias cat="ccat"
+  alias cat="bat"
   alias trw="tmux rename-window"
 
   #: Docker

@@ -4,29 +4,29 @@ DOTFILES=$(pwd)
 CONFIG=${CONFIG:-$HOME/.config}
 
 setup_xcode() {
-	xcode-select install || true
+	xcode-select --install || true
 }
 
 setup_homebrew() {
 	command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 	brew update
 	brew upgrade
-	brew bundle --file=$(CURDIR)/Brewfile
+	brew bundle --file=$DOTFILES/Brewfile
 }
 
 setup_symlinks() {
-	echo $DOTFILES/files/fish $CONFIG/fish
-	echo $DOTFILES/files/hammerspoon $HOME/.hammerspoon
-	echo $DOTFILES/files/tmux $CONFIG/tmux
-	echo $DOTFILES/files/nvim $CONFIG/nvim
-	echo $DOTFILES/files/git $CONFIG/git
-	echo $DOTFILES/files/gh $CONFIG/gh
-	echo $DOTFILES/files/kitty $CONFIG/kitty
-	echo $DOTFILES/files/starship $CONFIG/starship
+	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
+	if ! test -d $HOME/.hammerspoon; ln -s $DOTFILES/files/hammerspoon $HOME/.hammerspoon; end
+	if ! test -d $CONFIG/tmux; ln -s $DOTFILES/files/tmux $CONFIG/tmux; end
+	if ! test -d $CONFIG/nvim; ln -s $DOTFILES/files/nvim $CONFIG/nvim; end
+	if ! test -d $CONFIG/git; ln -s $DOTFILES/files/git $CONFIG/git; end
+	if ! test -d $CONFIG/gh; ln -s $DOTFILES/files/gh $CONFIG/gh; end
+	if ! test -d $CONFIG/kitty; ln -s $DOTFILES/files/kitty $CONFIG/kitty; end
+	if ! test -d $CONFIG/starship; ln -s $DOTFILES/files/starship $CONFIG/starship; end
 }
 
-setup_rust() {
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+setup_mac_defaults() {
+	source ./scripts/mac-defaults.sh
 }
 
 main() {
@@ -46,9 +46,9 @@ main() {
   setup_symlinks
   echo "Symlinks setup"
 
-  # echo "Setting up Rust..."
-  # setup_rust
-  # echo "Rust setup"
+  echo "Setting up Mac Defaults..."
+  setup_mac_defaults
+  echo "Mac Defaults setup"
 }
 
 main
