@@ -8,7 +8,11 @@ vim.opt.rtp:prepend(lazypath)
 -- Some options need to be set before plugins load; just load all options now
 require 'config.options'
 
-require('lazy').setup 'plugins'
+require('lazy').setup({ import = 'plugins' }, {
+  change_detection = {
+    notify = false,
+  },
+})
 
 require 'config.autocmds'
 require 'config.keymaps'

@@ -105,13 +105,13 @@ return {
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-              buffer = event.buf,
-              callback = function()
-                vim.lsp.buf.document_highlight()
-                vim.diagnostic.open_float(nil, { focus = false })
-              end,
-            })
+            -- vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            --   buffer = event.buf,
+            --   callback = function()
+            --     vim.lsp.buf.document_highlight()
+            --     vim.diagnostic.open_float(nil, { focus = false })
+            --   end,
+            -- })
 
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
