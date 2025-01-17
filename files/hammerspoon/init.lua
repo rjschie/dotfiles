@@ -22,6 +22,22 @@ hs.hotkey.bind({ "cmd", "shift" }, "l", function()
 	end
 end)
 
+-- Show/hide Ghostty
+-- hs.hotkey.bind({ "cmd", "shift" }, "t", function()
+-- 	ghostty = hs.application.find("ghostty", true)
+-- 	frontmost = hs.application.frontmostApplication()
+--
+-- 	if ghostty then
+-- 		if frontmost:bundleID() == ghostty:bundleID() then
+-- 			ghostty:hide()
+-- 		else
+-- 			ghostty:activate()
+-- 		end
+-- 	else
+-- 		hs.application.launchOrFocus("ghostty")
+-- 	end
+-- end)
+
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
 	hs.alert.show("Up")
 	frontmost = hs.application.frontmostApplication()

@@ -1,51 +1,47 @@
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
+# tap "homebrew/cask"
+# tap "homebrew/cask-fonts"
 
 # Commons
 brew "coreutils"
 brew "fish"
-brew "starship"
+#brew "starship" # prompt
 brew "git"
 brew "git-lfs"
-brew "gpg"
 brew "openssl"
-#brew "skhd"
-brew "hammerspoon"
+brew "hammerspoon" # os re-keybinding
 brew "tmux"
-brew "tpm"
-brew "eza"
-brew "fzf"
+brew "eza" # replace `ls`
+brew "bat" # replace `cat`
+brew "glow" # markdown viewer
+
+# Neovim & Dev
+brew "neovim"
+brew "ripgrep" # replace `grep`
+brew "fd" # replace `find`
+brew "lua"
+brew "fzf" # fuzzy file finder
 brew "font-fira-mono-nerd-font"
 
-# Neovim & Helpers
-brew "neovim"
-brew "ripgrep"
-brew "fd"
-brew "lua"
-brew "bat"
-
 # JS & Dev
-brew "n"
+brew "nvm"
 brew "jq"
-brew "gh"
+brew "gh" # Github CLI
 brew "watchman"
 brew "yarn"
 brew "pnpm"
-brew "awscli"
-#brew "lazygit"
+brew "lazygit" # Easy Git UI
 
 # Other
 brew "python"
-brew "switchaudio-osx"
-brew "ffmpeg"
-brew "zulu11"
+brew "switchaudio-osx" # Audio device switcher
+#brew "ffmpeg"
+#brew "zulu11" # Java 11
 
 # GUI Apps
-brew "obsidian"
 brew "kitty"
-brew "1password"
-brew "1password-cli"
-brew "brave-browser"
+#brew "1password"
+#brew "1password-cli"
+#brew "brave-browser"
 #brew "nordvpn"
-brew "spotify"
-brew "tg-pro"
+#brew "spotify"
+#brew "tg-pro" # Fan speed mgmt

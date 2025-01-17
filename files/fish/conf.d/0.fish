@@ -8,6 +8,7 @@ if status is-interactive
   else if command -q /usr/local/bin/brew
     eval (/usr/local/bin/brew shellenv)
   end
+
   set -gx HOMEBREW_NO_AUTO_UPDATE 1
   set -gx HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK 1
 

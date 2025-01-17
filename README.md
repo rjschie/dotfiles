@@ -3,45 +3,49 @@
 ## Installation / Setup
 
 1. Open terminal and git clone
-```bash
-git clone https://github.com/rjschie/dotfiles $HOME/code/github.com/rjschie/dotfiles
-```
+
+   ```sh
+   git clone https://github.com/rjschie/dotfiles $HOME/code/github.com/rjschie/dotfiles
+   ```
 
 2. Run setup
-```bash
-cd $HOME/code/github.com/rjschie/dotfiles
-./setup
-```
+
+   ```sh
+   cd $HOME/code/github.com/rjschie/dotfiles
+   ./setup
+   ```
 
 3. Change default Shell
-```bash
-# Set fish as default terminal
-chsh -s $HOMEBREW_PREFIX/bin/fish
-```
 
-4. Close terminal and open kitty
+   ```sh
+   # Set fish as default terminal
+   sudo HOMEBREW_PREFIX=$HOMEBREW_PREFIX sh -c 'echo "$HOMEBREW_PREFIX/bin/fish" >> /etc/shells'
+   chsh -s $HOMEBREW_PREFIX/bin/fish
+   ```
 
+4. Open Hammerspoon, then options, then enable "Launch Hammerspoon at login"
+
+5. Restart computer
+
+## Improvements
 
 ### TODO
-- [ ] Setup launch on login for:
-    - TGPro
-    - Hammerspoon
-- [ ] Setup applications that were installed
-    - Brave
-    - 1Password
+
+- After `./setup` runs, echo next steps
+- Add `chsh` to `./setup`
+- Setup launch on login for:
+  - TGPro
+  - Hammerspoon
+- Setup applications that were installed
+  - Brave
+  - 1Password
+- Setup a CLI that guides you through setup
+  - checkbox to each software (from brew and otherwise)
+  - checkbox to each step (setup ssh, setup gpg, each symlink, etc.)
+- Fix Setup to add a create_symlink func that simplifies the linking
 
 ### Research
-- [ ] Check out CLI tools
-    - Stow
 
-## TEST INSTALL NOTES
-### TODO
-- [ ] See error about Brew Bundle installing hammerspoon, brave-browser, kitty (and probably others)
-- [ ] Fix Setup to add a create_symlink func that simplifies the linking
-- [ ] Setup a CLI that guides you through setup
-    - checkbox to each software (from brew and otherwise)
-    - checkbox to each step (setup ssh, setup gpg, each symlink, etc.)
-- [ ] Setup default shell
-    - needs to make sure fish is in `/etc/shells` file
-- [ ] Update message to indicate logging out/in to start fresh
-
+- See error about Brew Bundle installing hammerspoon, brave-browser, kitty (and probably others)
+- Check out CLI tools
+  - Stow

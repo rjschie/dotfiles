@@ -15,6 +15,8 @@ if status is-interactive
   alias vim="_EDITOR_OPEN_"
   alias nv="_EDITOR_OPEN_"
   alias vi="_EDITOR_OPEN_"
+  alias v="_EDITOR_OPEN_"
+  alias v.="_EDITOR_OPEN_ $(pwd)"
 
   alias _cat="/bin/cat"
   alias cat="bat"
@@ -30,10 +32,9 @@ if status is-interactive
   alias dkkd="docker compose down"
 
   #: Dev
-  # alias y="yarn"
+  alias y="yarn"
   alias pn="pnpm"
-  alias mygit="cd $CODE/github.com/rjschie"
 
-  abbr --add sub --set-cursor "cd $CODE/subsplash.io/%"
+  abbr --add mygit --set-cursor "cd $CODE/github.com/%"
 
 end

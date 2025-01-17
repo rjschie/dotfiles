@@ -1,2 +1,8 @@
-files/git/user_config
+files/ssh/*
+!files/ssh/config
+
+files/git/override-*
+!files/git/override-*.example
+
 files/fish/conf.d/no_git/*
+!files/fish/conf.d/no_git/.keep

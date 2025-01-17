@@ -2,6 +2,8 @@ function _EDITOR_OPEN_ -d "My vim/nvim EDITOR opener"
   if not test $argv[1]
     $EDITOR
     return
+  else if test (count $argv) -gt 1
+    $EDITOR $argv
   end
 
   set -f resolved_path "$(path resolve $argv[1])"

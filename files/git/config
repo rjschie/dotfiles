@@ -2,7 +2,6 @@
   excludesfile = "~/.config/git/global_ignore"
   autocrlf = false
   editor = nvim
-  ; pager = (brew --prefix git)/share/git-core/contrib/diff-highlight/diff-highlight | less
 
 [init]
   defaultBranch = main
@@ -45,20 +44,8 @@
   untracked = magenta
   branch = yellow
 
-[url "git@subsplash.io:"]
-  insteadOf = https://subsplash.io/
-
 [url "git@github.com:"]
   insteadOf = https://github.com/
-
-[include]
-  path = "~/.config/git/user_config"
-
-[includeIf "gitdir:~/code/subsplash.io/"]
-  path = "~/.gitconfig-subsplash"
-
-[includeIf "gitdir:~/code/github.com/subsplash/"]
-  path = "~/.gitconfig-subsplash"
 
 [alias]
   a = add
@@ -145,4 +132,7 @@
   tags = "tag -l --sort=-v:refname"
 
   copyhash = "!f() { git rev-parse --short HEAD | pbcopy; }; f"
+
+[include]
+  path = "~/.config/git/override-config"
 
