@@ -34,6 +34,7 @@ brew "lazygit" # Easy Git UI
 # Other
 brew "python"
 brew "switchaudio-osx" # Audio device switcher
+brew "lunar" # External Display brightness mgmt
 #brew "ffmpeg"
 #brew "zulu11" # Java 11
 
