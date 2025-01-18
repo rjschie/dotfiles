@@ -21,6 +21,11 @@
 - [ ] Open Command in floating window (like Telescope) with Normal/Insert modes available
 - [ ] Use `vim.opt.formatoptions:remove 'o'`
 
+- [ ] Telescope Find references: show file name and parent directory only, not entire path
+  - Also show path/filename at top of preview
+- [ ] Hover documentation: add border / window "depth" or color change
+- [ ] Tmux integration with v/h splits
+
 ## Plugins
 - [ ] Project & Session manager
 - [ ] Replace Oil? with nvim-tree, or just add it.

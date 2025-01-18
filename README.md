@@ -29,6 +29,13 @@ chsh -s $HOMEBREW_PREFIX/bin/fish
 - [ ] Setup applications that were installed
     - Brave
     - 1Password
+- [ ] Mac setup
+    - Finder: folders on top
+    - Trackpad settings
+    - Keyboard settings
+    - Dock settings
+    - Disable wallpaper click "spotlight" thingy
+    - Battery percentage
 
 ### Research
 - [ ] Check out CLI tools
