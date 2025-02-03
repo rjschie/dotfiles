@@ -2,15 +2,11 @@
   name = Ryan Schie
   email = rjschie@gmail.com
   signingKey = ssh-ed25519 ####################################################################
-
 [gpg]
   format = ssh
-
 [gpg "ssh"]
   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-
 [commit]
   gpgsign = true
-
 [includeIf "gitdir/i:~/code/github.com/work/"]
   path = "~/.config/git/override-config-work"

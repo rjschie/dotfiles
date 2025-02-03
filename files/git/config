@@ -52,7 +52,7 @@
   ai = add -i
   ap = add -p
   apnw = !sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
-  ua = reset
+  re = reset
 
   cln = clean -fd
   clnall = "!f() { git checkout .; git clean -fd; }; f"
