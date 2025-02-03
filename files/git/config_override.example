@@ -9,4 +9,4 @@
 [commit]
   gpgsign = true
 [includeIf "gitdir/i:~/code/github.com/work/"]
-  path = "~/.config/git/override-config-work"
+  path = "~/.config/git/config_override_work"

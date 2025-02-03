@@ -134,5 +134,5 @@
   copyhash = "!f() { git rev-parse --short HEAD | pbcopy; }; f"
 
 [include]
-  path = "~/.config/git/override-config"
+  path = "~/.config/git/config_override"
 

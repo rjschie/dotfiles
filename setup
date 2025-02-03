@@ -16,8 +16,8 @@ setup_homebrew() {
 
 setup_symlinks() {
 	# Directory symlinks
-	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
 	if ! test -d $HOME/.hammerspoon; ln -s $DOTFILES/files/hammerspoon $HOME/.hammerspoon; end
+	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
 	if ! test -d $CONFIG/tmux; ln -s $DOTFILES/files/tmux $CONFIG/tmux; end
 	if ! test -d $CONFIG/nvim; ln -s $DOTFILES/files/nvim $CONFIG/nvim; end
 	if ! test -d $CONFIG/git; ln -s $DOTFILES/files/git $CONFIG/git; end
@@ -31,6 +31,7 @@ setup_symlinks() {
 
 setup_override_files() {
 	touch $CONFIG/.ssh/config_override
+	touch $CONFIG/git/config_override
 }
 
 setup_mac_defaults() {
