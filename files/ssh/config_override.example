@@ -1,0 +1,9 @@
+# Host gitwork
+#   User ryanschie
+#   HostName my-work.com
+
+# Host server
+#   Port 121314
+#   LocalForward 8180 localhost:80
+#   HostName 1.1.1.1
+#   User webadmin
