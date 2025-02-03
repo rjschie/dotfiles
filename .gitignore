@@ -7,3 +7,6 @@ files/git/*_override
 
 files/fish/conf.d/no_git/*
 !files/fish/conf.d/no_git/.keep
+
+files/tmux/plugins/*
+
