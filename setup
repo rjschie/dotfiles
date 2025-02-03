@@ -17,6 +17,7 @@ setup_homebrew() {
 setup_symlinks() {
 	# Directory symlinks
 	if ! test -d $HOME/.hammerspoon; ln -s $DOTFILES/files/hammerspoon $HOME/.hammerspoon; end
+	if ! test -d $HOME/.ssh; ln -s $DOTFILES/files/ssh $HOME/.ssh; end
 	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
 	if ! test -d $CONFIG/tmux; ln -s $DOTFILES/files/tmux $CONFIG/tmux; end
 	if ! test -d $CONFIG/nvim; ln -s $DOTFILES/files/nvim $CONFIG/nvim; end
@@ -24,9 +25,6 @@ setup_symlinks() {
 	if ! test -d $CONFIG/gh; ln -s $DOTFILES/files/gh $CONFIG/gh; end
 	if ! test -d $CONFIG/kitty; ln -s $DOTFILES/files/kitty $CONFIG/kitty; end
 	#if ! test -d $CONFIG/starship; ln -s $DOTFILES/files/starship $CONFIG/starship; end
-
-	# File symlinks
-	if ! test -f $HOME/.ssh/config; ln -s $DOTFILES/files/ssh/config $HOME/.ssh/config; end
 }
 
 setup_override_files() {
