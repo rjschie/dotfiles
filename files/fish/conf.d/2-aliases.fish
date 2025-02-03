@@ -4,6 +4,7 @@ if status is-interactive
   alias l="eza -l"
   alias la="eza -la"
   alias rmr="rm -rI"
+  alias rmrff="rm -rf"
   alias mk="mkdir -p"
   alias g="git"
   alias psa="ps -a"
@@ -35,6 +36,6 @@ if status is-interactive
   alias y="yarn"
   alias pn="pnpm"
 
-  abbr --add mygit --set-cursor "cd $CODE/github.com/%"
+  abbr --add mygit --set-cursor "cd $CODE/github.com/rjschie/%"
 
 end
