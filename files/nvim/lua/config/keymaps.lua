@@ -1,68 +1,69 @@
--- Add any additional keymaps here
+local map = vim.keymap.set
 
-vim.keymap.set('n', '<left>', '<nop>')
-vim.keymap.set('n', '<right>', '<nop>')
-vim.keymap.set('n', '<down>', '<nop>')
-vim.keymap.set('n', '<up>', '<nop>')
+-- Unbinds
+map('n', '<left>', '<nop>')
+map('n', '<right>', '<nop>')
+map('n', '<down>', '<nop>')
+map('n', '<up>', '<nop>')
 
-vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move focus to the upper window' })
+-- Window mgmt
+map('n', '<C-h>', '<C-w>h', { desc = 'Move focus to the left window' })
+map('n', '<C-l>', '<C-w>l', { desc = 'Move focus to the right window' })
+map('n', '<C-j>', '<C-w>j', { desc = 'Move focus to the lower window' })
+map('n', '<C-k>', '<C-w>k', { desc = 'Move focus to the upper window' })
+map('n', '<leader>sv', '<C-w>v', { desc = 'Split window vertically' })
+map('n', '<leader>sh', '<C-w>s', { desc = 'Split window horizontally' })
+map('n', '<leader>sx', '<CMD>close<CR>', { desc = 'Split window horizontally' })
+map('n', '<leader>s=', '<C-w>=', { desc = 'Make panes equal' })
 
--- NOTE: using Oil, I just set it to `-`
--- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'Open cwd files' })
+-- Buffers
+map('n', '<leader><leader>x', '<CMD>bd<CR>', { desc = '[B]uffer [X] Close' })
+map('n', '<leader><leader>w', '<CMD>w<CR>', { desc = 'Buffer [W]rite' })
+map('n', '<leader><leader>wa', '<CMD>wa<CR>', { desc = 'Buffer [W]rite [A]ll' })
 
 -- Move visually selected lines up/down with Shift+J/K
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = '[J] Move selected lines up' })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = '[K] Move selected lines down' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Indent and stay visual' })
-vim.keymap.set('v', '<', '<gv', { desc = 'Unindent and stay visual' })
+map('v', 'J', ":m '>+1<CR>gv=gv", { desc = '[J] Move selected lines up' })
+map('v', 'K', ":m '<-2<CR>gv=gv", { desc = '[K] Move selected lines down' })
+map('v', '>', '>gv', { desc = 'Indent and stay visual' })
+map('v', '<', '<gv', { desc = 'Unindent and stay visual' })
 
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Page [U]p' })
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Page [D]own' })
-vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result' })
-vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Prev search result' })
+-- Movement cursor conveniences
+map('n', '<C-u>', '<C-u>zz', { desc = 'Page [U]p' })
+map('n', '<C-d>', '<C-d>zz', { desc = 'Page [D]own' })
+map('n', 'n', 'nzzzv', { desc = 'Next search result' })
+map('n', 'N', 'Nzzzv', { desc = 'Prev search result' })
+map('n', 'J', 'mzJ`z', { desc = 'Join lines' })
 
--- Paste and keep new buffer
--- TODO: set it to regular `p` in Visual mode only
-vim.keymap.set('x', '<leader>y', '"*y', { desc = 'Yank to Clipboard' })
-vim.keymap.set('x', '<leader>p', '"*p', { desc = 'Paste from Clipboard' })
--- vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste (and keep buffer)' })
-vim.keymap.set('n', '<leader>d', '"_d', { desc = 'Delete to null register' })
-vim.keymap.set('v', '<leader>d', '"_d', { desc = 'Delete to null register' })
+-- Copy/Pastes
+-- map('x', '<leader>y', '"*y', { desc = 'Yank to Clipboard' })
+-- map('x', '<leader>p', '"*p', { desc = 'Paste from Clipboard' })
+-- map('x', '<leader>p', '"_dP', { desc = 'Paste (and keep previous register)' })
+-- map('n', '<leader>d', '"_d', { desc = 'Delete to null register' })
+-- map('v', '<leader>d', '"_d', { desc = 'Delete to null register' })
 
-vim.keymap.set('n', '<leader>%', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
+-- Reload
+map('n', '<leader>,r', '<cmd>e %<cr>', { desc = '[R]eload file' })
 
--- vim.keymap.set('n', 'zt', 'za', { desc = 'Toggle fold (alias for za)' })
-vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines' })
--- vim.keymap.set('n', '<S-CR>', 'O<Esc>')
--- vim.keymap.set('n', '<CR>', 'o<Esc>')
+map('n', '<leader>%', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
+-- map('n', '<leader>f', vim.lsp.buf.format, { desc = 'Format lines' })
 
--- TODO: Look into needing this
--- vim.keymap.set('n', 'Q', '<nop>')
-
--- TODO: Look into needing this? Or if Kickstart has another way
--- vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Format lines' })
-
--- NOTE: Buffer, window, tab keymaps
-vim.keymap.set('n', ',x', '<CMD>bd<CR>', { desc = '[B]uffer [X] Close' })
-vim.keymap.set('n', ',w', '<CMD>w<CR>', { desc = 'Buffer [W]rite' })
-vim.keymap.set('n', ',wa', '<CMD>wa<CR>', { desc = 'Buffer [W]rite [A]ll' })
-
--- NOTE: TELESCOPE Keymaps
+-- TELESCOPE File finding
 local telescope = require 'telescope.builtin'
-vim.keymap.set('n', '<leader>ff', telescope.find_files, { desc = '[F]ind [F]iles (in CWD)' })
-vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = '[F]ind [G]rep (in CWD)' })
-vim.keymap.set('n', '<leader>f%', telescope.grep_string, { desc = '[F]ind/Grep String under cursor' })
-vim.keymap.set('n', '<leader>fp', telescope.git_files, { desc = '[F]ind in Git [P]roject' })
-vim.keymap.set('n', '<leader>fh', telescope.help_tags, { desc = '[F]ind in [H]elp' })
-vim.keymap.set('n', '<leader><leader>', telescope.resume, { desc = 'Resume Telescope' })
-vim.keymap.set('n', '<leader>.', function()
+map('n', '<leader>ff', telescope.find_files, { desc = '[F]ind [F]iles (in CWD)' })
+map('n', '<leader>fg', telescope.live_grep, { desc = '[F]ind [G]rep (in CWD)' })
+map('n', '<leader>f%', telescope.grep_string, { desc = '[F]ind/Grep String under cursor' })
+map('n', '<leader>fp', telescope.git_files, { desc = '[F]ind in Git [P]roject' })
+map('n', '<leader>fh', telescope.help_tags, { desc = '[F]ind in [H]elp' })
+map('n', '<leader><leader>', telescope.resume, { desc = 'Resume Telescope' })
+map('n', '<leader>.', function()
   telescope.buffers { ignore_current_buffer = true, sort_lastused = true, sort_mru = true }
 end, { desc = 'Find in Open Buffers' })
-vim.keymap.set('n', '<leader>fr', telescope.oldfiles, { desc = '[F]ind in [R]ecent files' })
-vim.keymap.set('n', '<leader>f`', telescope.marks, { desc = '[F]ind in [M]arks' })
-vim.keymap.set('n', '<leader>fn', function()
+map('n', '<leader>fr', telescope.oldfiles, { desc = '[F]ind in [R]ecent files' })
+map('n', '<leader>f`', telescope.marks, { desc = '[F]ind in [M]arks' })
+map('n', '<leader>fn', function()
   telescope.find_files { cwd = vim.fn.stdpath 'config' }
 end, { desc = '[F]ind in [N]eovim Config files' })
+
+-- AutoSession
+-- map('n', '<leader>wr', '<cmd>SessionRestore<cr>', { desc = 'Restore session for cwd' })
+-- map('n', '<leader>ws', '<cmd>SessionSave<cr>', { desc = 'Save session' })
