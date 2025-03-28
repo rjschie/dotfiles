@@ -17,11 +17,12 @@ if status is-interactive
   alias nv="_EDITOR_OPEN_"
   alias vi="_EDITOR_OPEN_"
   alias v="_EDITOR_OPEN_"
-  alias v.="_EDITOR_OPEN_ $(pwd)"
+  alias vv="_EDITOR_OPEN_ $(pwd)"
 
   alias _cat="/bin/cat"
   alias cat="bat"
   alias trw="tmux rename-window"
+  alias lg="lazygit"
 
   #: Docker
   alias dk="docker"

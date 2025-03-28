@@ -32,6 +32,8 @@ map('v', '<', '<gv', 'Unindent and stay visual')
 -- Movement cursor conveniences
 map('n', '<C-u>', '<C-u>zz', 'Page [U]p')
 map('n', '<C-d>', '<C-d>zz', 'Page [D]own')
+map('n', 'zk', '<S-H>zb', 'Page half-page up')
+map('n', 'zj', '<S-L>zt', 'Page half-page down')
 map('n', 'n', 'nzzzv', 'Next search result')
 map('n', 'N', 'Nzzzv', 'Prev search result')
 map('n', 'J', 'mzJ`z', 'Join lines')
