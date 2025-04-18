@@ -20,6 +20,13 @@ return {
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
+      {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        version = '^1.0.0',
+      },
+
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
@@ -56,11 +63,25 @@ return {
               ['<esc>'] = 'close',
             },
           },
+          path_display = {
+            'shorten',
+          },
         },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
+          },
+          file_browser = {
+            theme = 'ivy',
+            hijack_netrw = true,
+          },
+          live_grep_args = {
+            -- mappings = {
+            --   i = {
+            --     "<C-"
+            --   }
+            -- },
           },
         },
       }
@@ -68,6 +89,8 @@ return {
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'live_grep_args')
+      -- pcall(require('telescope').load_extension, 'file_browser')
 
       -- See `:help telescope.builtin`
       -- local builtin = require 'telescope.builtin'
@@ -105,5 +128,9 @@ return {
       --   builtin.find_files { cwd = vim.fn.stdpath 'config' }
       -- end, { desc = '[S]earch [N]eovim files' })
     end,
+  },
+  {
+    'nvim-telescope/telescope-file-browser.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
   },
 }

@@ -19,9 +19,11 @@ map('n', '<leader>sx', '<CMD>close<CR>', 'Split window horizontally')
 map('n', '<leader>s=', '<C-w>=', 'Make panes equal')
 
 -- Buffers
-map('n', '<leader><leader>x', '<CMD>bd<CR>', '[B]uffer [X] Close')
-map('n', '<leader><leader>w', '<CMD>w<CR>', 'Buffer [W]rite')
-map('n', '<leader><leader>wa', '<CMD>wa<CR>', 'Buffer [W]rite [A]ll')
+map('n', '<leader>,x', '<CMD>bd<CR>', '[B]uffer [X] Close')
+map('n', '<leader>,w', '<CMD>w<CR>', 'Buffer [W]rite')
+map('n', '<leader>,wa', '<CMD>wa<CR>', 'Buffer [W]rite [A]ll')
+map('n', '<leader>,r', '<cmd>e %<cr>', '[R]eload buffer')
+map('n', '<leader>,so', '<cmd>e %<cr>', '[S][O]urce buffer')
 
 -- Move visually selected lines up/down with Shift+J/K
 map('v', 'J', ":m '>+1<CR>gv=gv", '[J] Move selected lines up')
@@ -32,8 +34,8 @@ map('v', '<', '<gv', 'Unindent and stay visual')
 -- Movement cursor conveniences
 map('n', '<C-u>', '<C-u>zz', 'Page [U]p')
 map('n', '<C-d>', '<C-d>zz', 'Page [D]own')
-map('n', 'zk', '<S-H>zb', 'Page half-page up')
-map('n', 'zj', '<S-L>zt', 'Page half-page down')
+map('n', '<C-k>', '<S-H>zbzz', 'Page half-page up')
+map('n', '<C-j>', '<S-L>ztzz', 'Page half-page down')
 map('n', 'n', 'nzzzv', 'Next search result')
 map('n', 'N', 'Nzzzv', 'Prev search result')
 map('n', 'J', 'mzJ`z', 'Join lines')
@@ -41,21 +43,30 @@ map('n', 'J', 'mzJ`z', 'Join lines')
 -- Copy/Pastes
 -- map('x', '<leader>y', '"*y', 'Yank to Clipboard')
 -- map('x', '<leader>p', '"*p', 'Paste from Clipboard')
--- map('x', '<leader>p', '"_dP', 'Paste (and keep previous register)')
+map('x', '<leader>p', '"_dP', 'Paste (and keep previous register)')
 -- map('n', '<leader>d', '"_d', 'Delete to null register')
 -- map('v', '<leader>d', '"_d', 'Delete to null register')
 
 -- Reload
-map('n', '<leader>,r', '<cmd>e %<cr>', '[R]eload file')
 
-map('n', '<leader>%', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], 'Replace word under cursor')
+map('n', '<leader>%%', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], 'Replace word under cursor')
+map('n', '<leader>%', [[/\<<C-r><C-w>\><CR>]], 'Search (in file) word under cursor')
 -- map('n', '<leader>f', vim.lsp.buf.format, 'Format lines')
+
+-- Diagnostic Hover
+map('n', 'KD', function()
+  vim.lsp.buf.document_highlight()
+  vim.diagnostic.open_float(nil, { focus = false })
+end, 'Show Diagnostic float')
 
 -- TELESCOPE File finding
 local telescope = require 'telescope.builtin'
 map('n', '<leader>ff', telescope.find_files, '[F]ind [F]iles (in CWD)')
-map('n', '<leader>fg', telescope.live_grep, '[F]ind [G]rep (in CWD)')
-map('n', '<leader>f%', telescope.grep_string, '[F]ind/Grep String under cursor')
+-- map('n', '<leader>fg', telescope.live_grep:, '[F]ind [G]rep (in CWD)')
+map('n', '<leader>fg', function()
+  require('telescope').extensions.live_grep_args.live_grep_args { noremap = true }
+end, '[F]ind [G]rep (in CWD)')
+map('n', '<leader>f%', telescope.grep_string, '[F]ind/Grep String under cursor in project')
 map('n', '<leader>fp', telescope.git_files, '[F]ind in Git [P]roject')
 map('n', '<leader>fh', telescope.help_tags, '[F]ind in [H]elp')
 map('n', '<leader><leader>', telescope.resume, 'Resume Telescope')
@@ -68,9 +79,16 @@ map('n', '<leader>fn', function()
   telescope.find_files { cwd = vim.fn.stdpath 'config' }
 end, '[F]ind in [N]eovim Config files')
 
+map('n', '<leader>fa', function()
+  vim.cmd [[ Telescope frecency path_display={"shorten"} ]]
+end, 'Find with Frecency')
+
+-- Telescope File Browser
+-- map('n', '<leader>fb', require('telescope').extensions.file_browser.folder_browser, '[F]ind in File [B]rowser')
+
 -- AutoSession
--- map('n', '<leader>wr', '<cmd>SessionRestore<cr>', 'Restore session for cwd')
--- map('n', '<leader>ws', '<cmd>SessionSave<cr>', 'Save session')
+map('n', '<leader>wr', '<cmd>SessionRestore<cr>', 'Restore session for cwd')
+map('n', '<leader>ws', '<cmd>SessionSave<cr>', 'Save session')
 
 -- Quickfix
 map('n', '<M-J>', '<cmd>cnext<cr>', 'Next in quicklist')
