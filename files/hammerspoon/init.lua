@@ -1,18 +1,17 @@
 local log = hs.logger.new("kitlog", "debug")
 log.i("Initializing")
 
--- Reload HS config
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "r", function()
-	hs.reload()
-end)
+-- -- ~Reload HS config~ (not needed, just open it and click reload)
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "r", function()
+-- 	hs.reload()
+-- end)
 
 -- Show/hide terminal
 hs.hotkey.bind({ "cmd", "shift" }, "l", function()
-	kitty = hs.application.find("kitty", true)
-	frontmost = hs.application.frontmostApplication()
+	local kitty = hs.application.find("kitty", true)
 
 	if kitty then
-		if frontmost:bundleID() == kitty:bundleID() then
+		if kitty and kitty:isFrontmost() then
 			kitty:hide()
 		else
 			kitty:activate()
@@ -22,33 +21,18 @@ hs.hotkey.bind({ "cmd", "shift" }, "l", function()
 	end
 end)
 
--- Show/hide Ghostty
--- hs.hotkey.bind({ "cmd", "shift" }, "t", function()
--- 	ghostty = hs.application.find("ghostty", true)
--- 	frontmost = hs.application.frontmostApplication()
---
--- 	if ghostty then
--- 		if frontmost:bundleID() == ghostty:bundleID() then
--- 			ghostty:hide()
--- 		else
--- 			ghostty:activate()
--- 		end
--- 	else
--- 		hs.application.launchOrFocus("ghostty")
--- 	end
+-- -- Window Mgmt (wip)
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
+-- 	hs.alert.show("Up")
+-- 	local frontmost = hs.application.frontmostApplication()
+-- 	frontmost.focusedWindow()
 -- end)
-
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()
-	hs.alert.show("Up")
-	frontmost = hs.application.frontmostApplication()
-	window = frontmost.focusedWindow()
-end)
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
-	hs.alert.show("Down")
-end)
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
-	hs.alert.show("Left")
-end)
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
-	hs.alert.show("Right")
-end)
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Down", function()
+-- 	hs.alert.show("Down")
+-- end)
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Left", function()
+-- 	hs.alert.show("Left")
+-- end)
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Right", function()
+-- 	hs.alert.show("Right")
+-- end)
