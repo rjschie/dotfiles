@@ -6,6 +6,10 @@
 # [ ] Remove `n new` commands and just create if non exists
 
 ## ---------------------------
+##          LAYOUTS
+## ---------------------------
+
+## ---------------------------
 ##      HELPER FUNCTIONS
 ## ---------------------------
 function __myfish_debug               ; return; set_color green; echo "  [DEBUG] [$argv[1]]: $argv[2]"; set_color normal; end
@@ -76,6 +80,19 @@ function __myfish_switch_session -S
   end
 end
 
+function __myfish_tmux_layout -S
+  set -l layout_mac "37a5,220x69,0,0[220x64,0,0{110x64,0,0,7,109x64,111,0,9},220x4,0,65,8]"
+
+  switch $argv[1]
+  case mac
+    tmux split-window
+    tmux split-window
+    tmux select-pane -D
+    tmux select-layout "$layout_mac"
+    clear
+  end
+end
+
 ## ---------------------------
 ##          MAIN
 ## ---------------------------
@@ -95,6 +112,9 @@ function tm -d "tmux management"
 
   case l ls
     __myfish_get_all_sessions
+
+  case layout
+    __myfish_tmux_layout $argv[2]
 
   case -
     set -l prev (__myfish_get_prev_session)

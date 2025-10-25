@@ -60,6 +60,8 @@
   br = branch --sort=-committerdate
   #brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" | xargs -r git branch -d; }; f"
   brclean = "!f() { git branch --merged ${1-master} | egrep -v \"\\*?\\s?${1-master}$\" }; f"
+  brmatchup = "!f() { BR=$(git rev-parse --abbrev-ref HEAD); git branch --set-upstream-to=origin/$BR; }; f"
+  getbranch = "!f() { echo $(git rev-parse --abbrev-ref HEAD); }; f"
 
   c = "!f() { FOLDER=$(echo $1 | cut -d\":\" -f 2); git clone $1 $FOLDER; }; f"
   co = checkout

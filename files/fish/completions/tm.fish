@@ -16,5 +16,5 @@
 # set -l commands n new . l ls at d
 
 complete -c tm --no-files
-complete -kc tm -a '(tmux list-sessions -F "#{session_name}") ls attach detach'
+complete -kc tm -a '(tmux list-sessions -F "#{session_name}") ls attach detach layout'
 # complete -kc tm -n '__myfish_seen_one_subcommand_equal_to .' -a '(tmux list-sessions -F "#{session_name}")'

@@ -33,16 +33,16 @@ return {
         --     require('oil.actions').parent.callback()
         --     vim.cmd.lcd(require('oil').get_current_dir())
         --   end,
-        --   ['<CR>'] = function()
-        --     require('oil').select(nil, function(err)
-        --       if not err then
-        --         local curdir = require('oil').get_current_dir()
-        --         if curdir then
-        --           vim.cmd.lcd(curdir)
-        --         end
+        -- ['+'] = function()
+        --   require('oil').select(nil, function(err)
+        --     if not err then
+        --       local curdir = require('oil').get_current_dir()
+        --       if curdir then
+        --         vim.cmd.lcd(curdir)
         --       end
-        --     end)
-        --   end,
+        --     end
+        --   end)
+        -- end,
         -- },
       }
 
