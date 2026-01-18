@@ -188,7 +188,7 @@ return {
         'emmet_ls',
         'pyright',
         'prettierd',
-        'eslint_d',
+        'oxlint',
         'isort',
         'black',
         'pylint',

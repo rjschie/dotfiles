@@ -1,12 +1,13 @@
 files/ssh/*
 !files/ssh/config
-!files/ssh/config_override.example
 
-files/git/*_override
-!files/git/*_override.example
+**/*_override
+!**/*_override.example
 
-files/fish/conf.d/no_git/*
-!files/fish/conf.d/no_git/.keep
+files/**/.gitignore
+**/no_git/**
+!**/no_git/.keep
 
 files/tmux/plugins/*
+files/fish/fish_variables
 

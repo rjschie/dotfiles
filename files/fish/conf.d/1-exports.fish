@@ -13,6 +13,8 @@ if status is-interactive
   set -gx STARSHIP_CONFIG $CONFIG/starship/config.toml
 
   fish_add_path $HOMEBREW_PREFIX/opt/ruby/bin
+  fish_add_path $HOME/.local/bin
+  fish_add_path $HOME/.bun/bin
 
 end
 
