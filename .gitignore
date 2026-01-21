@@ -11,3 +11,4 @@ files/**/.gitignore
 files/tmux/plugins/*
 files/fish/fish_variables
 
+.claude/*.local.*

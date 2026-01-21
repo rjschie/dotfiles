@@ -9,7 +9,7 @@ return {
     enabled = true,
     config = function()
       require('catppuccin').setup {
-        flavour = 'mocha',
+        flavour = 'frappe',
         transparent_background = true,
         -- color_overrides = {
         --   all = {

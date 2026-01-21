@@ -67,7 +67,26 @@ return {
             'shorten',
           },
         },
-        -- pickers = {}
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ['<C-d>'] = function(prompt_bufnr)
+                  local action_state = require 'telescope.actions.state'
+                  local actions = require 'telescope.actions'
+                  local entry = action_state.get_selected_entry()
+                  if entry and entry.bufnr and vim.api.nvim_buf_is_valid(entry.bufnr) then
+                    if vim.bo[entry.bufnr].modified then
+                      vim.notify('Buffer has unsaved changes', vim.log.levels.WARN)
+                    else
+                      actions.delete_buffer(prompt_bufnr)
+                    end
+                  end
+                end,
+              },
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -75,13 +94,6 @@ return {
           file_browser = {
             theme = 'ivy',
             hijack_netrw = true,
-          },
-          live_grep_args = {
-            -- mappings = {
-            --   i = {
-            --     "<C-"
-            --   }
-            -- },
           },
         },
       }

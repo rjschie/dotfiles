@@ -9,4 +9,4 @@ set -gx OTEL_METRICS_EXPORTER otlp
 set -gx OTEL_EXPORTER_OTLP_PROTOCOL http/json
 set -gx OTEL_EXPORTER_OTLP_METRICS_PROTOCOL http/json
 
-set -gx OTEL_EXPORTER_OTLP_ENDPOINT http://localhost:4318
+set -gx OTEL_EXPORTER_OTLP_ENDPOINT http://localhost:6788
