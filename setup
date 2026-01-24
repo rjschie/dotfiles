@@ -41,6 +41,13 @@ setup_fisher() {
 	fisher install jorgebucaran/nvm.fish
 }
 
+setup_claude() {
+  mkdir -p $HOME/.claude
+  ln -s $DOTFILES/files/claude/settings.json $HOME/.claude/
+  ln -s $DOTFILES/files/claude/CLAUDE.md $HOME/.claude/
+  ln -s $DOTFILES/files/claude/share $HOME/.claude/share
+}
+
 main() {
   echo "CONFIG: $CONFIG"
   echo "DOTFILES: $DOTFILES"
