@@ -1,0 +1,41 @@
+{
+  "session_id": "a9d5493c-c6c1-4380-a933-999abce3cd1a",
+  "transcript_path": "/Users/ryanschie/.claude/projects/-Users-ryanschie-code-github-com-rjschie-keepmark/a9d5493c-c6c1-4380-a93 3-999abce3cd1a.jsonl",
+  "cwd": "/Users/ryanschie/code/github.com/rjschie/keepmark",
+  "model": {
+    "id": "claude-opus-4-5-20251101",
+    "display_name": "Opus 4.5"
+  },
+  "workspace": {
+    "current_dir": "/Users/ryanschie/code/github.com/rjschie/keepmark",
+    "project_dir": "/Users/ryanschie/code/github.com/rjschie/keepmark"
+  },
+  "version": "2.1.7",
+  "output_style": {
+    "name": "default"
+  },
+  "cost": {
+    "total_cost_usd": 0.13893325,
+    "total_duration_ms": 7583000,
+    "total_api_duration_ms": 1083000,
+    "total_lines_added": 0,
+    "total_lines_removed": 0
+  },
+  "context_window": {
+    "total_input_tokens": 132,
+    "total_output_tokens": 84,
+    "context_window_size": 200000,
+    "current_usage": {
+      "input_tokens": 10,
+      "output_tokens": 63,
+      "cache_creation_input_tokens": 21933,
+      "cache_read_input_tokens": 0
+    },
+    "used_percentage": 11,
+    "remaining_percentage": 89
+  },
+  "exceeds_200k_tokens": false,
+  "vim": {
+    "mode": "INSERT"
+  }
+}
