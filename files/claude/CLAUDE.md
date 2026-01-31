@@ -37,3 +37,5 @@
 - TS: Prefer implicit return inference. It keeps the code easier to maintain
 - TS/JS: Prefer `/** */` comment structure for multiline comments and
   docblock-like comments
+- TS: Avoid non-null assertions (`!`). Prefer runtime checks, destructuring,
+  or `.at()` with guards instead.
