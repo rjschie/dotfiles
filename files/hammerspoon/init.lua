@@ -7,17 +7,32 @@ log.i("Initializing")
 -- end)
 
 -- Show/hide terminal
-hs.hotkey.bind({ "cmd", "shift" }, "l", function()
-	local kitty = hs.application.find("kitty", true)
+-- hs.hotkey.bind({ "cmd", "shift" }, "k", function()
+-- 	local kitty = hs.application.find("kitty", true)
+--
+-- 	if kitty then
+-- 		if kitty and kitty:isFrontmost() then
+-- 			kitty:hide()
+-- 		else
+-- 			kitty:activate()
+-- 		end
+-- 	else
+-- 		hs.application.launchOrFocus("kitty")
+-- 	end
+-- end)
 
-	if kitty then
-		if kitty and kitty:isFrontmost() then
-			kitty:hide()
+-- Show/hide Ghosttty
+hs.hotkey.bind({ "cmd", "shift" }, "l", function()
+	local ghostty = hs.application.find("Ghostty", true)
+
+	if ghostty then
+		if ghostty and ghostty:isFrontmost() then
+			ghostty:hide()
 		else
-			kitty:activate()
+			ghostty:activate()
 		end
 	else
-		hs.application.launchOrFocus("kitty")
+		hs.application.launchOrFocus("Ghostty")
 	end
 end)
 

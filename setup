@@ -33,7 +33,8 @@ setup_override_files() {
 }
 
 setup_mac_defaults() {
-	source ./scripts/mac-defaults.sh
+  source ./scripts/mac-defaults.sh
+  touch ~/.hushlogin
 }
 
 setup_fisher() {

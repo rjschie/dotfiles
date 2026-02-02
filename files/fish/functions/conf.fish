@@ -1,5 +1,7 @@
 function conf -d "Edit common config files"
   switch $argv[1]
+    case ghost
+      _EDITOR_OPEN_ $CONFIG/ghostty/config
     case k kitty
       _EDITOR_OPEN_ $CONFIG/kitty/kitty.conf
     case v n vim nvim
