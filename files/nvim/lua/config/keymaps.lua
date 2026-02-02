@@ -51,7 +51,6 @@ map('x', '<leader>p', '"_dP', 'Paste (and keep previous register)')
 
 map('n', '<leader>%%', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], 'Replace word under cursor')
 map('n', '<leader>%', [[/\<<C-r><C-w>\><CR>]], 'Search (in file) word under cursor')
--- map('n', '<leader>f', vim.lsp.buf.format, 'Format lines')
 
 -- Diagnostic Hover
 map('n', 'KD', function()
@@ -61,7 +60,9 @@ end, 'Show Diagnostic float')
 
 -- TELESCOPE File finding
 local telescope = require 'telescope.builtin'
-map('n', '<leader>ff', telescope.find_files, '[F]ind [F]iles (in CWD)')
+map('n', '<leader>ff', function()
+  return telescope.find_files { hidden = true }
+end, '[F]ind [F]iles (in CWD)')
 -- map('n', '<leader>fg', telescope.live_grep:, '[F]ind [G]rep (in CWD)')
 map('n', '<leader>fg', function()
   require('telescope').extensions.live_grep_args.live_grep_args { noremap = true }

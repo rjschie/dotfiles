@@ -42,7 +42,7 @@ vim.opt.smartcase = true
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
-vim.opt.colorcolumn = '80'
+vim.opt.colorcolumn = '100'
 vim.opt.signcolumn = 'yes'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
