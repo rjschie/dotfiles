@@ -54,6 +54,8 @@
   apnw = !sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
   re = reset
 
+  wt = worktree
+
   cln = clean -fd
   clnall = "!f() { git checkout .; git clean -fd; }; f"
 

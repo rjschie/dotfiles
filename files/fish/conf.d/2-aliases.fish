@@ -16,8 +16,8 @@ if status is-interactive
   alias vim="_EDITOR_OPEN_"
   alias nv="_EDITOR_OPEN_"
   alias vi="_EDITOR_OPEN_"
-  alias v="_EDITOR_OPEN_"
-  alias vv="_EDITOR_OPEN_ $(pwd)"
+  alias v="/opt/homebrew/bin/nvim $(pwd)"
+  alias vv="/opt/homebrew/bin/nvim $(pwd)"
 
   alias _cat="/bin/cat"
   alias cat="bat"
@@ -36,6 +36,7 @@ if status is-interactive
   #: Dev
   alias y="yarn"
   alias pn="pnpm"
+  alias br="bun run"
 
   abbr --add mygit --set-cursor "cd $CODE/github.com/rjschie/%"
 
