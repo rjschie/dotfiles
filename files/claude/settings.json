@@ -12,8 +12,9 @@
       "Bash(cat:*)",
       "Bash(ls:*)",
       "Bash(grep:*)",
-      "Bash(bun *)",
+      "Bash(bun:*)",
       "Bash(git:*)",
+      "Bash(tree:*)",
       "Bash(npm info:*)",
       "Read(~/.claude/**)"
     ],

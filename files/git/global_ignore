@@ -3,3 +3,8 @@ node_modules
 config_override*
 !config_override.example
 
+# AI
+.claude/*.local.json
+.claude/plans
+**/.claude/*.local.json
+**/.claude/plans

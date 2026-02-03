@@ -1,3 +1,10 @@
+## General
+
+- [ ] Figure out a better way to install and manage these files
+      I want symlinks, but in the GIT workflow, I think using worktrees would be best.
+      I want to be able to work on a branch and have a specific files/* folder point to a specific
+      worktree. But still be able to update my other DOTFILES in the main worktree.
+
 ## Neovim
 
 - [x] In buffer picker: C-d to remove buffer
