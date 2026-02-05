@@ -9,13 +9,14 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(cat:*)",
-      "Bash(ls:*)",
-      "Bash(grep:*)",
       "Bash(bun:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
       "Bash(git:*)",
-      "Bash(tree:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
       "Bash(npm info:*)",
+      "Bash(tree:*)",
       "Read(~/.claude/**)"
     ],
     "defaultMode": "default"

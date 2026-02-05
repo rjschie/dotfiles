@@ -19,6 +19,7 @@
 # keybind = super+n=new_window
   keybind = super+w=unbind
   keybind = alt+space>alt+w=close_surface
+  keybind = alt+space>shift+alt+w=close_tab
 
 # What are these? Leave 'em alone
 # keybind = super+alt+i=inspector:toggle

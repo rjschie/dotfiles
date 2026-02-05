@@ -97,3 +97,9 @@ map('n', '<M-K>', '<cmd>cprev<cr>', 'Prev in quicklist')
 map('n', '<M-O>', function()
   -- TODO: add this
 end, 'Toggle quicklist window')
+
+-- Conform / Formatting
+local conform = require 'conform'
+map({ 'n', 'v' }, '<leader>gf', function()
+  conform.format { async = true, lsp_fallback = true }
+end, 'Format')

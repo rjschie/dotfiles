@@ -16,8 +16,8 @@ if status is-interactive
   alias vim="_EDITOR_OPEN_"
   alias nv="_EDITOR_OPEN_"
   alias vi="_EDITOR_OPEN_"
-  alias v="/opt/homebrew/bin/nvim $(pwd)"
-  alias vv="/opt/homebrew/bin/nvim $(pwd)"
+  alias v="/opt/homebrew/bin/nvim $PWD"
+  alias vv="/opt/homebrew/bin/nvim $PWD"
 
   alias _cat="/bin/cat"
   alias cat="bat"
