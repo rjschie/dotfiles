@@ -43,6 +43,7 @@
 # resize-overlay-duration = 4s 200ms
 
 config-file = keybinds
+auto-update-channel = tip
 
 macos-hidden = always
 macos-titlebar-style = tabs
