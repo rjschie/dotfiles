@@ -140,9 +140,6 @@
 
   copyhash = "!f() { git rev-parse --short HEAD | pbcopy; }; f"
 
-[blame]
-  ignoreRevsFile = .git-blame-ignore-revs
-
 [include]
   path = "~/.config/git/config_override"
 

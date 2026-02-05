@@ -1,3 +1,5 @@
+#Include ~/.ssh/1Password/config
+
 # Host gitwork
 #   User ryanschie
 #   HostName my-work.com
