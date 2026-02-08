@@ -68,6 +68,7 @@ total_output=$(getter '.context_window.total_output_tokens' | numfmt --to=si)
 time=$(duration $(getter '.cost.total_duration_ms'))
 api_time=$(duration $(getter '.cost.total_api_duration_ms'))
 ctx_usage_percent=$(getter '.context_window.used_percentage // 0')
+tokens=$(printf "↑ %s ↓ %s" $total_input $total_output)
 
 # cc-telemetry health check (cached 60s)
 CC_TELEM_BIN="$HOME/.local/bin/cc-telemetry"
@@ -85,16 +86,13 @@ if [ -x "$CC_TELEM_BIN" ]; then
   fi
 
   case "$STATUS" in
-    ok)       TELEM="${GREEN} ✓ ${RESET}" ;;
-    degraded) TELEM="${YELLOW} ⚠ ${RESET}" ;;
-    *)        TELEM="${RED} ✗ ${RESET}" ;;
+    ok)       TELEM="${GREEN}✓${RESET}" ;;
+    degraded) TELEM="${YELLOW}⚠${RESET}" ;;
+    *)        TELEM="${RED}✗${RESET}" ;;
   esac
 fi
 
-version_changed="$VERSION_CHANGED_FROM"
-if [ -n "$VERSION_CHANGED_FROM" ]; then
-  version_changed=" -- CH -- "
-fi
-
-printf ' %b %b (%s) [%s] [api: %s]  /  $%s  /  ↑ %s ↓ %s  /  %s\n' "$version_changed" "$TELEM" "$model" "$time" "$api_time" "$cost" "$total_input" "$total_output" "$(progress_bar $ctx_usage_percent)"
+printf '%b (%s) [%s] [api: %s]\n  %s  /  %s  /  $%s\n' \
+  "$TELEM" "$model" "$time" "$api_time" \
+  "$(progress_bar $ctx_usage_percent)" "$tokens" "$cost"
 
