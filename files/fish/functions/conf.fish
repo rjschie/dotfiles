@@ -1,5 +1,7 @@
 function conf -d "Edit common config files"
   switch $argv[1]
+    case wez
+      _EDITOR_OPEN_ $CONFIG/wezterm/wezterm.lua
     case ghost
       _EDITOR_OPEN_ $CONFIG/ghostty/config
     case k kitty
