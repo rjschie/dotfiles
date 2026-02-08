@@ -55,7 +55,7 @@ window-padding-x = 10
 window-padding-y = 10
 window-width = 224
 window-height = 70
-bell-features = system,audio
+# bell-features = system,audio
 
 window-inherit-working-directory = false
 tab-inherit-working-directory = false
