@@ -1,11 +1,7 @@
-- [ ] Use configs for my build
+- [x] Use configs for my build
   - hide from tasks
   - remember position/size
   - tab styling (padding, margin, colors, full_width)
-- [ ] Update format-tab-title to:
-  - Account for visual bell and adding nerd font icon (nf-md-bell_ring)
-      - https://wezterm.org/config/lua/window-events/bell.html
-  - Add zoom state icon (nf-md-arrow_top_right_bold_box)
 - [ ] Add scrollback with keyboard
 - [ ] Resize panes keyboards
   - https://wezterm.org/config/lua/keyassignment/AdjustPaneSize.html
@@ -15,6 +11,11 @@
   - https://wezterm.org/config/lua/keyassignment/PaneSelect.html?h=swap
 - [ ] Enter "sync" mode to send text to all panes in tab
 - [ ] Remove default keybinds
+  
+- [ ] Try visual bell/zoom indicators using format-tab-title:
+  - Account for visual bell and adding nerd font icon (nf-md-bell_ring)
+      - https://wezterm.org/config/lua/window-events/bell.html
+  - Add zoom state icon (nf-md-arrow_top_right_bold_box)
 - [ ] Setup copy mode or similar
 - [ ] Setup workspaces/sessions/layouts
 
