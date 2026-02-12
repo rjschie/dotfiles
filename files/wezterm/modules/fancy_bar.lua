@@ -15,8 +15,8 @@ local separator = "hsl(227deg, 17%, 28%)"
 
 local tab = function(is_active)
 	local rounding = 20
-	local x = 12
-	local y = 3
+	local x = 18
+	local y = 4
 	return {
 		bg_color = is_active and primary_button_bg or button_bg,
 		fg_color = is_active and primary_button_fg or button_fg,
@@ -35,7 +35,7 @@ function module.build_fancy_bar(config)
 		font = wezterm.font("Roboto"),
 		font_size = 12,
 
-		tab_placement = "right",
+		tab_placement = "center",
 		tab_min_width = 150,
 		tab_max_width = 350,
 		tab_text_align = "center",

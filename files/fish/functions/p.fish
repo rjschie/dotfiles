@@ -9,5 +9,6 @@ function p --description "My Project manager"
   #   echo "project one" "project two"
   else
     cd $CODE/github.com/rjschie/$argv[1]
+    tt $argv[1]
   end
 end

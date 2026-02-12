@@ -4,12 +4,14 @@ local act = wezterm.action
 local font = wezterm.font("FiraMono Nerd Font Mono")
 
 config.macos_hide_from_tasks = true
-config.notification_handling = "SuppressFromFocusedTab"
+config.notification_handling = "SuppressFromFocusedPane"
 config.prefer_to_spawn_tabs = true
+config.warn_about_missing_glyphs = false
 
 -- State/Size
 config.remember_window_state = true
 config.remember_window_position = true
+config.use_resize_increments = true
 
 -- TABS:
 config.use_fancy_tab_bar = true
@@ -42,13 +44,14 @@ config.inactive_pane_hsb = {
 }
 
 -- KEY BINDS
--- config.disable_default_key_bindings = true
+config.disable_default_key_bindings = true
 config.leader = { key = "Space", mods = "ALT", timeout_milliseconds = 2000 }
 config.keys = {
 	{ mods = "SUPER", key = "q", action = act.QuitApplication },
 	{ mods = "SUPER", key = "c", action = act.CopyTo("Clipboard") },
 	{ mods = "SUPER", key = "v", action = act.PasteFrom("Clipboard") },
 	{ mods = "LEADER|ALT", key = "w", action = act.CloseCurrentPane({ confirm = true }) },
+	{ mods = "LEADER|ALT|SHIFT", key = "w", action = act.CloseCurrentTab({ confirm = true }) },
 
 	{ mods = "LEADER|ALT", key = "/", action = act.QuickSelect },
 
@@ -62,19 +65,31 @@ config.keys = {
 	{ mods = "LEADER|ALT", key = "j", action = act.SplitPane({ direction = "Down" }) },
 	{ mods = "LEADER|ALT", key = "h", action = act.SplitPane({ direction = "Left" }) },
 
+	{ mods = "CTRL|SHIFT", key = "=", action = act.EqualizePanes },
 	{ mods = "ALT", key = "z", action = act.TogglePaneZoomState },
 
 	-- Resize panes
-	-- { mods = "", key = "", action = act. },
-	-- { mods = "", key = "", action = act. },
-	-- { mods = "", key = "", action = act. },
-	-- { mods = "", key = "", action = act. },
-	-- { mods = "", key = "", action = act. },
+	{ mods = "CTRL|SUPER", key = "l", action = act.AdjustPaneSize({ "Right", 2 }) },
+	{ mods = "CTRL|SUPER", key = "h", action = act.AdjustPaneSize({ "Left", 2 }) },
+	{ mods = "CTRL|SUPER", key = "k", action = act.AdjustPaneSize({ "Up", 2 }) },
+	{ mods = "CTRL|SUPER", key = "j", action = act.AdjustPaneSize({ "Down", 2 }) },
 
 	-- Tabs
 	{ mods = "LEADER|ALT", key = "n", action = act.SpawnCommandInNewTab({ cwd = "$HOME" }) },
 	{ mods = "ALT|SHIFT", key = "l", action = act.ActivateTabRelative(1) },
 	{ mods = "ALT|SHIFT", key = "h", action = act.ActivateTabRelative(-1) },
+
+	-- Movement
+	{ mods = "LEADER|ALT|SHIFT", key = "{", action = act.MoveTabRelative(-1) },
+	{ mods = "LEADER|ALT|SHIFT", key = "}", action = act.MoveTabRelative(1) },
+
+	-- Scrolling
+	{ mods = "ALT|CTRL", key = "k", action = act.ScrollByLine(-5) },
+	{ mods = "ALT|CTRL", key = "j", action = act.ScrollByLine(5) },
+
+	-- Misc
+	{ mods = "SHIFT", key = "Enter", action = act.SendString("\n") },
+	{ mods = "LEADER|ALT", key = "s", action = act.ToggleSynchronizePanes },
 }
 
 wezterm.on("window-config-reloaded", function(window, pane)

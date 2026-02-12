@@ -14,8 +14,6 @@ if status is-interactive
   alias _nvim="/opt/homebrew/bin/nvim"
   alias nvim="_EDITOR_OPEN_"
   alias vim="_EDITOR_OPEN_"
-  alias nv="_EDITOR_OPEN_"
-  alias vi="_EDITOR_OPEN_"
 
   alias _cat="/bin/cat"
   alias cat="bat"
@@ -36,6 +34,8 @@ if status is-interactive
   alias pn="pnpm"
   alias br="bun run"
 
+  alias dotfiles="cd $DOTFILES"
+  abbr --add github --set-cursor "cd $CODE/github.com/%"
   abbr --add mygit --set-cursor "cd $CODE/github.com/rjschie/%"
 
 end

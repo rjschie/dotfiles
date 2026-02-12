@@ -39,3 +39,12 @@
   docblock-like comments
 - TS: Avoid non-null assertions (`!`). Prefer runtime checks, destructuring,
   or `.at()` with guards instead.
+- Testing-Library: Prefer using screen.getByRole for selectors
+- Testing-Library: Prefer adding test ids over document.querySelector to customize selectors
+- React-Query: prefer building query key/query fn generators and using useQuery and useMutation directly with those
+- React-Query: never set initial data in the destructuring, prefer falling back
+  to undefined data and checking before use
+
+## Reference Projects
+
+- Base UI documentation: https://base-ui.com/llms.txt

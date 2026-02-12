@@ -64,7 +64,7 @@ return {
             },
           },
           path_display = {
-            'shorten',
+            'truncate',
           },
         },
         pickers = {

@@ -6,15 +6,17 @@
   "permissions": {
     "allow": [
       "WebSearch",
+      "Read(~/.claude/**)",
+      "Bash(git:*)",
       "Bash(bun:*)",
+      "Bash(pnpm:*)",
+      "Bash(npm:*)",
+      "Bash(ls:*)",
+      "Bash(tree:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Bash(git:*)",
       "Bash(grep:*)",
-      "Bash(ls:*)",
-      "Bash(npm info:*)",
-      "Bash(tree:*)",
-      "Read(~/.claude/**)"
+      "Bash(xargs:*)"
     ],
     "defaultMode": "default"
   },
@@ -36,6 +38,17 @@
           {
             "type": "command",
             "command": "~/.claude/share/hooks/session-end.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/share/term-notify.sh 'Needs attention'"
           }
         ]
       }
