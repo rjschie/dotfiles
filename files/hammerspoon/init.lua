@@ -34,18 +34,18 @@ end)
 -- end)
 
 -- Show/hide Ghosttty
-hs.hotkey.bind({ "cmd", "shift" }, "h", function()
-	local ghostty = hs.application.find("Ghostty", true)
-	if ghostty then
-		if ghostty and ghostty:isFrontmost() then
-			ghostty:hide()
-		else
-			ghostty:activate()
-		end
-	else
-		hs.application.launchOrFocus("Ghostty")
-	end
-end)
+-- hs.hotkey.bind({ "cmd", "shift" }, "h", function()
+-- 	local ghostty = hs.application.find("Ghostty", true)
+-- 	if ghostty then
+-- 		if ghostty and ghostty:isFrontmost() then
+-- 			ghostty:hide()
+-- 		else
+-- 			ghostty:activate()
+-- 		end
+-- 	else
+-- 		hs.application.launchOrFocus("Ghostty")
+-- 	end
+-- end)
 
 -- -- Window Mgmt (wip)
 -- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "Up", function()

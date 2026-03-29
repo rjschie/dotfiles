@@ -6,6 +6,7 @@
   "permissions": {
     "allow": [
       "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)",
       "Read(~/.claude/**)",
       "Bash(git:*)",
       "Bash(bun:*)",
@@ -68,7 +69,11 @@
     "lua-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "chrome-devtools-mcp@claude-plugins-official": true
   },
-  "autoUpdatesChannel": "latest"
+  "autoUpdatesChannel": "latest",
+  "voiceEnabled": false,
+  "autoDreamEnabled": true
 }

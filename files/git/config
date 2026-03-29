@@ -110,8 +110,8 @@
   pl = pull
 
   # Logs
-  l = lo --since=3-days
-  ll = lo
+  l = lo
+  ll = lo --since=3-days
   ld = log --topo-order --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
   ls = log --topo-order --stat --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
   lp = log --topo-order --stat --patch --full-diff --pretty=format:'%C(bold)Commit:%C(reset) %C(magenta)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(blue)%an <%ae>%n%C(bold)Date:%C(reset)   %C(cyan)%ai (%ar)%C(reset)%n%+B'
