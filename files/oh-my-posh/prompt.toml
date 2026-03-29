@@ -1,0 +1,85 @@
+"$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+final_space = true
+version = 4
+
+[[blocks]]
+type = "prompt"
+alignment = "left"
+trailing_diamond = ""
+
+  [[blocks.segments]]
+  type = "path"
+  style = "powerline"
+  background = "p:grad_1"
+  foreground = "p:white"
+  powerline_symbol = ""
+  template = " {{ .Path }} "
+
+  [blocks.segments.options]
+  style = "fish"
+  dir_length = 2
+  full_length_dirs = 3
+
+  [blocks.segments.options.mapped_locations]
+  "~/code/github.com" = "github"
+
+  [[blocks.segments]]
+  background = "p:grad_3"
+  foreground = "p:white"
+  powerline_symbol = ""
+  template = " {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }} "
+  style = "powerline"
+  type = "git"
+
+  [blocks.segments.options]
+  branch_icon = " "
+  branch_template = "{{ trunc 25 .Branch }}"
+  fetch_status = true
+
+# Right Prompt
+[[blocks]]
+type = 'prompt'
+alignment = "right"
+style = "powerline"
+trailing_diamond = ""
+
+  [[blocks.segments]]
+  type = 'text'
+  style = "plain"
+  powerline_symbol = ""
+  template = " BUN!"
+
+## Second Prompt Line
+[[blocks]]
+type = "prompt"
+alignment = "left"
+newline = true
+
+  # Prompt Character
+  [[blocks.segments]]
+  type = "text"
+  foreground = "p:grad_7"
+  template = "{{ if eq .Env.FISH__BIND_MODE \"default\" }}<p:magenta> 󰫻</> |{{ else if eq .Env.FISH__BIND_MODE \"visual\" }}<p:grad_4> 󰬃</> |{{ else if eq .Env.FISH__BIND_MODE \"replace_one\" }}<p:orange> 󰫿</> |{{ else if eq .Env.FISH__BIND_MODE \"replace\" }}<p:orange> 󰫿+</>|{{ else }}<p:grad_1>—</><p:grad_5>|</> >{{ end }}"
+
+[palette]
+white = '#ffffff'
+grad_1 = '#e42dc0'
+grad_2 = '#bd4bcb'
+grad_3 = '#9b65d4'
+grad_4 = '#7483df'
+grad_5 = '#509fe9'
+grad_6 = '#27bff4'
+grad_7 = '#00ddff'
+red = '#e73155'
+cyan = '#06ecf8'
+magenta = '#f913a9'
+green = '#06f8a6'
+orange = '#f8b606'
+
+# ICONS
+#    
+#  
+#  
+#  󰌾
+# 󰬃 󰫿 󰫻
+#     󱡋

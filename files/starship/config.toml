@@ -3,102 +3,103 @@
 palette = 'rygar'
 add_newline = false
 
-format = """
-[╭](fg:grad_3)\
-[╼](fg:grad_2)\
+#    
+#  
+#  
+#  󰌾
+# 󰬃 󰫿 󰫻
+#     󱡋
 
-[](fg:grad_1)\
-$os\
-$username\
-[](fg:grad_1)\
-[](fg:grad_2)\
+format = """
+$jobs\
+[](fg:grad_1)\
 $directory\
-[](fg:grad_2)\
-[](fg:grad_3)\
+[ ](fg:grad_1 bg:grad_2)\
 $git_branch\
-[](fg:grad_3)\
-[](fg:grad_4)\
-$c\
-$golang\
-$gradle\
+$git_commit\
+$git_state\
+$git_status\
+[ ](fg:grad_2 bg:grad_4)\
+$bun\
 $nodejs\
 $rust\
 $python\
-[](fg:grad_4)\
-[](fg:grad_5)\
-$time\
-[](fg:grad_5)\n\
+$c\
+$golang\
+$gradle\
+[](fg:grad_4)\
+\n\
 
-[╰](fg:grad_3)\
-[╼\\[](fg:grad_4)\
 $character\
-[\\]╼](fg:grad_6)\
-[ ](fg:grad_7)
 """
 
-# add_newline = false
-
-[username]
-show_always = true
-style_user = "fg:white bg:grad_1"
-style_root = "bg:red"
-format = '[$user ]($style)'
+[custom.gitproject]
+command = "basename $(dirname $(git rev-parse --git-common-dir))"
+format = '[ $symbol $output ]($style)'
+style = 'fg:white bg:grad_1'
+when = ''' [ "$(git rev-parse --git-dir 2>/dev/null)" != "$(git rev-parse --git-common-dir 2>/dev/null)" ] '''
+shell = ['bash', '--noprofile', '-norc']
 disabled = false
 
-[os]
-style = "fg:white bg:grad_1"
+[custom.directory]
+command = '''
+echo $PWD
+'''
+format = '[ $symbol $output ]($style)'
+symbol = ''
+style = 'fg:white bg:grad_1'
+when = ''' [ "$(git rev-parse --git-dir 2>/dev/null)" == "$(git rev-parse --git-common-dir 2>/dev/null)" ] '''
+shell = ['bash', '--noprofile', '-norc']
 disabled = false
 
 [directory]
-style = "fg:white bg:grad_2"
-repo_root_style = "fg:white bg:grad_2"
-format = "[ $path$read_only ]($style)"
-repo_root_format = "[ $repo_root$read_only$path ]($repo_root_style)"
-truncation_length = 3
-truncation_symbol = "/"
-truncate_to_repo = true
+style = "fg:white bg:grad_1"
+repo_root_style = "fg:white bg:grad_1"
+format = "[  $path$read_only ]($style)"
+repo_root_format = "[  $repo_root$read_only$path ]($style)"
+truncation_symbol = "…/"
+truncation_length = 4
+fish_style_pwd_dir_length = 2
+truncate_to_repo = false
 home_symbol = "~"
-read_only = " 󰌾"
+read_only = "(󰌾)"
 
 [directory.substitutions]
-"code" = "CODE"
-"Documents" = "DOCS"
-"Downloads" = "DOWNS"
+"~/code/github.com/rjschie" = "~mygh"
+"~/code/github.com" = "~gh"
+
+[jobs]
+format = '[$symbol$number]($style)'
+style = 'fg:grad_7'
 
 [git_branch]
 symbol = " "
 format = "[$symbol$branch(:$remote_branch) ]($style)"
-style = "fg:white bg:grad_3"
+only_attached = true
+style = "fg:white bg:grad_2"
+
+[git_commit]
+format = '[ $hash$tag ]($style)'
+tag_symbol = '  '
+style = 'fg:white bg:grad_2'
 
 [git_status]
-format = '[$all_status$ahead_behind]($style)'
-style = 'fg:white bg:grad_3'
-
-[time]
-disabled = false
-time_format = "%R"
-style = "fg:white bg:grad_5"
-format = '[  $time ]($style)'
+format = '[$all_status$ahead_behind ]($style)'
+style = 'fg:white bg:grad_2'
 
 [character]
-format = '$symbol($status)'
-success_symbol = '[|](fg:grad_5)'
-error_symbol = '[|](fg:grad_5)'
-vimcmd_symbol = '[N](bold fg:grad_magenta)'
-vimcmd_replace_one_symbol = '[N](bold fg:grad_magenta)'
-vimcmd_replace_symbol = '[R](bold fg:grad_orange)'
-vimcmd_visual_symbol = '[V](bold fg:grad_orange)'
+format = '$symbol'
+success_symbol = '[-](fg:grad_1)[|](fg:grad_5)[  ](fg:grad_7)'
+error_symbol = '[-](fg:grad_1)[|](fg:grad_5)[  ](fg:grad_red)'
+vimcmd_symbol = '[ ](fg:grad_1)[󰫻 ](fg:grad_7)[| ](fg:grad_7)'
+vimcmd_replace_one_symbol = '[ ](fg:grad_1)[󰫿 ](fg:grad_orange)[| ](fg:grad_7)'
+vimcmd_replace_symbol = '[ ](fg:grad_1)[󰫿+](fg:grad_orange)[| ](fg:grad_7)'
+vimcmd_visual_symbol = '[ ](fg:grad_1)[󰬃 ](fg:grad_4)[| ](fg:grad_7)'
 
-[memory_usage]
-symbol = "󰍛 "
-
-[hostname]
-ssh_symbol = " "
-
-[aws]
-symbol = "  "
+[bun]
+symbol = '󱡋 '
+format = '[$symbol($version) ]($style)'
 style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
 [c]
 symbol = " "
 style = 'fg:white bg:grad_4'
@@ -111,88 +112,24 @@ format = "[$symbol($version )]($style)"
 symbol = " "
 style = 'fg:white bg:grad_4'
 format = "[$symbol($version )]($style)"
-[nix_shell]
-symbol = " "
-style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
 [nodejs]
 symbol = " "
 style = 'fg:white bg:grad_4'
 format = "[$symbol($version )]($style)"
-[package]
-symbol = "󰏗 "
-style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
-[perl]
-symbol = " "
-style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
 [python]
+disabled = true
 symbol = " "
 style = 'fg:white bg:grad_4'
 format = "[${symbol}${pyenv_prefix}(${version} )(\\(${virtualenv}\\) )]($style)"
 version_format = 'v${major}.${minor}'
-[ruby]
-symbol = " "
-style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
 [rust]
 symbol = " "
-style = 'fg:white bg:grad_4'
-format = "[$symbol($version )]($style)"
-[swift]
-symbol = " "
 style = 'fg:white bg:grad_4'
 format = "[$symbol($version )]($style)"
 [zig]
 symbol = " "
 style = 'fg:white bg:grad_4'
 format = "[$symbol($version )]($style)"
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
 
 [palettes.rygar]
 white = '#ffffff'

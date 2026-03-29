@@ -1,5 +1,12 @@
 if status is-interactive
 
+  alias d_short="cd ~/.local/share/nvim"
+  alias d_long="cd ~/Library/Application\ Support/Google\ Chrome/no-secure-data-dir/AutofillStates/2020.11.2.164946"
+  alias d_bare="cd ~/code/github.com/rjschie/keepmark"
+  alias d_wt="cd ~/code/github.com/rjschie/keepmark/bookmark-mgmt"
+  alias d_wez="cd ~/code/github.com/wezterm/wezterm"
+  alias d_wezin="cd ~/code/github.com/wezterm/wezterm/wezterm-ssh/src"
+
   #: Common
   alias l="eza -l"
   alias la="eza -la"
