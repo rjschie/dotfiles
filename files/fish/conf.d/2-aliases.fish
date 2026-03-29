@@ -1,12 +1,5 @@
 if status is-interactive
 
-  alias d_short="cd ~/.local/share/nvim"
-  alias d_long="cd ~/Library/Application\ Support/Google\ Chrome/no-secure-data-dir/AutofillStates/2020.11.2.164946"
-  alias d_bare="cd ~/code/github.com/rjschie/keepmark"
-  alias d_wt="cd ~/code/github.com/rjschie/keepmark/bookmark-mgmt"
-  alias d_wez="cd ~/code/github.com/wezterm/wezterm"
-  alias d_wezin="cd ~/code/github.com/wezterm/wezterm/wezterm-ssh/src"
-
   #: Common
   alias l="eza -l"
   alias la="eza -la"
@@ -14,7 +7,6 @@ if status is-interactive
   alias rmrff="rm -rf"
   alias mk="mkdir -p"
   alias g="git"
-  alias psa="ps -a"
   alias date="gdate"
 
   alias _vim="/usr/bin/vim"
@@ -22,7 +14,6 @@ if status is-interactive
 
   alias _cat="/bin/cat"
   alias cat="bat"
-  alias trw="tmux rename-window"
   alias lg="lazygit"
 
   #: Docker
@@ -35,7 +26,6 @@ if status is-interactive
   alias dkkd="docker compose down"
 
   #: Dev
-  alias y="yarn"
   alias pn="pnpm"
   alias br="bun run"
 
