@@ -18,9 +18,7 @@ if status is-interactive
   alias date="gdate"
 
   alias _vim="/usr/bin/vim"
-  alias _nvim="/opt/homebrew/bin/nvim"
-  alias nvim="_EDITOR_OPEN_"
-  alias vim="_EDITOR_OPEN_"
+  alias vim="nvim"
 
   alias _cat="/bin/cat"
   alias cat="bat"

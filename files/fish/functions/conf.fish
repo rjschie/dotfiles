@@ -1,26 +1,24 @@
 function conf -d "Edit common config files"
   switch $argv[1]
     case wez
-      _EDITOR_OPEN_ $CONFIG/wezterm/wezterm.lua
+      $EDITOR $CONFIG/wezterm/wezterm.lua --cmd "cd $CONFIG/wezterm"
     case ghost
-      _EDITOR_OPEN_ $CONFIG/ghostty/config
+      $EDITOR $CONFIG/ghostty/config --cmd "cd $CONFIG/ghostty"
     case k kitty
-      _EDITOR_OPEN_ $CONFIG/kitty/kitty.conf
+      $EDITOR $CONFIG/kitty/kitty.conf --cmd "cd $CONFIG/kitty"
     case v n vim nvim
-      _EDITOR_OPEN_ $CONFIG/nvim/
-    # case sk skhd
-    #   _EDITOR_OPEN_ $CONFIG/skhd/skhdrc
+      $EDITOR $CONFIG/nvim/ --cmd "cd $CONFIG/nvim"
     case h hs hammer hammerspoon
-      _EDITOR_OPEN_ $HOME/.hammerspoon/init.lua
+      $EDITOR $HOME/.hammerspoon/init.lua --cmd "cd $HOME/.hammerspoon"
     case ssh
-      _EDITOR_OPEN_ $HOME/.ssh/config
+      $EDITOR $HOME/.ssh/config --cmd "cd $HOME/.ssh"
     case starship
-      _EDITOR_OPEN_ $CONFIG/starship/config.toml
+      $EDITOR $CONFIG/starship/config.toml --cmd "cd $CONFIG/starship"
     case g git
-      _EDITOR_OPEN_ $CONFIG/git/config
+      $EDITOR $CONFIG/git/config --cmd "cd $CONFIG/git"
     case tm tmux
-      _EDITOR_OPEN_ $CONFIG/tmux/tmux.conf
+      $EDITOR $CONFIG/tmux/tmux.conf --cmd "cd $CONFIG/tmux"
     case '*' f fish
-      _EDITOR_OPEN_ $CONFIG/fish/
+      $EDITOR $CONFIG/fish/ --cmd "cd $CONFIG/fish"
   end
 end
