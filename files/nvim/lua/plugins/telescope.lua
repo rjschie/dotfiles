@@ -57,6 +57,7 @@ return {
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
+          -- find_command = { 'rg', '--files', '--hidden', '--no-require-git', '--glob=!.git/*' },
           mappings = {
             i = {
               ['<c-enter>'] = 'to_fuzzy_refine',

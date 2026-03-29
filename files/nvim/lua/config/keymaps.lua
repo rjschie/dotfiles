@@ -60,10 +60,13 @@ end, 'Show Diagnostic float')
 
 -- TELESCOPE File finding
 local telescope = require 'telescope.builtin'
+
 map('n', '<leader>ff', function()
-  return telescope.find_files { hidden = true }
+  return telescope.find_files {
+    find_command = { 'rg', '--files', '--hidden', '--glob=!.git/*' },
+  }
 end, '[F]ind [F]iles (in CWD)')
--- map('n', '<leader>fg', telescope.live_grep:, '[F]ind [G]rep (in CWD)')
+
 map('n', '<leader>fg', function()
   require('telescope').extensions.live_grep_args.live_grep_args { noremap = true }
 end, '[F]ind [G]rep (in CWD)')
