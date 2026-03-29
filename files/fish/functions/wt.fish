@@ -1,3 +1,26 @@
+## Features
+# - wt init: turns a git repo into a worktree ready repo
+#   - create new `main` dir and move everything except ./.git into it
+#   - rename .git to .bare
+#   - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+# - wt add branch-name
+#   - Check if setup for worktrees
+#   - cd to git_root
+#   - determine if branch-name already exists (cd if so)
+#   - also see if branch-name exists remotely
+#   - git worktree add ../{branch-name}
+#     - or git worktree add -b {branch-name} ../{dirname} {remote}/{branch-name}
+#   - Get worktree.syncdirs (default: node_modules, .env*)
+#   - cp -Rc those files/dirs
+#   - cd into directory
+# - wt co branch-name
+#   - Check if setup for worktrees
+#   - cd to git_root
+#   - determine if branch-name already exists
+#   - cd to it if so, otherwise exit with error
+# - wt rm branch-name
+# - wt ls
+
 function wt -d "Worktree management"
   argparse h/help u/untracked -- $argv
   or return

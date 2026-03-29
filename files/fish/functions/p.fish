@@ -1,14 +1,13 @@
 function p --description "My Project manager"
-  set -f command $argv[1]
+  argparse 'u/user=' -- $argv
+  or return
 
-  set -f SHARE $HOME/.local/share/p
+  set -f user (string length -q -- "$_flag_user" && echo "$_flag_user" || echo "rjschie")
 
-  if ! test $argv[1]
-    cd $CODE/github.com/rjschie
-  # else if test "$argv[1]" = "--list"
-  #   echo "project one" "project two"
+  if test (count $argv) -eq 0
+    cd $CODE/github.com/$user
   else
-    cd $CODE/github.com/rjschie/$argv[1]
+    cd $CODE/github.com/$user/$argv[1]
     tt $argv[1]
   end
 end
