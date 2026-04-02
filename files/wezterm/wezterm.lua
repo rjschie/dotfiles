@@ -80,8 +80,8 @@ config.keys = {
 	{ mods = "ALT|SHIFT", key = "h", action = act.ActivateTabRelative(-1) },
 
 	-- Movement
-	{ mods = "LEADER|ALT|SHIFT", key = "{", action = act.MoveTabRelative(-1) },
-	{ mods = "LEADER|ALT|SHIFT", key = "}", action = act.MoveTabRelative(1) },
+	{ mods = "LEADER|ALT", key = "[", action = act.MoveTabRelative(-1) },
+	{ mods = "LEADER|ALT", key = "]", action = act.MoveTabRelative(1) },
 
 	-- Scrolling
 	{ mods = "ALT|CTRL", key = "k", action = act.ScrollByLine(-5) },
