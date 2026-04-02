@@ -24,6 +24,7 @@
 - Always and aggressively offload online research (e.g. docs), codebase exploration, log analysis, etc. to subagents.
 - When you're about to check logs, defer that to a haiku subagent.
 - For a complex problem you're going in circle with, get a fresh perspective by asking subagents.
+- When spawning a subagent, include a "Why" in the subagent's system prompt to help it filter signal from the noise
 
 ## Github
 
