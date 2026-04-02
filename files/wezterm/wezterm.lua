@@ -51,7 +51,6 @@ config.keys = {
 	{ mods = "SUPER", key = "c", action = act.CopyTo("Clipboard") },
 	{ mods = "SUPER", key = "v", action = act.PasteFrom("Clipboard") },
 	{ mods = "LEADER|ALT", key = "w", action = act.CloseCurrentPane({ confirm = true }) },
-	{ mods = "LEADER|ALT|SHIFT", key = "w", action = act.CloseCurrentTab({ confirm = true }) },
 
 	{ mods = "LEADER|ALT", key = "/", action = act.QuickSelect },
 
@@ -79,10 +78,6 @@ config.keys = {
 	{ mods = "ALT|SHIFT", key = "l", action = act.ActivateTabRelative(1) },
 	{ mods = "ALT|SHIFT", key = "h", action = act.ActivateTabRelative(-1) },
 
-	-- Movement
-	{ mods = "LEADER|ALT", key = "[", action = act.MoveTabRelative(-1) },
-	{ mods = "LEADER|ALT", key = "]", action = act.MoveTabRelative(1) },
-
 	-- Scrolling
 	{ mods = "ALT|CTRL", key = "k", action = act.ScrollByLine(-5) },
 	{ mods = "ALT|CTRL", key = "j", action = act.ScrollByLine(5) },
@@ -90,6 +85,28 @@ config.keys = {
 	-- Misc
 	{ mods = "SHIFT", key = "Enter", action = act.SendString("\n") },
 	{ mods = "LEADER|ALT", key = "s", action = act.ToggleSynchronizePanes },
+
+	-- Key Tables
+	{
+		key = "Space",
+		mods = "ALT|SHIFT",
+		action = act.ActivateKeyTable({
+			name = "shift_leader",
+			one_shot = true,
+			timeout_milliseconds = 2000,
+		}),
+	},
+}
+
+config.key_tables = {
+	shift_leader = {
+		{ mods = "ALT|SHIFT", key = "w", action = act.CloseCurrentTab({ confirm = true }) },
+		{ mods = "ALT|SHIFT", key = "n", action = act.SpawnCommandInNewTab({ tab_position = "+1", cwd = "$HOME" }) },
+
+		-- Movement
+		{ mods = "ALT|SHIFT", key = "{", action = act.MoveTabRelative(-1) },
+		{ mods = "ALT|SHIFT", key = "}", action = act.MoveTabRelative(1) },
+	},
 }
 
 wezterm.on("window-config-reloaded", function(window, pane)
