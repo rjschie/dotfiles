@@ -6,6 +6,7 @@
   "permissions": {
     "allow": [
       "WebSearch",
+      "WebFetch(domain:api.github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Read(~/.claude/**)",
       "Bash(git:*)",
@@ -16,29 +17,18 @@
       "Bash(tree:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Bash(grep:*)",
-      "Bash(xargs:*)"
+      "Bash(grep:*)"
     ],
     "defaultMode": "default"
   },
   "hooks": {
-    "SessionStart": [
+    "PostToolUse": [
       {
-        "matcher": "startup",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/share/hooks/session-start.sh"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/share/hooks/session-end.sh"
+            "command": "~/.claude/share/hooks/lint-format.sh"
           }
         ]
       }
