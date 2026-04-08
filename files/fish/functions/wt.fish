@@ -1,5 +1,5 @@
 function wt -d "Worktree management"
-  argparse h/help k/keep g/global -- $argv
+  argparse h/help k/keep g/global f/force -- $argv
   or return
 
   set -l root (git worktree list --porcelain 2>/dev/null | string match "worktree *" | head -1 | string replace "worktree " "")
@@ -17,7 +17,7 @@ function wt -d "Worktree management"
     echo "  config [-g]        Edit post-create config (-g for global)"
     echo "  add <name>         Create worktree & branch"
     echo "  co <name>          Switch to worktree (no arg or '-' = root/prev)"
-    echo "  rm <name> [-k]     Remove worktree & branch (-k keeps branch)"
+    echo "  rm <name>... [-k] [-f]  Remove worktree(s) & branch(es) (-k keeps, -f force)"
     echo "  merge <name> [-k]  Squash-merge into main, removes worktree & branch (-k keeps branch)"
     echo "  migrate <path>     Reorganize worktrees into .worktrees/ structure"
     return 0
@@ -91,24 +91,33 @@ function wt -d "Worktree management"
       set -g __wt_previous $current
 
     case rm remove
-      set -l name $argv[2]
-      if test -z "$name"
+      set -l names $argv[2..]
+      if test (count $names) -eq 0
         echo "wt: worktree name required"
         return 1
       end
-      if test "$name" = root
-        echo "wt: cannot remove root worktree"
-        return 1
+
+      set -l force_flag
+      if set -ql _flag_f
+        set force_flag --force
       end
 
       cd $root
-      git worktree remove $root/.worktrees/$name
-      or return 1
-      tt (basename $root)
 
-      if not set -ql _flag_k
-        git branch -D $name
+      for name in $names
+        if test "$name" = root
+          echo "wt: cannot remove root worktree"
+          continue
+        end
+
+        git worktree remove $force_flag $root/.worktrees/$name
+        or continue
+
+        if not set -ql _flag_k
+          git branch -D $name
+        end
       end
+      tt (basename $root)
 
     case merge
       set -l name $argv[2]
