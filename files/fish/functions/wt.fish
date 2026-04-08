@@ -1,5 +1,5 @@
 function wt -d "Worktree management"
-  argparse h/help k/keep -- $argv
+  argparse h/help k/keep g/global -- $argv
   or return
 
   set -l root (git worktree list --porcelain 2>/dev/null | string match "worktree *" | head -1 | string replace "worktree " "")
@@ -14,7 +14,7 @@ function wt -d "Worktree management"
     echo "Usage: wt <cmd>"
     echo ""
     echo "  ls                 List worktrees"
-    echo "  config             Edit post-create config (files to copy, commands to run)"
+    echo "  config [-g]        Edit post-create config (-g for global)"
     echo "  add <name>         Create worktree & branch"
     echo "  co <name>          Switch to worktree (no arg or '-' = root/prev)"
     echo "  rm <name> [-k]     Remove worktree & branch (-k keeps branch)"
@@ -171,10 +171,18 @@ function wt -d "Worktree management"
       end
 
     case config
-      set -l config_path $root/.worktrees/.wtrc
-      if not test -f $config_path
-        mkdir -p $root/.worktrees
-        printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
+      set -l config_path
+      if set -ql _flag_g
+        set config_path (__wt_global_wtrc_resolve)
+        if not test -f $config_path
+          printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
+        end
+      else
+        set config_path $root/.worktrees/.wtrc
+        if not test -f $config_path
+          mkdir -p $root/.worktrees
+          printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
+        end
       end
       $EDITOR $config_path
 
@@ -193,11 +201,21 @@ function wt -d "Worktree management"
 end
 
 function __wt_post_create -a root wt_path
-  set -l config $root/.worktrees/.wtrc
-  if not test -f $config
-    return 0
+  # Apply global .wtrc first, then repo-local
+  set -l global_wtrc (__wt_global_wtrc_path)
+  if test -n "$global_wtrc"
+    __wt_apply_wtrc $root $wt_path $global_wtrc --quiet
   end
 
+  set -l local_wtrc $root/.worktrees/.wtrc
+  if test -f $local_wtrc
+    __wt_apply_wtrc $root $wt_path $local_wtrc
+  end
+end
+
+function __wt_apply_wtrc -a root wt_path config
+  set -l quiet false
+  contains -- --quiet $argv; and set quiet true
   set -l section ""
   for line in (cat $config)
     set line (string trim $line)
@@ -211,7 +229,7 @@ function __wt_post_create -a root wt_path
 
     switch $section
       case files
-        set -l matches (eval "printf '%s\n' $root/$line" 2>/dev/null)
+        set -l matches (eval "set -l r $root/$line 2>/dev/null; and printf '%s\\n' \$r")
         set -l found 0
         for src in $matches
           if test -e $src
@@ -222,13 +240,36 @@ function __wt_post_create -a root wt_path
             and set found 1
           end
         end
-        if test $found -eq 0
+        if test $found -eq 0; and test $quiet = false
           echo "wt: skip copy, no match: $line"
         end
       case commands
         fish -c "cd $wt_path && $line"
         or echo "wt: command failed: $line"
     end
+  end
+end
+
+function __wt_global_wtrc_path
+  # Returns path to existing global .wtrc, empty if none found
+  for p in $XDG_CONFIG_HOME/.wtrc $CONFIG/.wtrc ~/.config/.wtrc ~/.wtrc
+    if test -n "$p"; and test -f $p
+      echo $p
+      return
+    end
+  end
+end
+
+function __wt_global_wtrc_resolve
+  # Returns path where global .wtrc should live (for creation)
+  if set -q XDG_CONFIG_HOME; and test -n "$XDG_CONFIG_HOME"
+    echo $XDG_CONFIG_HOME/.wtrc
+  else if set -q CONFIG; and test -n "$CONFIG"
+    echo $CONFIG/.wtrc
+  else if test -d ~/.config
+    echo ~/.config/.wtrc
+  else
+    echo ~/.wtrc
   end
 end
 

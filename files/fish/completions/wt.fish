@@ -5,7 +5,9 @@ complete --command wt --exclusive --condition __fish_use_subcommand --arguments 
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments ls --description "List worktrees"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments config --description "Edit post-create config"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments migrate --description "Migrate to .worktrees/ structure"
-complete --command wt --exclusive --condition "__fish_seen_subcommand_from ls config"
+complete --command wt --exclusive --condition "__fish_seen_subcommand_from ls"
+complete --command wt --no-files --condition "__fish_seen_subcommand_from config"
+complete --command wt --exclusive --condition "__fish_seen_subcommand_from config" --short-option g --long-option global --description "Edit global .wtrc"
 complete --command wt --force --condition "__fish_seen_subcommand_from migrate" --arguments "(__fish_complete_directories)"
 
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from co" \
