@@ -13,7 +13,7 @@ function conf -d "Edit common config files"
     case g git
       $EDITOR $CONFIG/git/config --cmd "cd $CONFIG/git"
     case claude
-      $EDITOR $HOME/.claude/CLAUDE.md --cmd "cd $HOME/.claude"
+      $EDITOR $HOME/.claude/settings.json --cmd "cd $HOME/.claude"
     case '*' f fish
       $EDITOR $CONFIG/fish/ --cmd "cd $CONFIG/fish"
   end
