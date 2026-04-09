@@ -1,0 +1,56 @@
+#!/bin/bash
+
+DOTFILES=$(cd "$(dirname "$0")" && pwd)
+CONFIG=${CONFIG:-$HOME/.config}
+DRY_RUN=false
+
+while getopts "n" opt; do
+  case $opt in
+    n) DRY_RUN=true ;;
+  esac
+done
+
+link() {
+  local src="$1"
+  local dest="$2"
+
+  if [ -e "$dest" ] || [ -L "$dest" ]; then
+    echo "skip: $dest (already exists)"
+    return
+  fi
+
+  if $DRY_RUN; then
+    echo "[dry-run] mkdir -p $(dirname "$dest")"
+    echo "[dry-run] ln -s $src $dest"
+  else
+    mkdir -p "$(dirname "$dest")"
+    ln -s "$src" "$dest"
+    echo "link: $src -> $dest"
+  fi
+}
+
+resolve() {
+  echo "$1" | sed "s|\$CONFIG|$CONFIG|g; s|\$HOME|$HOME|g"
+}
+
+# build flat list of src->dest pairs, expanding globs
+pairs=()
+entries=$(jq -r 'to_entries[] | "\(.key)\t\(.value)"' "$DOTFILES/files/symlinks.json")
+while IFS=$'\t' read -r key value; do
+  if [[ "$key" == *'/*' ]]; then
+    src_dir="$DOTFILES/${key%'/*'}"
+    dest_dir="$(resolve "${value%'/*'}")"
+    for child in "$src_dir"/*; do
+      [ -e "$child" ] || continue
+      pairs+=("$child"$'\t'"$dest_dir/$(basename "$child")")
+    done
+  else
+    pairs+=("$DOTFILES/$key"$'\t'"$(resolve "$value")")
+  fi
+done <<< "$entries"
+
+# link all pairs
+for pair in "${pairs[@]}"; do
+  IFS=$'\t' read -r src dest <<< "$pair"
+  link "$src" "$dest"
+done

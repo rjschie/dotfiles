@@ -1,0 +1,14 @@
+{
+  "files/fish": "$CONFIG/fish",
+  "files/gh": "$CONFIG/gh",
+  "files/ghostty": "$CONFIG/ghostty",
+  "files/git": "$CONFIG/git",
+  "files/hammerspoon": "$HOME/.hammerspoon",
+  "files/kitty": "$CONFIG/kitty",
+  "files/nvim": "$CONFIG/nvim",
+  "files/starship": "$CONFIG/starship",
+  "files/wezterm": "$CONFIG/wezterm",
+  "files/claude/*": "$HOME/.claude/*",
+  "files/ssh/config": "$HOME/.ssh/config",
+  "files/wtrc/.wtrc": "$CONFIG/.wtrc"
+}

@@ -14,40 +14,40 @@ setup_homebrew() {
 	brew bundle --file=$DOTFILES/Brewfile
 }
 
-setup_symlinks() {
-	# Directory symlinks
-	if ! test -d $HOME/.hammerspoon; ln -s $DOTFILES/files/hammerspoon $HOME/.hammerspoon; end
-	if ! test -d $HOME/.ssh; ln -s $DOTFILES/files/ssh $HOME/.ssh; end
-	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
-	if ! test -d $CONFIG/tmux; ln -s $DOTFILES/files/tmux $CONFIG/tmux; end
-	if ! test -d $CONFIG/nvim; ln -s $DOTFILES/files/nvim $CONFIG/nvim; end
-	if ! test -d $CONFIG/git; ln -s $DOTFILES/files/git $CONFIG/git; end
-	if ! test -d $CONFIG/gh; ln -s $DOTFILES/files/gh $CONFIG/gh; end
-	if ! test -d $CONFIG/kitty; ln -s $DOTFILES/files/kitty $CONFIG/kitty; end
-	#if ! test -d $CONFIG/starship; ln -s $DOTFILES/files/starship $CONFIG/starship; end
-}
+# setup_symlinks() {
+# 	# Directory symlinks
+# 	if ! test -d $HOME/.hammerspoon; ln -s $DOTFILES/files/hammerspoon $HOME/.hammerspoon; end
+# 	if ! test -d $HOME/.ssh; ln -s $DOTFILES/files/ssh $HOME/.ssh; end
+# 	if ! test -d $CONFIG/fish; ln -s $DOTFILES/files/fish $CONFIG/fish; end
+# 	if ! test -d $CONFIG/tmux; ln -s $DOTFILES/files/tmux $CONFIG/tmux; end
+# 	if ! test -d $CONFIG/nvim; ln -s $DOTFILES/files/nvim $CONFIG/nvim; end
+# 	if ! test -d $CONFIG/git; ln -s $DOTFILES/files/git $CONFIG/git; end
+# 	if ! test -d $CONFIG/gh; ln -s $DOTFILES/files/gh $CONFIG/gh; end
+# 	if ! test -d $CONFIG/kitty; ln -s $DOTFILES/files/kitty $CONFIG/kitty; end
+# 	#if ! test -d $CONFIG/starship; ln -s $DOTFILES/files/starship $CONFIG/starship; end
+# }
 
-setup_override_files() {
-	touch $CONFIG/.ssh/config_override
-	touch $CONFIG/git/config_override
-}
+# setup_override_files() {
+# 	touch $CONFIG/.ssh/config_override
+# 	touch $CONFIG/git/config_override
+# }
 
 setup_mac_defaults() {
   source ./scripts/mac-defaults.sh
   touch ~/.hushlogin
 }
 
-setup_fisher() {
-	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-	fisher install jorgebucaran/nvm.fish
-}
+# setup_fisher() {
+# 	curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+# 	fisher install jorgebucaran/nvm.fish
+# }
 
-setup_claude() {
-  mkdir -p $HOME/.claude
-  ln -s $DOTFILES/files/claude/settings.json $HOME/.claude/
-  ln -s $DOTFILES/files/claude/CLAUDE.md $HOME/.claude/
-  ln -s $DOTFILES/files/claude/share $HOME/.claude/share
-}
+# setup_claude() {
+#   mkdir -p $HOME/.claude
+#   ln -s $DOTFILES/files/claude/settings.json $HOME/.claude/
+#   ln -s $DOTFILES/files/claude/CLAUDE.md $HOME/.claude/
+#   ln -s $DOTFILES/files/claude/share $HOME/.claude/share
+# }
 
 main() {
   echo "CONFIG: $CONFIG"
@@ -59,22 +59,22 @@ main() {
   echo "XCode setup"
 
   echo "Setting up Homebrew..."
-  setup_brew
+  setup_homebrew
   echo "Homebrew setup"
 
-  echo "Setting up Symlinks..."
-  setup_symlinks
-  echo "Symlinks setup"
+  # echo "Setting up Symlinks..."
+  # setup_symlinks
+  # echo "Symlinks setup"
 
-  setup_override_files
+  # setup_override_files
 
   echo "Setting up Mac Defaults..."
   setup_mac_defaults
   echo "Mac Defaults setup"
 
-  echo "Setting up Fisher"
-  setup_fisher
-  echo "Fisher setup"
+  # echo "Setting up Fisher"
+  # setup_fisher
+  # echo "Fisher setup"
 }
 
 main
