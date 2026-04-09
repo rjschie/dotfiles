@@ -10,6 +10,7 @@ add_newline = false
 # 󰬃 󰫿 󰫻
 #     󱡋
 
+#$git_status\
 format = """
 $jobs\
 [](fg:grad_1)\
@@ -18,7 +19,6 @@ $directory\
 $git_branch\
 $git_commit\
 $git_state\
-$git_status\
 [ ](fg:grad_2 bg:grad_4)\
 $bun\
 $nodejs\
