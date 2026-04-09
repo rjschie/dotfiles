@@ -43,6 +43,39 @@ config.inactive_pane_hsb = {
 	brightness = 1.3,
 }
 
+function reset_panes(active_pane)
+	local tab = active_pane:tab()
+	local active_pane_id = active_pane:pane_id()
+
+	for i, info in ipairs(tab:panes_with_info()) do
+		if info.pane:pane_id() ~= active_pane_id then
+			tab:kill_pane(info.pane)
+		end
+	end
+end
+
+function perform_layout(id, pane)
+	reset_panes(pane)
+
+	if id == 1 then
+		pane:split({ direction = "Right" })
+		pane:split({ direction = "Bottom" })
+	elseif id == 2 then
+		pane:split({ direction = "Right" })
+		pane:split({ direction = "Bottom" }):split({ direction = "Bottom" })
+	end
+
+	pane:activate()
+end
+
+function SetLayout(layout_id)
+	local layout = layout_id or 1
+	return wezterm.action_callback(function(window)
+		local pane = window:active_pane()
+		perform_layout(layout, pane)
+	end)
+end
+
 -- KEY BINDS
 config.disable_default_key_bindings = true
 config.leader = { key = "Space", mods = "ALT", timeout_milliseconds = 2000 }
@@ -74,9 +107,43 @@ config.keys = {
 	{ mods = "CTRL|SUPER", key = "j", action = act.AdjustPaneSize({ "Down", 2 }) },
 
 	-- Tabs
-	{ mods = "LEADER|ALT", key = "n", action = act.SpawnCommandInNewTab({ cwd = "$HOME" }) },
+	{
+		mods = "LEADER|ALT",
+		key = "n",
+		action = act.SpawnCommandInNewTab({ cwd = "$HOME" }),
+	},
+
+	-- Copy Tab & Set Layout to 1
+	{
+		mods = "LEADER|ALT",
+		key = "c",
+		action = wezterm.action_callback(function(window, pane)
+			local layout_id = 1
+			local tab = pane:tab()
+			local title = tab:get_title()
+
+			local cwd = pane:get_current_working_dir()
+			local cwd_str = cwd and cwd.file_path or nil
+
+			window:perform_action(
+				act.Multiple({
+					act.SpawnCommandInNewTab({ tab_position = "+1", cwd = cwd_str }),
+					SetLayout(layout_id),
+				}),
+				pane
+			)
+
+			local new_tab = window:mux_window():active_tab()
+			new_tab:set_title(title)
+		end),
+	},
+
 	{ mods = "ALT|SHIFT", key = "l", action = act.ActivateTabRelative(1) },
 	{ mods = "ALT|SHIFT", key = "h", action = act.ActivateTabRelative(-1) },
+
+	-- Windows
+	{ mods = "LEADER|ALT|CTRL", key = "`", action = act.ActivateWindowRelative(1) },
+	{ mods = "ALT", key = "`", action = act.ActivateWindowRelative(1) },
 
 	-- Scrolling
 	{ mods = "ALT|CTRL", key = "k", action = act.ScrollByLine(-5) },
@@ -96,16 +163,75 @@ config.keys = {
 			timeout_milliseconds = 2000,
 		}),
 	},
+	{
+		key = "Space",
+		mods = "ALT|CTRL",
+		action = act.ActivateKeyTable({
+			name = "ctrl_leader",
+			one_shot = true,
+			timeout_milliseconds = 2000,
+		}),
+	},
 }
 
 config.key_tables = {
+	ctrl_leader = {
+		{
+			-- New Window w/ no layout
+			mods = "ALT|CTRL",
+			key = "n",
+			action = wezterm.action_callback(function(window, pane)
+				local new_tab, new_pane = wezterm.mux.spawn_window({ cwd = "$HOME" })
+			end),
+		},
+		{
+			-- Copy Pane to new Window w/ Layout 1
+			mods = "ALT|CTRL",
+			key = "c",
+			action = wezterm.action_callback(function(window, pane)
+				local curr_tab = pane:tab()
+				local title = curr_tab:get_title()
+
+				local cwd = pane:get_current_working_dir()
+				local cwd_str = cwd and cwd.file_path or nil
+
+				local new_tab, new_pane = wezterm.mux.spawn_window({ cwd = cwd_str })
+				new_tab:set_title(title)
+				perform_layout(1, new_pane)
+			end),
+		},
+	},
 	shift_leader = {
+		{ mods = "ALT|SHIFT", key = "~", action = act.ShowDebugOverlay },
+
 		{ mods = "ALT|SHIFT", key = "w", action = act.CloseCurrentTab({ confirm = true }) },
 		{ mods = "ALT|SHIFT", key = "n", action = act.SpawnCommandInNewTab({ tab_position = "+1", cwd = "$HOME" }) },
 
 		-- Movement
 		{ mods = "ALT|SHIFT", key = "{", action = act.MoveTabRelative(-1) },
 		{ mods = "ALT|SHIFT", key = "}", action = act.MoveTabRelative(1) },
+
+		-- Layouts
+		{
+			-- 0 layout
+			mods = "ALT|SHIFT",
+			key = ")", -- 0
+			action = wezterm.action_callback(function(window, pane)
+				reset_panes(pane)
+			end),
+		},
+		{
+			-- 1 layout
+			mods = "ALT|SHIFT",
+			key = "!", -- 1
+			action = SetLayout(1),
+		},
+		{
+			-- 2 layout
+			mods = "ALT|SHIFT",
+			key = "@", -- 2
+			action = SetLayout(2),
+		},
 	},
 }
 
