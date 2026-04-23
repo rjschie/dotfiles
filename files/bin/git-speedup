@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Apply git performance settings to the current repo.
+# Usage:
+#   git-speedup                 # untrackedCache + manyFiles + fsmonitor + maintenance
+#   git-speedup --no-fsmonitor  # skip fsmonitor (good for small/short-lived repos)
+#
+# Safe to re-run; all operations are idempotent.
+
+set -euo pipefail
+
+WANT_FSMONITOR=1
+for arg in "$@"; do
+  case "$arg" in
+    --no-fsmonitor) WANT_FSMONITOR=0 ;;
+    -h|--help)
+      sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    *) echo "unknown arg: $arg" >&2; exit 2 ;;
+  esac
+done
+
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+  echo "error: not inside a git repository" >&2
+  exit 1
+fi
+
+GIT_COMMON=$(git rev-parse --git-common-dir)
+
+git config core.untrackedCache true
+git config feature.manyFiles true
+git config core.multiPackIndex true
+git config index.version 4
+echo "✓ core.untrackedCache, feature.manyFiles, core.multiPackIndex, index.version=4"
+
+# commit-graph: generation v2 + changed-paths make `git log -- <path>` fast
+git config fetch.writeCommitGraph true
+git config gc.writeCommitGraph true
+git config commitGraph.generationVersion 2
+git config commitGraph.changedPathsVersion 2
+echo "✓ commit-graph (generation v2, changed-paths v2, write on fetch/gc)"
+
+# reachability bitmaps: big speedup for history walks, log --graph, blame
+git config pack.writeBitmaps true
+git config pack.writeBitmapHashCache true
+git config repack.writeBitmaps true
+git config repack.useDeltaIslands true
+echo "✓ pack bitmaps + delta islands"
+
+# no surprise gc mid-command; maintenance handles it
+git config gc.auto 0
+echo "✓ gc.auto=0 (maintenance owns repacking)"
+
+if [[ "$WANT_FSMONITOR" == "1" ]]; then
+  SAMPLE=$(find "$(dirname "$(git --exec-path)")/../share/git-core/templates/hooks" \
+    -name "fsmonitor-watchman.sample" 2>/dev/null | head -1)
+  if [[ -z "$SAMPLE" ]]; then
+    echo "⚠ could not locate fsmonitor-watchman.sample — skipping fsmonitor" >&2
+  else
+    HOOK="$GIT_COMMON/hooks/fsmonitor-watchman.pl"
+    mkdir -p "$(dirname "$HOOK")"
+    cp "$SAMPLE" "$HOOK"
+    chmod +x "$HOOK"
+    git config core.fsmonitor "$HOOK"
+    echo "✓ core.fsmonitor → $HOOK"
+  fi
+else
+  echo "• fsmonitor skipped (--no-fsmonitor)"
+fi
+
+git maintenance start
+git config maintenance.prefetch.enabled false
+echo "✓ git maintenance start (prefetch disabled — kills hourly fetch jitter)"
+
+echo
+echo "• one-time repack + commit-graph flatten (may take 30s–2min on large repos)…"
+git -c pack.writeBitmaps=true -c repack.writeBitmaps=true repack -adf --write-midx
+git commit-graph write --reachable --split=replace --changed-paths
+echo "✓ packs consolidated, commit-graph flattened with changed-paths"
+
+echo
+echo "done."
