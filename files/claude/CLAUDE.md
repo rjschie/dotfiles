@@ -37,7 +37,7 @@
 - TS/JS: Prefer `/** */` comment structure for multiline comments and
   docblock-like comments
 - TS: Avoid non-null assertions (`!`). Prefer runtime checks, destructuring,
-  or `.at()` with guards instead.
+  or accessors with guards instead.
 - Testing-Library: Prefer using `screen.getByRole` for selectors
 - Testing-Library: Prefer adding test ids over `document.querySelector` to customize selectors
 - React-Query: prefer building query key/query fn generators and using useQuery and useMutation directly with those
