@@ -12,7 +12,7 @@ complete --command wt --force --condition "__fish_seen_subcommand_from migrate" 
 complete --command wt --condition "__fish_seen_subcommand_from migrate" --short-option n --long-option dry-run --description "Show plan without executing"
 
 complete --command wt --no-files --condition "__fish_seen_subcommand_from co add merge"
-complete --command wt --exclusive --condition "__fish_seen_subcommand_from co; and test (count (commandline -opc)) -le 2" --arguments "root (__wt_complete_names)"
+complete --command wt --exclusive --condition "__fish_seen_subcommand_from co; and test (count (commandline -opc)) -le 2" --arguments "(__wt_complete_co)"
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from merge; and test (count (commandline -opc)) -le 2" --arguments "(__wt_complete_names)"
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from rm" --arguments "(__wt_complete_remaining)"
 
