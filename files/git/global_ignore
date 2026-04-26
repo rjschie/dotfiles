@@ -2,7 +2,6 @@
 node_modules
 config_override*
 !config_override.example
-.worktrees/
 
 # AI
 .claude/*.local.json

@@ -1,5 +1,5 @@
 function wt -d "Worktree management"
-  argparse h/help k/keep g/global f/force -- $argv
+  argparse h/help k/keep g/global f/force n/dry-run -- $argv
   or return
 
   set -l root (git worktree list --porcelain 2>/dev/null | string match "worktree *" | head -1 | string replace "worktree " "")
@@ -8,18 +8,20 @@ function wt -d "Worktree management"
     return 1
   end
 
+  set -l wt_dir (__wt_dir $root)
+
   set -l cmd $argv[1]
 
   if set -ql _flag_help; or test -z "$cmd"
     echo "Usage: wt <cmd>"
     echo ""
-    echo "  ls                 List worktrees"
-    echo "  config [-g]        Edit post-create config (-g for global)"
-    echo "  add <name>         Create worktree & branch"
-    echo "  co <name>          Switch to worktree (no arg or '-' = root/prev)"
-    echo "  rm <name>... [-k] [-f]  Remove worktree(s) & branch(es) (-k keeps, -f force)"
-    echo "  merge <name> [-k]  Squash-merge into main, removes worktree & branch (-k keeps branch)"
-    echo "  migrate <path>     Reorganize worktrees into .worktrees/ structure"
+    echo "  ls                         List worktrees"
+    echo "  config [-g]                Edit post-create config (-g for global)"
+    echo "  add <name>                 Create worktree & branch"
+    echo "  co <name>                  Switch to worktree (no arg or '-' = root/prev)"
+    echo "  rm <name>... [-k] [-f]     Remove worktree(s) & branch(es) (-k keeps, -f force)"
+    echo "  merge <name> [-k]          Squash-merge into main, removes worktree & branch (-k keeps branch)"
+    echo "  migrate [<target>] [-n]    Move worktrees to ~/.local/share/wt/ (-n dry-run)"
     return 0
   end
 
@@ -35,23 +37,23 @@ function wt -d "Worktree management"
       set -l current
       if test "$PWD" = "$root"
         set current root
-      else if string match -q "$root/.worktrees/*" "$PWD"
+      else if string match -q "$wt_dir/*" "$PWD"
         set current (basename $PWD)
       end
 
-      mkdir -p $root/.worktrees
+      mkdir -p $wt_dir
 
       if git show-ref --verify --quiet refs/heads/$branch; or git show-ref --verify --quiet refs/remotes/origin/$branch
-        git worktree add $root/.worktrees/$branch $branch
+        git worktree add $wt_dir/$branch $branch
       else
-        git worktree add -b $branch $root/.worktrees/$branch
+        git worktree add -b $branch $wt_dir/$branch
       end
       or return 1
 
-      cd $root/.worktrees/$branch
+      cd $wt_dir/$branch
       __wt_set_title $root $branch
       set -g __wt_previous $current
-      __wt_post_create $root $root/.worktrees/$branch
+      __wt_post_create $root $wt_dir/$branch
 
     case co
       set -l name $argv[2]
@@ -69,7 +71,7 @@ function wt -d "Worktree management"
       set -l current
       if test "$PWD" = "$root"
         set current root
-      else if string match -q "$root/.worktrees/*" "$PWD"
+      else if string match -q "$wt_dir/*" "$PWD"
         set current (basename $PWD)
       end
 
@@ -80,7 +82,7 @@ function wt -d "Worktree management"
         return 0
       end
 
-      set -l dir $root/.worktrees/$name
+      set -l dir $wt_dir/$name
       if not test -d $dir
         echo "wt: worktree '$name' not found (try: wt ls)"
         return 1
@@ -110,7 +112,7 @@ function wt -d "Worktree management"
           continue
         end
 
-        git worktree remove $force_flag $root/.worktrees/$name
+        git worktree remove $force_flag $wt_dir/$name
         or continue
 
         if not set -ql _flag_k
@@ -130,7 +132,7 @@ function wt -d "Worktree management"
         return 1
       end
 
-      if not test -d $root/.worktrees/$name
+      if not test -d $wt_dir/$name
         echo "wt: worktree '$name' not found"
         return 1
       end
@@ -166,16 +168,64 @@ function wt -d "Worktree management"
 
       # Auto-remove worktree & branch unless --keep
       if not set -ql _flag_k
-        git worktree remove $root/.worktrees/$name
+        git worktree remove $wt_dir/$name
         git branch -D $name
       end
       echo "wt: merged and removed '$name'"
 
     case ls
       echo root
-      if test -d $root/.worktrees
-        for d in $root/.worktrees/*/
+      if test -d $wt_dir
+        for d in $wt_dir/*/
           basename $d
+        end
+      end
+
+      # Find worktrees not at $wt_dir (un-migrated)
+      # Resolve to canonical paths since git porcelain uses resolved paths
+      set -l porcelain (git worktree list --porcelain 2>/dev/null)
+      set -l unmigrated
+      set -l cur_path
+      set -l cur_branch
+      set -l cur_bare false
+      set -l root_resolved (path resolve $root)
+      set -l wt_dir_resolved (path resolve $wt_dir)
+      set -l pwd_resolved (path resolve $PWD)
+      for line in $porcelain
+        if string match -q "worktree *" $line
+          set cur_path (string replace "worktree " "" $line)
+          set cur_branch ""
+          set cur_bare false
+        else if test "$line" = bare
+          set cur_bare true
+        else if string match -q "branch *" $line
+          set cur_branch (string replace "branch refs/heads/" "" $line)
+        else if test "$line" = detached
+          set cur_branch "(detached)"
+        else if test -z "$line"; and test -n "$cur_path"
+          # End of block — evaluate
+          if test "$cur_bare" = false; and test "$cur_path" != "$root_resolved"
+            if test "$cur_path" != "$wt_dir_resolved/"(basename $cur_path)
+              set -l display $cur_path
+              if string match -q "$pwd_resolved/*" $cur_path
+                set display (string replace "$pwd_resolved/" "" $cur_path)
+              end
+              if test -n "$cur_branch"; and test (basename $cur_path) != "$cur_branch"
+                set -a unmigrated "$display ($cur_branch)"
+              else
+                set -a unmigrated $display
+              end
+            end
+          end
+          set cur_path
+        end
+      end
+
+      if test (count $unmigrated) -gt 0
+        echo ""
+        echo "not migrated:"
+        for l in $unmigrated
+          echo $l
         end
       end
 
@@ -183,25 +233,18 @@ function wt -d "Worktree management"
       set -l config_path
       if set -ql _flag_g
         set config_path (__wt_global_wtrc_resolve)
-        if not test -f $config_path
-          printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
-        end
       else
-        set config_path $root/.worktrees/.wtrc
-        if not test -f $config_path
-          mkdir -p $root/.worktrees
-          printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
-        end
+        set config_path $root/.wtrc
+      end
+      if not test -f $config_path
+        printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
       end
       $EDITOR $config_path
 
     case migrate
-      set -l migrate_target $argv[2]
-      if test -z "$migrate_target"
-        echo "wt: target path required (e.g., wt migrate .)"
-        return 1
-      end
-      __wt_migrate $migrate_target
+      set -l dry_run 0
+      set -ql _flag_n; and set dry_run 1
+      __wt_migrate $dry_run $argv[2]
 
     case '*'
       echo "wt: unknown command '$cmd' (try: wt --help)"
@@ -216,7 +259,7 @@ function __wt_post_create -a root wt_path
     __wt_apply_wtrc $root $wt_path $global_wtrc --quiet
   end
 
-  set -l local_wtrc $root/.worktrees/.wtrc
+  set -l local_wtrc $root/.wtrc
   if test -f $local_wtrc
     __wt_apply_wtrc $root $wt_path $local_wtrc
   end
@@ -288,29 +331,11 @@ function __wt_set_title -a root name
   tt "$prefix-$name"
 end
 
-function __wt_migrate -a target_arg
-  if test -z "$target_arg"
-    echo "wt: target path required"
-    return 1
-  end
-
-  set -l target (realpath $target_arg 2>/dev/null)
-  if test -z "$target"; or not test -d "$target"
-    echo "wt: target '$target_arg' is not a valid directory"
-    return 1
-  end
-
-  if test -d $target/.worktrees
-    echo "wt: $target/.worktrees already exists, already migrated?"
-    return 1
-  end
-
-  # Parse porcelain output into blocks per worktree
+function __wt_migrate -a dry_run target_arg
+  # Parse porcelain: collect worktree paths, detect bare from first block
   set -l porcelain (git worktree list --porcelain 2>/dev/null)
   set -l wt_paths
   set -l is_bare false
-
-  # Detect bare from first block & collect all worktree paths
   set -l in_first true
   for line in $porcelain
     if string match -q "worktree *" $line
@@ -318,98 +343,151 @@ function __wt_migrate -a target_arg
     else if test "$in_first" = true; and test "$line" = bare
       set is_bare true
     end
-    # After first blank line, no longer in first block
     if test -z "$line"; and test "$in_first" = true
       set in_first false
     end
   end
 
-  # pwd -P resolves symlinks (e.g. /tmp → /private/tmp on macOS)
-  # so it matches the absolute paths from git worktree list
+  if test (count $wt_paths) -eq 0
+    echo "wt: no worktrees found"
+    return 1
+  end
+
+  # Determine current main worktree.
+  # Non-bare: wt_paths[1] is the main worktree.
+  # Bare: wt_paths[1] is the bare git dir; main = the linked wt we're inside, else wt_paths[2].
+  set -l current_main_wt
   set -l resolved_pwd (pwd -P)
-  set -l current_wt ""
-  for p in $wt_paths
-    if string match -q "$p*" "$resolved_pwd"
-      set current_wt $p
-      break
-    end
-  end
-
-  if test -z "$current_wt"
-    echo "wt: could not determine current worktree"
-    return 1
-  end
-
-  # Non-bare: git worktree move can't move the main worktree,
-  # so we must be in it for it to become the new root
-  if test "$is_bare" = false; and test "$current_wt" != "$wt_paths[1]"
-    echo "wt: must run migrate from the main worktree"
-    return 1
-  end
-
-  # Bare: bare repo's HEAD symbolic ref is the best indicator of default branch
   if test "$is_bare" = true
-    set -l bare_path (realpath (git rev-parse --git-common-dir))
-    set -l default_branch (git -C $bare_path symbolic-ref HEAD | string replace "refs/heads/" "")
-    set -l current_branch (git symbolic-ref --short HEAD)
-    if test "$current_branch" != "$default_branch"
-      echo "wt: must run migrate from the default branch ($default_branch)"
+    if test (count $wt_paths) -lt 2
+      echo "wt: bare repo has no checked-out worktrees"
+      return 1
+    end
+    for p in $wt_paths[2..]
+      if string match -q "$p*" "$resolved_pwd"
+        set current_main_wt $p
+        break
+      end
+    end
+    test -z "$current_main_wt"; and set current_main_wt $wt_paths[2]
+  else
+    set current_main_wt $wt_paths[1]
+    if not string match -q "$current_main_wt*" "$resolved_pwd"
+      echo "wt: must run migrate from the main worktree"
       return 1
     end
   end
 
-  # Build list of worktrees to move
+  # Resolve target_root (post-migration main worktree dir)
+  set -l target_root
+  if test -n "$target_arg"
+    set target_root (path resolve $target_arg)
+    if test -z "$target_root"
+      echo "wt: invalid target '$target_arg'"
+      return 1
+    end
+  else
+    set target_root $current_main_wt
+  end
+
+  if not test -d $target_root; and not test -d (dirname $target_root)
+    echo "wt: target '$target_root' (or its parent) is not a directory"
+    return 1
+  end
+
+  set -l new_wt_dir (__wt_dir $target_root)
+
+  # Linked worktrees that need moving (not already at $new_wt_dir/<basename>)
   set -l to_move
   for p in $wt_paths
-    if test "$p" != "$current_wt"
-      # Skip bare repo path (it's listed but not a real worktree dir)
-      if test "$is_bare" = true; and test "$p" = "$wt_paths[1]"
-        continue
-      end
-      set -a to_move $p
+    if test "$is_bare" = true; and test "$p" = "$wt_paths[1]"
+      continue
     end
+    if test "$p" = "$current_main_wt"
+      continue
+    end
+    if test "$p" = "$new_wt_dir/"(basename $p)
+      continue
+    end
+    set -a to_move $p
   end
 
-  # Build command list for confirmation
+  # Pre-fetch bare info (needed for both preview and exec)
+  set -l bare_path
+  set -l current_name
+  set -l current_branch
+  if test "$is_bare" = true
+    set bare_path (realpath (git rev-parse --git-common-dir))
+    set current_name (basename $current_main_wt)
+    set current_branch (cat $bare_path/worktrees/$current_name/HEAD | string replace "ref: " "")
+  end
+
+  # Build command preview
   set -l cmds
-  set -a cmds "mkdir -p $target/.worktrees"
-
-  for p in $to_move
-    set -l name (basename $p)
-    set -a cmds "git worktree move $p $target/.worktrees/$name"
-  end
 
   if test "$is_bare" = true
-    set -l bare_path (realpath (git rev-parse --git-common-dir))
-    set -l current_name (basename $current_wt)
-    set -l current_branch (cat $bare_path/worktrees/$current_name/HEAD | string replace "ref: " "")
     set -a cmds "rm -rf $bare_path/worktrees/$current_name"
-    set -a cmds "rm $current_wt/.git"
-    set -a cmds "mv $bare_path $target/.git"
-    set -a cmds "git -C $target config core.bare false"
-    set -a cmds "git -C $target symbolic-ref HEAD $current_branch"
-    set -a cmds "git -C $target reset"
+    set -a cmds "rm $current_main_wt/.git"
+    if test "$target_root" != "$current_main_wt"; and not test -d $target_root
+      set -a cmds "mkdir -p $target_root"
+    end
+    if test "$bare_path" != "$target_root/.git"
+      set -a cmds "mv $bare_path $target_root/.git"
+    end
+    set -a cmds "git -C $target_root config core.bare false"
+    set -a cmds "git -C $target_root symbolic-ref HEAD $current_branch"
+    set -a cmds "git -C $target_root reset"
+  end
+
+  if test "$target_root" != "$current_main_wt"
+    if test "$is_bare" = false; and not test -d $target_root
+      set -a cmds "mkdir -p $target_root"
+    end
+    set -a cmds "(move contents of $current_main_wt/ into $target_root/)"
+    set -a cmds "rmdir $current_main_wt"
+  end
+
+  if test (count $to_move) -gt 0
+    set -a cmds "mkdir -p $new_wt_dir"
+    for p in $to_move
+      set -a cmds "git worktree move $p $new_wt_dir/"(basename $p)
+    end
+  end
+
+  # Repair after structural changes
+  if test (count $to_move) -gt 0; or test "$target_root" != "$current_main_wt"; or test "$is_bare" = true
     set -l repair_paths
     for p in $to_move
-      set -a repair_paths "$target/.worktrees/"(basename $p)
+      set -a repair_paths "$new_wt_dir/"(basename $p)
     end
-    set -a cmds "git -C $target worktree repair $repair_paths"
+    if test (count $repair_paths) -gt 0
+      set -a cmds "git -C $target_root worktree repair $repair_paths"
+    else
+      set -a cmds "git -C $target_root worktree repair"
+    end
   end
 
-  # If target != current worktree, move contents up
-  if test "$target" != "$current_wt"
-    set -a cmds "mv $current_wt/* $current_wt/.* $target/"
-    set -a cmds "rmdir $current_wt"
-    set -a cmds "git -C $target worktree repair"
+  # Cleanup empty old .worktrees
+  set -a cmds "rmdir $target_root/.worktrees 2>/dev/null"
+
+  if test (count $cmds) -eq 0
+    echo "wt: nothing to migrate, already organized"
+    return 0
   end
 
-  # Show confirmation
-  echo "wt migrate: will run the following commands:"
-  echo ""
-  for cmd in $cmds
-    echo "  $cmd"
+  if test "$dry_run" = 1
+    echo "wt migrate (dry-run): would run:"
+  else
+    echo "wt migrate: will run the following commands:"
   end
   echo ""
+  for c in $cmds
+    echo "  $c"
+  end
+  echo ""
+  if test "$dry_run" = 1
+    return 0
+  end
   read -P "Proceed? [y/N] " confirm
   if not string match -qi y $confirm
     echo "wt: cancelled"
@@ -418,89 +496,63 @@ function __wt_migrate -a target_arg
 
   # Execute
   if test "$is_bare" = true
-    __wt_migrate_bare $target $current_wt $to_move
-  else
-    __wt_migrate_nonbare $target $current_wt $to_move
+    rm -rf $bare_path/worktrees/$current_name
+    rm -f $current_main_wt/.git
+    if test "$target_root" != "$current_main_wt"; and not test -d $target_root
+      mkdir -p $target_root
+    end
+    if test "$bare_path" != "$target_root/.git"
+      mv $bare_path $target_root/.git
+      or begin
+        echo "wt: failed to move bare git dir"
+        return 1
+      end
+    end
+    git -C $target_root config core.bare false
+    git -C $target_root symbolic-ref HEAD $current_branch
+    git -C $target_root reset
   end
-end
 
-function __wt_migrate_nonbare -a target current_wt
-  set -l to_move $argv[3..]
+  if test "$target_root" != "$current_main_wt"
+    if test "$is_bare" = false; and not test -d $target_root
+      mkdir -p $target_root
+    end
+    # find avoids fish's unmatched-glob errors and BSD/GNU mv differences
+    for entry in (find $current_main_wt -mindepth 1 -maxdepth 1 2>/dev/null)
+      mv $entry $target_root/
+      or begin
+        echo "wt: failed to move $entry"
+        return 1
+      end
+    end
+    rmdir $current_main_wt
+  end
 
-  mkdir -p $target/.worktrees
-
-  # Move linked worktrees
-  for p in $to_move
-    set -l name (basename $p)
-    echo "moving $name..."
-    git worktree move $p $target/.worktrees/$name
-    or begin
-      echo "wt: failed to move $name"
-      return 1
+  if test (count $to_move) -gt 0
+    mkdir -p $new_wt_dir
+    for p in $to_move
+      set -l name (basename $p)
+      echo "moving $name..."
+      git -C $target_root worktree move $p $new_wt_dir/$name
+      or begin
+        echo "wt: failed to move $name"
+        return 1
+      end
     end
   end
 
-  # If target != current worktree, move contents up
-  if test "$target" != "$current_wt"
-    mv $current_wt/* $current_wt/.* $target/
-    rmdir $current_wt
-    cd $target
-    git worktree repair
-  end
-
-  echo "wt: migration complete"
-end
-
-function __wt_migrate_bare -a target current_wt
-  set -l to_move $argv[3..]
-
-  set -l bare_path (realpath (git rev-parse --git-common-dir))
-  set -l current_name (basename $current_wt)
-
-  mkdir -p $target/.worktrees
-
-  # Move all non-current linked worktrees
-  for p in $to_move
-    set -l name (basename $p)
-    echo "moving $name..."
-    git worktree move $p $target/.worktrees/$name
-    or begin
-      echo "wt: failed to move $name"
-      return 1
-    end
-  end
-
-  # Save branch ref before removing its entry from bare repo
-  set -l current_branch (cat $bare_path/worktrees/$current_name/HEAD | string replace "ref: " "")
-
-  # Current worktree becomes the main working tree, so remove
-  # its linked worktree entry — it no longer needs one
-  rm -rf $bare_path/worktrees/$current_name
-
-  # Replace the gitdir pointer file with the actual git directory
-  rm -f $current_wt/.git
-  mv $bare_path $target/.git
-
-  # Convert from bare & point HEAD to the branch we were on
-  git -C $target config core.bare false
-  git -C $target symbolic-ref HEAD $current_branch
-  # Bare repos have no index; reset rebuilds it from HEAD
-  git -C $target reset
-
-  # Repair from root with worktree paths fixes both directions:
-  # root's worktrees/*/gitdir and each worktree's .git file
   set -l repair_paths
-  for d in $target/.worktrees/*/
-    set -a repair_paths $d
+  for p in $to_move
+    set -a repair_paths "$new_wt_dir/"(basename $p)
   end
-  git -C $target worktree repair $repair_paths
-
-  # If target != current worktree, move contents up
-  if test "$target" != "$current_wt"
-    mv $current_wt/* $target/
-    rmdir $current_wt
+  if test (count $repair_paths) -gt 0
+    git -C $target_root worktree repair $repair_paths
+  else
+    git -C $target_root worktree repair
   end
 
-  cd $target
-  echo "wt: migration complete (converted from bare)"
+  rmdir $target_root/.worktrees 2>/dev/null
+
+  cd $target_root
+  echo "wt: migration complete"
 end
