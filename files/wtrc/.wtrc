@@ -1,6 +1,6 @@
 [files]
 .claude/settings.local.json
-.env*
+# .env*
 # node_modules
 
 [commands]

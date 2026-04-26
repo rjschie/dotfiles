@@ -467,6 +467,11 @@ function __wt_migrate -a dry_run target_arg
     end
   end
 
+  # Preserve .wtrc from old .worktrees/ before cleanup
+  if test -f $target_root/.worktrees/.wtrc; and not test -e $target_root/.wtrc
+    set -a cmds "mv $target_root/.worktrees/.wtrc $target_root/.wtrc"
+  end
+
   # Cleanup empty old .worktrees
   set -a cmds "rmdir $target_root/.worktrees 2>/dev/null"
 
@@ -551,6 +556,9 @@ function __wt_migrate -a dry_run target_arg
     git -C $target_root worktree repair
   end
 
+  if test -f $target_root/.worktrees/.wtrc; and not test -e $target_root/.wtrc
+    mv $target_root/.worktrees/.wtrc $target_root/.wtrc
+  end
   rmdir $target_root/.worktrees 2>/dev/null
 
   cd $target_root
