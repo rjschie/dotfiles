@@ -22,9 +22,9 @@
     "defaultMode": "default"
   },
   "hooks": {
-    "PostToolUse": [
+    "Stop": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
@@ -63,7 +63,12 @@
     "claude-md-management@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true
   },
+  "effortLevel": "medium",
   "autoUpdatesChannel": "latest",
+  "autoDreamEnabled": true,
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled",
+  "autoCompactEnabled": false,
   "voiceEnabled": false,
-  "autoDreamEnabled": true
+  "skipAutoPermissionPrompt": true
 }
