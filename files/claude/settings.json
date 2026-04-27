@@ -3,6 +3,7 @@
     "commit": "",
     "pr": ""
   },
+  "model": "claude-opus-4-6",
   "permissions": {
     "allow": [
       "WebSearch",
@@ -17,7 +18,8 @@
       "Bash(tree:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(openspec:*)"
     ],
     "defaultMode": "default"
   },

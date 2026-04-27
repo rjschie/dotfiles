@@ -28,47 +28,23 @@ duration() {
   fi
 }
 
-# Usage: progress_bar 23  # outputs [██▒       |░░]
-# Which includes the autocompact buffer cap of 22.5%
-progress_bar() {
-  local total=$((100-23))
-  local percent=$1 width=10
-  local orig_percent=$percent
-  [[ (( $percent -lt $total )) ]] && percent=$percent || percent=$total
-  local filled=$((percent * width / $total))
-  local partial=$(((percent * width % $total) * 4 / $total))
-  local empty=$((width - filled - (partial > 0 ? 1 : 0)))
-  local chars=(" " "▒" "▓" "█")
-
-  # color based on usage: 0-40% default, 40-60% yellow, 60%+ red
-  local color=""
-  if (( orig_percent >= 55 )); then
-    color=$RED
-  elif (( orig_percent >= 35 )); then
-    color=$YELLOW
-  fi
-
-  printf '%s%% [' $orig_percent
-  if [[ -n "$color" ]]; then
-    printf '%b' "$color"
-  fi
-  (( filled > 0 )) && printf '█%.0s' $(seq 1 $filled)
-  (( partial > 0 )) && printf '%s' "${chars[$partial]}"
-  if [[ -n "$color" ]]; then
-    printf '%b' "$RESET"
-  fi
-  (( empty > 0 )) && printf ' %.0s' $(seq 1 $empty)
-  printf '|░░]'
-}
-
 model=$(getter '.model.display_name')
-cost=$(printf "%.3f" $(getter '.cost.total_cost_usd'))
-total_input=$(getter '.context_window.total_input_tokens' | numfmt --to=si)
-total_output=$(getter '.context_window.total_output_tokens' | numfmt --to=si)
+
+input_ts=$(getter '.context_window.current_usage.input_tokens')
+cache_create=$(getter '.context_window.current_usage.cache_creation_input_tokens')
+cache_read=$(getter '.context_window.current_usage.cache_read_input_tokens')
+total_tokens=$((input_ts + cache_create + cache_read))
+tokens=$(echo $total_tokens | numfmt --to=si --format=%0.1f)
+if (( total_tokens < 100000 )); then
+  TOKEN_COLOR=$GREEN
+elif (( total_tokens < 150000 )); then
+  TOKEN_COLOR=$YELLOW
+else
+  TOKEN_COLOR=$RED
+fi
+
 time=$(duration $(getter '.cost.total_duration_ms'))
-api_time=$(duration $(getter '.cost.total_api_duration_ms'))
-ctx_usage_percent=$(getter '.context_window.used_percentage // 0')
-tokens=$(printf "↑ %s ↓ %s" $total_input $total_output)
+usage_percent=$(getter '.context_window.used_percentage // 0')
 
 # cc-telemetry health check (cached 60s)
 CC_TELEM_BIN="$HOME/.local/bin/cc-telemetry"
@@ -92,7 +68,6 @@ if [ -x "$CC_TELEM_BIN" ]; then
   esac
 fi
 
-printf '%b (%s) [%s] [api: %s]\n  %s  /  %s  /  $%s\n' \
-  "$TELEM" "$model" "$time" "$api_time" \
-  "$(progress_bar $ctx_usage_percent)" "$tokens" "$cost"
+printf "%b (%s) [%s] / ${TOKEN_COLOR}%s${RESET} (%s)" \
+  "$TELEM" "$model" "$time" "$tokens" "$usage_percent%"
 
