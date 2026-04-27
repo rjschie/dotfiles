@@ -20,6 +20,7 @@ function wt -d "Worktree management"
     echo "  add <name>                 Create worktree & branch"
     echo "  co <name>                  Switch to worktree (no arg or '-' = root/prev)"
     echo "  rm <name>... [-k] [-f]     Remove worktree(s) & branch(es) (-k keeps, -f force)"
+    echo "  rename <old> <new>         Rename worktree & branch"
     echo "  merge <name> [-k]          Squash-merge into main, removes worktree & branch (-k keeps branch)"
     echo "  migrate [<target>] [-n]    Move worktrees to ~/.local/share/wt/ (-n dry-run)"
     return 0
@@ -240,6 +241,51 @@ function wt -d "Worktree management"
         printf "[files]\n# .env*\n# node_modules\n\n[commands]\n# npm install\n" > $config_path
       end
       $EDITOR $config_path
+
+    case rename
+      set -l old_name $argv[2]
+      set -l new_name $argv[3]
+      if test -z "$old_name"; or test -z "$new_name"
+        echo "wt: usage: wt rename <old> <new>"
+        return 1
+      end
+      if test "$old_name" = root
+        echo "wt: cannot rename root worktree"
+        return 1
+      end
+      if not test -d $root/.worktrees/$old_name
+        echo "wt: worktree '$old_name' not found"
+        return 1
+      end
+
+      git worktree move $root/.worktrees/$old_name $root/.worktrees/$new_name
+      or return 1
+
+      git branch -m $old_name $new_name
+      or return 1
+
+      # Update remote tracking if the new remote branch exists
+      set -l upstream (git config branch.$new_name.remote 2>/dev/null)
+      if test -n "$upstream"
+        if git show-ref --verify --quiet refs/remotes/$upstream/$new_name
+          git branch --set-upstream-to=$upstream/$new_name $new_name
+        else
+          git branch --unset-upstream $new_name 2>/dev/null
+          echo "wt: cleared tracking (remote branch '$upstream/$new_name' doesn't exist)"
+        end
+      end
+
+      # Update previous worktree ref
+      if test "$__wt_previous" = "$old_name"
+        set -g __wt_previous $new_name
+      end
+
+      # If currently in the old worktree, cd to new
+      if test "$PWD" = "$root/.worktrees/$old_name"
+        cd $root/.worktrees/$new_name
+      end
+
+      echo "wt: renamed '$old_name' → '$new_name'"
 
     case migrate
       set -l dry_run 0
