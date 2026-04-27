@@ -42,7 +42,7 @@ return {
       javascript = { 'localoxfmt', 'localprettier' },
       javascriptreact = { 'localoxfmt', 'localprettier' },
       typescript = { 'localoxfmt', 'localprettier' },
-      typescriptreact = { 'localoxfmt' },
+      typescriptreact = { 'localoxfmt', 'localprettier' },
       css = { 'localoxfmt', 'localprettier' },
       html = { 'localoxfmt', 'localprettier' },
       json = { 'localoxfmt', 'localprettier' },
