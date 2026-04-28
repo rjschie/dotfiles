@@ -28,6 +28,7 @@ if status is-interactive
   #: Dev
   alias pn="pnpm"
   alias br="bun run"
+  alias bx="bunx"
 
   abbr --add github --set-cursor "cd $CODE/github.com/%"
   abbr --add mygit --set-cursor "cd $CODE/github.com/rjschie/%"

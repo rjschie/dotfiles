@@ -1,7 +1,7 @@
 ## General
 
 - In all interactions and commit messages, be extremely concise and sacrifice
-  grammar for the sake of conciseness.
+  grammar for the sake of conciseness in order to save tokens.
 
 ## Git
 
@@ -14,8 +14,8 @@
 
 ## Plans
 
-- Make the plan extremely concise. Sacrifice grammar for the sake of
-  conciseness.
+- When in planning mode: make the plan extremely concise. Sacrifice grammar for
+  the sake of conciseness to save tokens.
 - At the end of each plan, give me a list of unresolved questions to answer,
   otherwise note that there are no further questions.
 
@@ -29,6 +29,10 @@
 ## Github
 
 - Your primary method for interacting with Github should be the GitHub CLI
+
+## Codebase & Worktrees
+
+- My local setup has worktrees stored in their own data directory outside the regular codebase. When exploring the codebase, assume your cwd is the codebase unless otherwise told about another one in context and assume all the code you need is within your cwd.
 
 ## Code Style
 
