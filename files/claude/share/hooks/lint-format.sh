@@ -1,16 +1,7 @@
 #!/bin/bash
-# PostToolUse hook: runs project formatter + linter on edited files.
-# Skips if no package.json found. Detects package manager automatically.
+# Stop hook: runs project formatter + linter on the whole project.
 
-INPUT=$(cat)
-FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
-
-if [[ -z "$FILE_PATH" ]] || [[ ! -f "$FILE_PATH" ]]; then
-  exit 0
-fi
-
-# Walk up from the file to find nearest package.json
-DIR=$(dirname "$FILE_PATH")
+DIR=$(pwd)
 PKG_DIR=""
 while [[ "$DIR" != "/" ]]; do
   if [[ -f "$DIR/package.json" ]]; then
@@ -20,11 +11,8 @@ while [[ "$DIR" != "/" ]]; do
   DIR=$(dirname "$DIR")
 done
 
-if [[ -z "$PKG_DIR" ]]; then
-  exit 0
-fi
+[[ -z "$PKG_DIR" ]] && exit 0
 
-# Detect package manager
 if [[ -f "$PKG_DIR/bun.lock" ]]; then
   PM="bun"
 elif [[ -f "$PKG_DIR/pnpm-lock.yaml" ]]; then
@@ -35,7 +23,6 @@ fi
 
 SCRIPTS=$(jq -r '.scripts // {} | keys[]' "$PKG_DIR/package.json" 2>/dev/null)
 
-# Format: first match wins
 FMT_SCRIPT=""
 for s in fmt format format:write; do
   if echo "$SCRIPTS" | grep -qx "$s"; then
@@ -45,12 +32,11 @@ for s in fmt format format:write; do
 done
 
 if [[ -n "$FMT_SCRIPT" ]]; then
-  $PM run "$FMT_SCRIPT" -- "$FILE_PATH" 2>/dev/null
+  (cd "$PKG_DIR" && $PM run "$FMT_SCRIPT" 2>/dev/null)
 fi
 
-# Lint
 if echo "$SCRIPTS" | grep -qx "lint"; then
-  $PM run lint -- "$FILE_PATH" 2>/dev/null
+  (cd "$PKG_DIR" && $PM run lint 2>/dev/null)
 fi
 
 exit 0
