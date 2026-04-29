@@ -12,9 +12,11 @@ FAILURES=()
 run_case() {
   local expected="$1" desc="$2" cmd="$3" test_cwd="${4:-$HOME_DIR}"
   local payload out actual
-  payload=$(printf '{"tool_name":"Bash","tool_input":{"command":%s}}' \
-    "$(printf '%s' "$cmd" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')")
-  out=$(PWD="$test_cwd" printf '%s' "$payload" | PWD="$test_cwd" "$HOOK")
+  payload=$(CMD="$cmd" CWD="$test_cwd" python3 -c '
+import json, os
+print(json.dumps({"tool_name":"Bash","cwd":os.environ["CWD"],"tool_input":{"command":os.environ["CMD"]}}))
+')
+  out=$(printf '%s' "$payload" | "$HOOK")
   if [[ -z "$out" ]]; then
     actual="allow"
   elif printf '%s' "$out" | grep -q '"permissionDecision": *"deny"'; then
@@ -45,6 +47,7 @@ run_case allow "rm \${HOME}/code/repo/foo (braced)"  'rm ${HOME}/code/repo/foo'
 run_case allow "sudo rm in ~/code/repo/"             "sudo rm $HOME_DIR/code/repo/foo"
 run_case allow "rm -rf in ~/code/repo/"              "rm -rf $HOME_DIR/code/repo/foo"
 run_case allow "relative rm with ~/code/repo/ cwd"   "rm foo.txt" "$HOME_DIR/code/repo"
+run_case allow "relative rm src/file in ~/code/repo"  "rm src/shared/app-config.ts" "$HOME_DIR/code/repo"
 run_case allow "non-rm command (ls)"                 "ls /etc"
 run_case allow "rm env prefix in ~/code/repo/"       "FOO=bar rm $HOME_DIR/code/repo/x"
 run_case allow "chained ok in ~/code/repo/"          "echo hi && rm $HOME_DIR/code/repo/foo"

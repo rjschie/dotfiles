@@ -13,7 +13,7 @@ if data.get("tool_name") != "Bash":
     sys.exit(0)
 
 cmd = data.get("tool_input", {}).get("command", "")
-cwd = os.environ.get("PWD", os.getcwd())
+cwd = data.get("cwd") or os.environ.get("PWD") or os.getcwd()
 home = os.path.expanduser("~")
 code = os.path.join(home, "code")
 
