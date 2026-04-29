@@ -8,6 +8,8 @@ function psef
     "/usr/libexec" \
     "/usr/sbin" \
     "/sbin" \
+    "/Library/Developer" \
+    "/Steam.AppBundle" \
     "automountd" \
     "endpointsecurityd" \
     "autofsd" \
@@ -31,6 +33,8 @@ function psef
   if not set -ql _flag_claude
     set -a exclude \
       "claude" \
+      "typescript-language-server" \
+      "/node_modules/typescript" \
       "chrome-devtools"
   end
 

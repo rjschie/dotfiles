@@ -3,13 +3,17 @@
 - In all interactions and commit messages, be extremely concise and sacrifice
   grammar for the sake of conciseness in order to save tokens.
 
+## Package management
+
+- When adding a package to a project, always search the online registry for the latest version so you are aware of what exists today
+
 ## Git
 
 - Use conventional commits system for commit messaging
   <example>
-      feat: add a new feature and concise description
-      fix: fix a bug with concise description
-      chore: update meta code or documentation
+  feat: add a new feature and concise description
+  fix: fix a bug with concise description
+  chore: update meta code or documentation
   </example>
 
 ## Plans
@@ -47,4 +51,3 @@
 - React-Query: prefer building query key/query fn generators and using useQuery and useMutation directly with those
 - React-Query: never set initial data in the destructuring, prefer falling back
   to undefined data and checking before use
-
