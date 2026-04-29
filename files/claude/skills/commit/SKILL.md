@@ -5,15 +5,23 @@ description: Create a git commit
 
 ## Context
 
-- Current git status: !`git status --short`
+- Current git status: !`git status`
 - Current git diff (staged and unstaged changes): !`git diff HEAD`
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -3`
 
 ## Your task
 
-Based on the above changes, create a single git commit.
+Create a single git commit. Decide **before** doing anything else:
 
-IMPORTANT: If there are existing staged files, only commit those staged changes.
+1. Look at `git status` above.
+2. **If ANY file is staged**:
+   - DO NOT run `git add`. Not even `git add -u`. Not even for "obviously related" unstaged files.
+   - Run ONLY `git commit -m "..."` — commit exactly what is staged, nothing more.
+   - The user pre-staged on purpose. Unstaged files are intentionally excluded.
+3. **If NOTHING is staged**:
+   - Stage the relevant files with `git add <paths>`, then `git commit -m "..."`.
 
-You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+Violating rule 2 silently expands the commit beyond what the user intended and is the #1 failure mode of this skill. If you're about to type `git add` when staged files exist, STOP.
+
+Output only the tool calls — no preamble, no summary.
