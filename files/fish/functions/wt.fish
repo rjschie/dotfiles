@@ -94,8 +94,8 @@ function wt -d "Worktree management"
       set -g __wt_previous $current
 
     case rm remove
-      set -l names $argv[2..]
-      if test (count $names) -eq 0
+      set -l patterns $argv[2..]
+      if test (count $patterns) -eq 0
         echo "wt: worktree name required"
         return 1
       end
@@ -103,6 +103,32 @@ function wt -d "Worktree management"
       set -l force_flag
       if set -ql _flag_f
         set force_flag --force
+      end
+
+      # Expand wildcards against existing worktrees in $wt_dir
+      set -l names
+      for pat in $patterns
+        if string match -qr '[*?\[]' $pat
+          set -l matched 0
+          if test -d $wt_dir
+            for d in $wt_dir/*/
+              set -l n (basename $d)
+              if string match -q $pat $n
+                set -a names $n
+                set matched 1
+              end
+            end
+          end
+          if test $matched -eq 0
+            echo "wt: no worktrees match '$pat'"
+          end
+        else
+          set -a names $pat
+        end
+      end
+
+      if test (count $names) -eq 0
+        return 1
       end
 
       cd $root
