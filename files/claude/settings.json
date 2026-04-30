@@ -57,6 +57,17 @@
           }
         ]
       }
+    ],
+    "WorktreeCreate": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/share/hooks/worktree-create.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
