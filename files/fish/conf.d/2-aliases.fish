@@ -33,4 +33,6 @@ if status is-interactive
   abbr --add github --set-cursor "cd $CODE/github.com/%"
   abbr --add mygit --set-cursor "cd $CODE/github.com/rjschie/%"
 
+  alias commit="claude --model 'haiku' -p '/commit'"
+
 end
