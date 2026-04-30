@@ -59,6 +59,10 @@ For each approved slice, create an issue in `docs/prds/<prd-slug>/issues/<NNN-is
 `NNN` is zero-padded 3 digits, assigned in dependency order (blockers get lower numbers). For slices with no dependencies, fall back to creation order. Create files in that same order so "Blocked by" refs point at already-written files.
 
 <issue-template>
+## Context
+
+See [PRD](../PRD.md) for full product context.
+
 ## What to build
 
 A concise description of this vertical slice. Describe the end-to-end behavior, not layer-by-layer implementation.
@@ -71,7 +75,7 @@ A concise description of this vertical slice. Describe the end-to-end behavior, 
 
 ## Blocked by
 
-- `<NNN-issue-slug>.md` (if any)
+- [`<NNN-issue-slug>.md`](./<NNN-issue-slug>.md) (if any)
 
 Or "None - can start immediately" if no blockers.
 
