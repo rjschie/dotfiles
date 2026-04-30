@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""PreToolUse hook: only allow `rm` inside $HOME/code/<subdir>/ or /tmp/.
-Blanket-denies `xargs rm`."""
+"""PreToolUse hook: only allow `rm`/`rmdir` inside $HOME/code/<subdir>/ or /tmp/.
+Blanket-denies `xargs rm` / `xargs rmdir`."""
 
 import json
 import os
@@ -46,7 +46,7 @@ def path_allowed(p):
 
 
 def is_rm(tok):
-    return tok == "rm" or tok.endswith("/rm")
+    return tok in ("rm", "rmdir") or tok.endswith("/rm") or tok.endswith("/rmdir")
 
 
 # split on shell separators to inspect each sub-command
@@ -65,7 +65,7 @@ for sub in subcmds:
         if t == "xargs":
             for t2 in tokens[i + 1:]:
                 if is_rm(t2):
-                    deny("`xargs rm` is blocked. Find another approach (e.g. loop and rm each path after validating it's under $HOME/code/<subdir>/ or /tmp/).")
+                    deny(f"`xargs {t2}` is blocked. Find another approach (e.g. loop and {t2} each path after validating it's under $HOME/code/<subdir>/ or /tmp/).")
 
     # find the actual command token (skip env assignments and wrappers)
     idx = 0
@@ -81,6 +81,6 @@ for sub in subcmds:
             if arg.startswith("-"):
                 continue
             if not path_allowed(arg):
-                deny(f"rm denied: '{arg}' resolves outside allowed paths. Only $HOME/code/<subdir>/ and /tmp/ are allowed.")
+                deny(f"{tokens[idx]} denied: '{arg}' resolves outside allowed paths. Only $HOME/code/<subdir>/ and /tmp/ are allowed.")
 
 sys.exit(0)
