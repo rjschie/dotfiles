@@ -27,6 +27,7 @@ if status is-interactive
 
   #: Dev
   alias pn="pnpm"
+  alias px="pnpx"
   alias br="bun run"
   alias bx="bunx"
 

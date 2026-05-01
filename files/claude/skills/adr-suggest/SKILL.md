@@ -7,10 +7,11 @@ Recognize ADR-worthy moments and nudge the user — don't write the ADR yourself
 
 ## When to fire
 
-Fire when **both** of these hold:
+Fire when **all** of these hold:
 
-1. A decision was resolved — the user landed on a choice, even if the reasoning was implicit, half-spoken, or worked out through waffling. You don't need an articulated "why" to fire; the `/adr` interview will surface it. Signals include: "let's go with X", "we'll use Y", "I've decided…", "ok, X it is", or visible convergence after weighing options.
-2. The decision has durable consequences — constrains future work, is hard to reverse, or sets a boundary/contract/standard. Examples: framework/library choice, schema shape, module boundary, protocol, tooling standard, deprecation, naming convention adopted repo-wide.
+1. Hard to reverse — the cost of changing your mind later is meaningful
+2. Surprising without context — a future reader will wonder "why did they do it this way?"
+3. The result of a real trade-off — there were genuine alternatives and you picked one for specific reasons
 
 Skip the fire if the decision is already being captured elsewhere this session (OpenSpec change, PRD, RFC issue).
 
@@ -42,4 +43,4 @@ If multiple distinct decisions came up (e.g. end of a `grill-me` session), list 
 
 After the suggestion, stop. The user will run `/adr` if they want it. Do not start drafting the ADR and do not ask follow-up questions about it.
 
-Don't re-suggest the **same** decision on later turns — once nudged, it's the user's call. But new, distinct decisions later in the same session *should* trigger fresh suggestions; the skill is meant to fire as often as genuinely new ADR-worthy decisions arise.
+Don't re-suggest the **same** decision on later turns — once nudged, it's the user's call. But new, distinct decisions later in the same session _should_ trigger fresh suggestions; the skill is meant to fire as often as genuinely new ADR-worthy decisions arise.

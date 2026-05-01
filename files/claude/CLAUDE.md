@@ -34,6 +34,10 @@
 
 - Your primary method for interacting with Github should be the GitHub CLI
 
+## File operations
+
+- To relocate a file, use `mv` (single syscall, preserves git history). Don't Write-new + remove-old.
+
 ## Codebase & Worktrees
 
 - My local setup has worktrees stored in their own data directory outside the regular codebase. When exploring the codebase, assume your cwd is the codebase unless otherwise told about another one in context and assume all the code you need is within your cwd.
