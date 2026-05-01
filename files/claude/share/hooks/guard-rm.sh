@@ -1,12 +1,24 @@
 #!/usr/bin/env python3
-"""PreToolUse hook: only allow `rm`/`rmdir` inside $HOME/code/<subdir>/ or /tmp/.
-Blanket-denies `xargs rm` / `xargs rmdir`."""
+"""PreToolUse hook: only allow `rm`/`rmdir` inside ALLOWED_DIRS below.
+Blanket-denies `xargs rm` / `xargs rmdir`.
+
+Entries support ~ and $VAR expansion. A path is allowed if it resolves
+strictly under one of the dirs (the dir itself is denied). Mirror any
+edits to ALLOWED_DIRS in __tests__/guard-rm.test.sh."""
 
 import json
 import os
 import re
 import shlex
 import sys
+
+# Mirror ALLOWED_DIRS in __tests__/guard-rm.sh
+ALLOWED_DIRS = [
+    "/tmp",
+    "~/code",
+    "~/.claude",
+    "~/.local/share/wt"
+]
 
 data = json.load(sys.stdin)
 if data.get("tool_name") != "Bash":
@@ -15,7 +27,17 @@ if data.get("tool_name") != "Bash":
 cmd = data.get("tool_input", {}).get("command", "")
 cwd = data.get("cwd") or os.environ.get("PWD") or os.getcwd()
 home = os.path.expanduser("~")
-code = os.path.join(home, "code")
+
+
+def expand(p):
+    p = os.path.expandvars(p)
+    if p == "~" or p.startswith("~/"):
+        p = home + p[1:]
+    return p
+
+
+allowed_roots = [os.path.normpath(expand(d)) for d in ALLOWED_DIRS]
+allowed_pretty = ", ".join(d + "/<subdir>/" for d in ALLOWED_DIRS)
 
 
 def deny(reason):
@@ -30,18 +52,15 @@ def deny(reason):
 
 
 def path_allowed(p):
-    p = os.path.expandvars(p)
-    if p == "~" or p.startswith("~/"):
-        p = home + p[1:]
+    p = expand(p)
     if not os.path.isabs(p):
         p = os.path.join(cwd, p)
     p = os.path.normpath(p)
     if any(ch in p for ch in "*?["):
         p = os.path.dirname(p) or "/"
-    if p.startswith("/tmp/"):
-        return True
-    if p.startswith(code + "/"):
-        return True
+    for root in allowed_roots:
+        if p.startswith(root + "/"):
+            return True
     return False
 
 
@@ -65,7 +84,7 @@ for sub in subcmds:
         if t == "xargs":
             for t2 in tokens[i + 1:]:
                 if is_rm(t2):
-                    deny(f"`xargs {t2}` is blocked. Find another approach (e.g. loop and {t2} each path after validating it's under $HOME/code/<subdir>/ or /tmp/).")
+                    deny(f"`xargs {t2}` is blocked. Find another approach that uses rm or rmdir directly (e.g. loop and {t2} each path).")
 
     # find the actual command token (skip env assignments and wrappers)
     idx = 0
@@ -81,6 +100,6 @@ for sub in subcmds:
             if arg.startswith("-"):
                 continue
             if not path_allowed(arg):
-                deny(f"{tokens[idx]} denied: '{arg}' resolves outside allowed paths. Only $HOME/code/<subdir>/ and /tmp/ are allowed.")
+                deny(f"{tokens[idx]} denied: '{arg}' resolves outside user-allowed paths.")
 
 sys.exit(0)
