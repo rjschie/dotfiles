@@ -1,26 +1,23 @@
 ---
 name: to-issues
-description: Break a plan, spec, or PRD into independently-grabbable issue files using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
+description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
 ---
 
 # To Issues
 
-Break a plan into independently-grabbable issue files using vertical slices (tracer bullets).
+Break a plan into independently-grabbable issues using vertical slices (tracer bullets).
+
+The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
 
 ## Process
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes a PRD file as an argument (e.g. `@docs/prds/<slug>/PRD.md`), read it for additional context.
-
-Determine the PRD slug:
-- If a PRD path was passed, derive slug from the path.
-- Else if a PRD was just created in this session, use that slug.
-- Else ask the user.
+Work from whatever is already in the conversation context. If the user passes an issue reference (issue number, URL, or path) as an argument, fetch it from the issue tracker and read its full body and comments.
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code.
+If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
 
 ### 3. Draft vertical slices
 
@@ -52,16 +49,16 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 5. Create the issue files in relevant PRD folder
+### 5. Publish the issues to the issue tracker
 
-For each approved slice, create an issue in `docs/prds/<prd-slug>/issues/<NNN-issue-slug>.md`. `mkdir -p` the directory.
+For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. Apply the `needs-triage` triage label so each issue enters the normal triage flow.
 
-`NNN` is zero-padded 3 digits, assigned in dependency order (blockers get lower numbers). For slices with no dependencies, fall back to creation order. Create files in that same order so "Blocked by" refs point at already-written files.
+Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
 
 <issue-template>
-## Context
+## Parent
 
-See [PRD](../PRD.md) for full product context.
+A reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
 
 ## What to build
 
@@ -75,8 +72,10 @@ A concise description of this vertical slice. Describe the end-to-end behavior, 
 
 ## Blocked by
 
-- [`<NNN-issue-slug>.md`](./<NNN-issue-slug>.md) (if any)
+- A reference to the blocking ticket (if any)
 
 Or "None - can start immediately" if no blockers.
 
 </issue-template>
+
+Do NOT close or modify any parent issue.
