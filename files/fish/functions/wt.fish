@@ -140,7 +140,11 @@ function wt -d "Worktree management"
         end
 
         git worktree remove $force_flag $wt_dir/$name
-        or continue
+        if test $status -ne 0
+          rm -rf $wt_dir/$name
+          or continue
+          git worktree prune
+        end
 
         if not set -ql _flag_k
           git branch -D $name
