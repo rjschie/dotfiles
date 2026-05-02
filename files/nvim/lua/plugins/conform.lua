@@ -22,9 +22,11 @@ return {
         local util = require 'conform.util'
         return {
           command = util.from_node_modules 'oxfmt',
-          args = { '$FILENAME' },
-          stdin = false,
-          tmpfile_format = '.conform.$RANDOME.$FILENAME',
+          args = { '--stdin-filepath', '$FILENAME' },
+          stdin = true,
+          condition = function(_, ctx)
+            return require('config.util').declared_in_package_json('oxfmt', ctx)
+          end,
         }
       end,
       localprettier = function()
@@ -33,21 +35,26 @@ return {
           command = util.from_node_modules 'prettier',
           args = { '--stdin-filepath', '$FILENAME' },
           stdin = true,
+          condition = function(_, ctx)
+            return require('config.util').declared_in_package_json('prettier', ctx)
+          end,
         }
       end,
     },
     formatters_by_ft = {
       lua = { 'stylua' },
       python = { 'isort', 'black' },
-      javascript = { 'localoxfmt', 'localprettier' },
-      javascriptreact = { 'localoxfmt', 'localprettier' },
-      typescript = { 'localoxfmt', 'localprettier', 'oxfmt' },
-      typescriptreact = { 'localoxfmt', 'localprettier', 'oxfmt' },
-      css = { 'localoxfmt', 'localprettier' },
-      html = { 'localoxfmt', 'localprettier' },
-      json = { 'localoxfmt', 'localprettier' },
-      yaml = { 'localoxfmt', 'localprettier' },
-      markdown = { 'localoxfmt', 'localprettier', 'oxfmt' },
+      javascript = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      javascriptreact = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      typescript = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      typescriptreact = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      css = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      html = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      json = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      jsonl = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      jsonc = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      yaml = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
+      markdown = { 'localoxfmt', 'localprettier', 'oxfmt', stop_after_first = true },
     },
   },
   -- init = function()
