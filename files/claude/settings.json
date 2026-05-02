@@ -20,9 +20,11 @@
       "Bash(find:*)",
       "Bash(tree:*)",
       "Bash(grep:*)",
-      "Bash(openspec:*)"
+      "Bash(openspec:*)",
+      "WebFetch(domain:github.com)",
+      "Skill(update-config)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
   "hooks": {
     "PreToolUse": [
