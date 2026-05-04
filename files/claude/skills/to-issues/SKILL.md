@@ -43,7 +43,7 @@ If source mode is **OpenSpec change**, do NOT map `tasks.md` items 1:1 to issues
 
 - Group tasks across layers by the **user-visible behavior** they jointly enable (use the spec deltas' scenarios as the unit of value).
 - Each issue should pull one scenario (or a small cluster of related scenarios) end-to-end through whichever layers `tasks.md` touches.
-- It is OK — and expected — for one issue to reference task items from multiple top-level sections of `tasks.md`. Note the source task IDs in the issue body so the openspec change stays traceable.
+- It is OK — and expected — for one issue to reference task items from multiple top-level sections of `tasks.md`. Record every covered item verbatim in the issue's `Source` section (see template) so closers can tick them back in `tasks.md` on merge.
 - If a task is pure scaffolding with no user-visible behavior (e.g. "add migration table"), fold it into the first slice that needs it rather than making it its own issue.
 </openspec-reslicing>
 
@@ -79,7 +79,16 @@ A reference to the parent issue on the issue tracker (if the source was an exist
 
 ## Source
 
-(OpenSpec mode only) `openspec/changes/<change-id>/` — link the change directory and call out which `tasks.md` items and which `specs/<capability>` deltas this slice covers.
+(OpenSpec mode only)
+
+- **Change**: `openspec/changes/<change-id>/`
+- **Spec deltas**: `specs/<capability>/spec.md` — list each
+- **tasks.md items**: list every covered item by its exact path + checkbox text, e.g.
+  - `1.2 Add migration for foo_table`
+  - `3.1 Wire POST /foos endpoint`
+  - `4.3 Render Foo list in dashboard`
+
+When this issue is closed/merged, the closer MUST tick those exact items in `openspec/changes/<change-id>/tasks.md` (and only those) in the same PR. This linkage is the contract that keeps the openspec change in sync with delivery.
 
 ## What to build
 
