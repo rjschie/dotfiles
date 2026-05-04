@@ -11,6 +11,8 @@ Ask the questions one at a time, waiting for feedback on each question before co
 
 If a question can be answered by exploring the codebase, explore the codebase instead.
 
+This skill is the **single entry point** for any new work. At the end of the session, route the output to the right artifact (OpenSpec change, PRD/issues, or pure ADR) — see "Routing the outcome" below.
+
 </what-to-do>
 
 <supporting-info>
@@ -74,6 +76,31 @@ When the user states how something works, check whether the code agrees. If you 
 When a term is resolved, update `CONTEXT.md` right there. Don't batch these up — capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
 
 Don't couple `CONTEXT.md` to implementation details. Only include terms that are meaningful to domain experts.
+
+### Detect OpenSpec early
+
+At the start of the session, check whether `openspec/` exists at the repo root. If it does, the repo uses OpenSpec to track product capabilities as given/when/then specs:
+
+- `openspec/specs/` — current capability specs
+- `openspec/changes/` — inflight changes (deltas) to specs
+
+Read any specs relevant to the area being grilled — they're additional source-of-truth alongside `CONTEXT.md` and ADRs. Cross-reference them when grilling: "spec X says the app does Y in this case — does your plan agree, contradict, or extend it?"
+
+### Routing the outcome
+
+Toward the end of the session, classify what was decided and announce the routing decision before writing anything:
+
+1. **Behavioral / capability change** — the app does something new or different from a user's perspective.
+   - If `openspec/` exists: draft a new change under `openspec/changes/<slug>/` with proposal + spec deltas (given/when/then). Hand off to `opsx:propose` / `opsx:ff` / `opsx:apply` for the formal artifact creation.
+   - If `openspec/` does not exist: proceed to PRD/issues (next branch).
+2. **Non-capability product work** — UI polish, infra, ops, refactors, dev-tooling. No spec delta makes sense.
+   - Hand off to `to-prd` (writes a PRD to the issue tracker), then `to-issues` (breaks it into tracer-bullet issues).
+3. **Pure architectural/technical decision** with no behavior change — e.g. "switch DB driver," "adopt new lint rule."
+   - Just write an ADR (see below). No spec delta, no PRD.
+
+CONTEXT.md updates and ADRs happen **inline during the grill** regardless of which branch — they aren't part of the routing decision.
+
+State the chosen branch explicitly: "This is a behavioral change → I'll draft an OpenSpec change at `openspec/changes/<slug>/`." Then proceed.
 
 ### Offer ADRs sparingly
 
