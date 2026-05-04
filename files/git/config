@@ -2,16 +2,10 @@
   excludesfile = "~/.config/git/global_ignore"
   autocrlf = false
   editor = nvim
+  pager = delta
 
 [init]
   defaultBranch = main
-
-[diff]
-  tool = nvimdiff1
-
-[diff "lockb"]
-	textconv = bun
-	binary = true
 
 [fetch]
   prune = true
@@ -43,6 +37,13 @@
   changed = yellow
   untracked = magenta
   branch = yellow
+
+[interactive]
+  #diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
 
 [url "git@github.com:"]
   insteadOf = https://github.com/

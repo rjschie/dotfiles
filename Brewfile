@@ -7,6 +7,7 @@ brew "fish"
 #brew "starship" # prompt
 brew "git"
 brew "git-lfs"
+brew "git-delta"
 brew "openssl"
 brew "hammerspoon" # os re-keybinding
 brew "tmux"
