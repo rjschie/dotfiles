@@ -19,6 +19,7 @@ brew "neovim"
 brew "ripgrep" # replace `grep`
 brew "fd" # replace `find`
 brew "lua"
+brew "luacheck"
 brew "fzf" # fuzzy file finder
 brew "font-fira-mono-nerd-font"
 
