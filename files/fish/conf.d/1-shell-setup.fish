@@ -25,7 +25,5 @@ if status is-interactive
   # Prompts
   set -gx STARSHIP_CONFIG $CONFIG/starship/config.toml
   starship init fish | source
-
-  set -gx RIPGREP_CONFIG_PATH $CONFIG/.ripgreprc
 end
 

@@ -63,7 +63,13 @@ local telescope = require 'telescope.builtin'
 
 map('n', '<leader>ff', function()
   return telescope.find_files {
-    find_command = { 'rg', '--files', '--hidden', '--glob=!.git/*' },
+    find_command = {
+      'rg',
+      '--files',
+      '--no-ignore',
+      '--hidden',
+      '--ignore-file=' .. vim.fn.expand '$CONFIG/ripgrep/global_ignore',
+    },
   }
 end, '[F]ind [F]iles (in CWD)')
 
