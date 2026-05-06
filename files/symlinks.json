@@ -1,4 +1,5 @@
 {
+  "files/claude/*": "$HOME/.claude/*",
   "files/fish": "$CONFIG/fish",
   "files/gh": "$CONFIG/gh",
   "files/ghostty": "$CONFIG/ghostty",
@@ -6,9 +7,9 @@
   "files/hammerspoon": "$HOME/.hammerspoon",
   "files/kitty": "$CONFIG/kitty",
   "files/nvim": "$CONFIG/nvim",
+  "files/ripgrep": "$CONFIG/ripgrep",
+  "files/ssh/config": "$HOME/.ssh/config",
   "files/starship": "$CONFIG/starship",
   "files/wezterm": "$CONFIG/wezterm",
-  "files/claude/*": "$HOME/.claude/*",
-  "files/ssh/config": "$HOME/.ssh/config",
   "files/wtrc/.wtrc": "$CONFIG/.wtrc"
 }
