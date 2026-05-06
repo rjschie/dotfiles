@@ -26,7 +26,6 @@
 ## Subagent Strategy
 
 - Always and aggressively offload online research (e.g. docs), codebase exploration, log analysis, etc. to subagents.
-- When you're about to check logs, defer that to a haiku subagent.
 - For a complex problem you're going in circle with, get a fresh perspective by asking subagents.
 - When spawning a subagent, include a "Why" in the subagent's system prompt to help it filter signal from the noise
 
@@ -38,10 +37,6 @@
 
 - To relocate a file, use `mv` (single syscall, preserves git history). Don't Write-new + remove-old.
 
-## Codebase & Worktrees
-
-- My local setup has worktrees stored in their own data directory outside the regular codebase. When exploring the codebase, assume your cwd is the codebase unless otherwise told about another one in context and assume all the code you need is within your cwd.
-
 ## Code Style
 
 - Prefer having a src/ directory to store source code
@@ -50,8 +45,3 @@
   docblock-like comments
 - TS: Avoid non-null assertions (`!`). Prefer runtime checks, destructuring,
   or accessors with guards instead.
-- Testing-Library: Prefer using `screen.getByRole` for selectors
-- Testing-Library: Prefer adding test ids over `document.querySelector` to customize selectors
-- React-Query: prefer building query key/query fn generators and using useQuery and useMutation directly with those
-- React-Query: never set initial data in the destructuring, prefer falling back
-  to undefined data and checking before use
