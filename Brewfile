@@ -29,9 +29,11 @@ brew "nvm"
 brew "jq"
 brew "gh" # Github CLI
 brew "watchman"
-brew "yarn"
+# brew "yarn"
 brew "pnpm"
+brew "bun"
 brew "lazygit" # Easy Git UI
+brew "podman"
 
 # Other
 brew "python"
@@ -41,7 +43,7 @@ brew "lunar" # External Display brightness mgmt
 #brew "zulu11" # Java 11
 
 # GUI Apps
-brew "kitty"
+# brew "kitty"
 #brew "1password"
 #brew "1password-cli"
 #brew "brave-browser"
