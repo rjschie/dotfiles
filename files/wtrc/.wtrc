@@ -1,7 +1,7 @@
 [files]
-.claude/settings.local.json
-# .env*
 # node_modules
+**/.claude/settings.local.json
+.env*
 
 [commands]
 # npm install

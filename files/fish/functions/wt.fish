@@ -17,7 +17,7 @@ function wt -d "Worktree management"
     echo ""
     echo "  ls                         List worktrees"
     echo "  config [-g]                Edit post-create config (-g for global)"
-    echo "  add <name>                 Create worktree & branch"
+    echo "  add <name> [-n]            Create worktree & branch (-n dry-run wtrc preview)"
     echo "  co <name>                  Switch to worktree (no arg or '-' = root/prev)"
     echo "  rm <name>... [-k] [-f]     Remove worktree(s) & branch(es) (-k keeps, -f force)"
     echo "  rename <old> <new>         Rename worktree & branch"
@@ -32,6 +32,25 @@ function wt -d "Worktree management"
       if test -z "$branch"
         echo "wt: branch name required"
         return 1
+      end
+
+      if set -ql _flag_n
+        echo "wt add (dry-run): would create worktree '$branch' at $wt_dir/$branch"
+        echo ""
+        set -l global_wtrc (__wt_global_wtrc_path)
+        if test -n "$global_wtrc"
+          echo "# global: $global_wtrc"
+          __wt_preview_wtrc $root $global_wtrc
+        end
+        set -l local_wtrc $root/.wtrc
+        if test -f $local_wtrc
+          echo "# local: $local_wtrc"
+          __wt_preview_wtrc $root $local_wtrc
+        end
+        if test -z "$global_wtrc"; and not test -f $root/.wtrc
+          echo "# no .wtrc found"
+        end
+        return 0
       end
 
       # Resolve current worktree name before switching
@@ -357,7 +376,14 @@ function __wt_apply_wtrc -a root wt_path config
 
     switch $section
       case files
-        set -l matches (eval "set -l r $root/$line 2>/dev/null; and printf '%s\\n' \$r")
+        set -l matches
+        if string match -q '*/*' $line
+          # anchored: glob relative to root
+          set matches (eval "set -l r $root/$line 2>/dev/null; and printf '%s\\n' \$r")
+        else
+          # unanchored: gitignore-style basename match anywhere in tree
+          set matches (find $root -name $line -not -path "$root/.git" -not -path "$root/.git/*" -not -path "$root/.worktrees" -not -path "$root/.worktrees/*" 2>/dev/null)
+        end
         set -l found 0
         for src in $matches
           if test -e $src
@@ -374,6 +400,46 @@ function __wt_apply_wtrc -a root wt_path config
       case commands
         fish -c "cd $wt_path && $line"
         or echo "wt: command failed: $line"
+    end
+  end
+end
+
+function __wt_preview_wtrc -a root config
+  set -l section ""
+  for line in (cat $config)
+    set line (string trim $line)
+    if test -z "$line"; or string match -q "#*" $line
+      continue
+    end
+    if string match -qr '^\[(\w+)\]$' $line
+      set section (string match -r '^\[(\w+)\]$' $line)[2]
+      echo "[$section]"
+      continue
+    end
+    set -l cyan (set_color cyan)
+    set -l reset (set_color normal)
+    switch $section
+      case files
+        set -l matches
+        if string match -q '*/*' $line
+          set matches (eval "set -l r $root/$line 2>/dev/null; and printf '%s\\n' \$r")
+        else
+          set matches (find $root -name $line -not -path "$root/.git" -not -path "$root/.git/*" -not -path "$root/.worktrees" -not -path "$root/.worktrees/*" 2>/dev/null)
+        end
+        set -l real
+        for src in $matches
+          test -e $src; and set -a real $src
+        end
+        echo "  Rule: $line"
+        if test (count $real) -eq 0
+          echo "    $cyan- no matches -$reset"
+        else
+          for src in $real
+            echo "    $cyan"(string replace "$root/" "" $src)"$reset"
+          end
+        end
+      case commands
+        echo "  $cyan$line$reset"
     end
   end
 end
