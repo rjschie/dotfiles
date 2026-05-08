@@ -24,4 +24,19 @@ Create a single git commit. Decide **before** doing anything else:
 
 Violating rule 2 silently expands the commit beyond what the user intended and is the #1 failure mode of this skill. If you're about to type `git add` when staged files exist, STOP.
 
+## Commit message body
+
+If the current conversation gives you real context for **why** the change was made (the motivation, bug being fixed, decision made, tradeoff chosen), include a body explaining it. Use a HEREDOC so the subject and body are formatted properly:
+
+```
+git commit -m "$(cat <<'EOF'
+<conventional-commits subject>
+
+<why the change was made — motivation, context, tradeoffs>
+EOF
+)"
+```
+
+If you have no real context for the why (e.g. invoked fresh with no prior conversation, or the diff speaks for itself), omit the body and use a single-line `-m`. Do **not** invent a reason or pad the body by restating what the diff already shows.
+
 Output only the tool calls — no preamble, no summary.
