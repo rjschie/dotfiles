@@ -224,16 +224,10 @@ function wt -d "Worktree management"
       echo "wt: merged and removed '$name'"
 
     case ls
-      echo root
-      if test -d $wt_dir
-        for d in $wt_dir/*/
-          basename $d
-        end
-      end
-
-      # Find worktrees not at $wt_dir (un-migrated)
-      # Resolve to canonical paths since git porcelain uses resolved paths
+      # Single porcelain pass: bucket each worktree as root / migrated / unmigrated.
+      # Resolve to canonical paths since git porcelain uses resolved paths.
       set -l porcelain (git worktree list --porcelain 2>/dev/null)
+      set -l migrated
       set -l unmigrated
       set -l cur_path
       set -l cur_branch
@@ -255,7 +249,9 @@ function wt -d "Worktree management"
         else if test -z "$line"; and test -n "$cur_path"
           # End of block — evaluate
           if test "$cur_bare" = false; and test "$cur_path" != "$root_resolved"
-            if test "$cur_path" != "$wt_dir_resolved/"(basename $cur_path)
+            if string match -q "$wt_dir_resolved/*" "$cur_path"
+              set -a migrated (string replace "$wt_dir_resolved/" "" $cur_path)
+            else
               set -l display $cur_path
               if string match -q "$pwd_resolved/*" $cur_path
                 set display (string replace "$pwd_resolved/" "" $cur_path)
@@ -269,6 +265,11 @@ function wt -d "Worktree management"
           end
           set cur_path
         end
+      end
+
+      echo root
+      for n in (printf '%s\n' $migrated | sort)
+        echo $n
       end
 
       if test (count $unmigrated) -gt 0
