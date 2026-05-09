@@ -1,5 +1,5 @@
 #!/bin/bash
-# Stop hook: runs project formatter + linter on the whole project.
+# PostToolUse (Edit|Write) hook: runs project formatter on the whole project.
 
 DIR=$(pwd)
 PKG_DIR=""
@@ -33,10 +33,6 @@ done
 
 if [[ -n "$FMT_SCRIPT" ]]; then
   (cd "$PKG_DIR" && $PM run "$FMT_SCRIPT" 2>/dev/null)
-fi
-
-if echo "$SCRIPTS" | grep -qx "lint"; then
-  (cd "$PKG_DIR" && $PM run lint 2>/dev/null)
 fi
 
 exit 0
