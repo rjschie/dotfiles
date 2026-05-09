@@ -211,15 +211,31 @@ return {
       -- NOTE: UI customisation
 
       local _border = 'rounded'
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = _border,
-      })
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = _border,
-      })
+
+      -- Pad hover/signature float contents (blank top/bottom + leading space)
+      local orig_open_floating_preview = vim.lsp.util.open_floating_preview
+      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+        opts = opts or {}
+        opts.border = opts.border or _border
+        opts.max_width = opts.max_width or 80
+        opts.max_height = opts.max_height or 20
+        opts.pad_top = opts.pad_top or 1
+        opts.pad_bottom = opts.pad_bottom or 1
+        local padded = {}
+        for _, line in ipairs(contents) do
+          table.insert(padded, ' ' .. line)
+        end
+        return orig_open_floating_preview(padded, syntax, opts, ...)
+      end
 
       vim.diagnostic.config {
-        float = { border = _border },
+        float = {
+          border = _border,
+          source = true,
+          header = '',
+          prefix = ' ',
+          suffix = ' ',
+        },
       }
     end,
   },
