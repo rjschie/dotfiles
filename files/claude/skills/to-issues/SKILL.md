@@ -45,7 +45,7 @@ If source mode is **OpenSpec change**, do NOT map `tasks.md` items 1:1 to issues
 - Each issue should pull one scenario (or a small cluster of related scenarios) end-to-end through whichever layers `tasks.md` touches.
 - It is OK — and expected — for one issue to reference task items from multiple top-level sections of `tasks.md`. Record every covered item verbatim in the issue's `Source` section (see template) so closers can tick them back in `tasks.md` on merge.
 - If a task is pure scaffolding with no user-visible behavior (e.g. "add migration table"), fold it into the first slice that needs it rather than making it its own issue.
-</openspec-reslicing>
+  </openspec-reslicing>
 
 ### 4. Quiz the user
 
@@ -73,9 +73,10 @@ For each approved slice, publish a new issue to the issue tracker. Use the issue
 Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
 
 <issue-template>
-## Parent
-
-A reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
+\-\-\-
+parent: <#id> (optional) reference to the parent issue on the issue tracker (if the source was an existing issue, otherwise omit this section).
+blocked by: <#id> (optional) reference to the blocking ticket (if any)
+\-\-\-
 
 ## Source
 
@@ -109,12 +110,6 @@ Phrase as observable behavior. In OpenSpec mode, derive these from the relevant 
 ## Out of scope
 
 Anything a reader might reasonably assume is included but isn't (deferred to another slice or change). Omit if nothing notable.
-
-## Blocked by
-
-- A reference to the blocking ticket (if any)
-
-Or "None - can start immediately" if no blockers.
 
 </issue-template>
 

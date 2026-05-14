@@ -1,3 +1,5 @@
 function tt --description "Set tab title"
-  wezterm cli set-tab-title $argv[1]
+  if status is-interactive
+    wezterm cli set-tab-title $argv[1]
+  end
 end
