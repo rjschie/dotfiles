@@ -1,7 +1,11 @@
 #!/bin/bash
-# PostToolUse (Edit|Write) hook: runs project formatter on the whole project.
+# PostToolUse (Edit|Write) hook: runs project formatter on the edited file.
 
-DIR=$(pwd)
+PAYLOAD=$(cat)
+FILE=$(echo "$PAYLOAD" | jq -r '.tool_input.file_path // empty')
+[[ -z "$FILE" || ! -f "$FILE" ]] && exit 0
+
+DIR=$(dirname "$FILE")
 PKG_DIR=""
 while [[ "$DIR" != "/" ]]; do
   if [[ -f "$DIR/package.json" ]]; then
@@ -31,8 +35,9 @@ for s in fmt format format:write; do
   fi
 done
 
-if [[ -n "$FMT_SCRIPT" ]]; then
-  (cd "$PKG_DIR" && $PM run "$FMT_SCRIPT" 2>/dev/null)
-fi
+[[ -z "$FMT_SCRIPT" ]] && exit 0
+
+REL="${FILE#$PKG_DIR/}"
+(cd "$PKG_DIR" && $PM run "$FMT_SCRIPT" -- "$REL" 2>/dev/null)
 
 exit 0
