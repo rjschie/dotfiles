@@ -3,16 +3,18 @@
 palette = 'rygar'
 add_newline = false
 
-#    
+#     █
+# ▐ ▌
 #  
 #  
 #  󰌾
 # 󰬃 󰫿 󰫻
-#     󱡋
+#     󱡋  󰹍
 
 #$git_status\
 format = """
-$jobs\
+($jobs )\
+(${custom.caffeinate})\
 [](fg:grad_1)\
 $directory\
 [ ](fg:grad_1 bg:grad_2)\
@@ -33,6 +35,18 @@ $gradle\
 $character\
 """
 
+[custom.caffeinate]
+command = 'true'
+format = '[]($style)'
+style = 'fg:grad_orange'
+when = 'pgrep -u "$USER" -f "caffeinate -dimsu" >/dev/null'
+shell = ['bash', '--noprofile', '-norc']
+disabled = false
+
+[jobs]
+format = '[$symbol$number]($style)'
+style = 'fg:grad_7'
+
 [custom.gitproject]
 command = "basename $(dirname $(git rev-parse --git-common-dir))"
 format = '[ $symbol $output ]($style)'
@@ -45,7 +59,7 @@ disabled = false
 command = '''
 echo $PWD
 '''
-format = '[ $symbol $output ]($style)'
+format = '[$symbol $output]($style)'
 symbol = ''
 style = 'fg:white bg:grad_1'
 when = ''' [ "$(git rev-parse --git-dir 2>/dev/null)" == "$(git rev-parse --git-common-dir 2>/dev/null)" ] '''
@@ -67,10 +81,6 @@ read_only = "(󰌾)"
 [directory.substitutions]
 "~/code/github.com/rjschie" = "~mygh"
 "~/code/github.com" = "~gh"
-
-[jobs]
-format = '[$symbol$number]($style)'
-style = 'fg:grad_7'
 
 [git_branch]
 symbol = " "
