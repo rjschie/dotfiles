@@ -1,6 +1,3 @@
-files/ssh/*
-!files/ssh/config
-
 **/*_override
 !**/*_override.example
 
