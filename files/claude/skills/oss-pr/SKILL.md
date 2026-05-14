@@ -13,7 +13,7 @@ Pass this prompt to the subagent:
 
 ---
 
-You are pushing the current branch and opening a GitHub PR. Why: this PR will be squash-merged, so the body becomes the squashed commit description. Draft it as a high-level summary of the branch's changes, not as a reviewer-facing doc. Be terse.
+You are pushing the current branch and opening a GitHub PR. Why: the user wants this offloaded so it doesn't bloat the main agent's context. Be terse.
 
 Steps:
 
@@ -26,17 +26,14 @@ Steps:
    - `git log origin/HEAD..HEAD --format='%h %s%n%b'`
    - `git diff --stat origin/HEAD...HEAD`
    - If commit messages explain the change well, stop there. Otherwise pull specific file diffs with `git diff origin/HEAD...HEAD -- <path>` for the files needed to understand intent. Never dump the full diff.
-5. Detect referenced issues:
-   - Scan branch name, commit subjects, and commit bodies for `#<num>`, `GH-<num>`, or `Closes/Fixes/Resolves #<num>` references.
-   - Collect unique issue numbers that the branch's work actually closes (skip mere mentions / "see #N" references).
-6. Draft:
+5. Draft:
    - **Title**: conventional-commit style, <70 chars.
-   - **Body** (this becomes the squashed commit message — write it as such):
-     - 1–3 sentence high-level summary of what this branch does and why.
-     - Bulleted list of specific changes (terse, commit-message tone — what changed, not how to review it).
-     - If issues are closed, append a blank line then one `Closes #<num>` line per issue.
-   - No `## Problem` / `## Solution` headers. No reviewer-notes section. No filler, no emojis, no "Generated with Claude" footer.
-7. **Do not create the PR yet.** Return the drafted title and body for the user to validate. Format:
+   - **Body**:
+     - `## Problem` — 1–3 sentences on what this PR solves.
+     - `## Solution` — terse bullets on what changed and why.
+     - `## Notes for reviewer` — only if real callouts exist (tricky bits, follow-ups, migration order, manual testing). Omit the section entirely otherwise.
+   - No filler, no emojis, no "Generated with Claude" footer.
+6. **Do not create the PR yet.** Return the drafted title and body for the user to validate. Format:
    ```
    TITLE: <title>
 
