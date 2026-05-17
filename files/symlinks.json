@@ -6,6 +6,7 @@
   "files/git": "$CONFIG/git",
   "files/hammerspoon": "$HOME/.hammerspoon",
   "files/kitty": "$CONFIG/kitty",
+  "files/node/npmrc": "$HOME/.npmrc",
   "files/nvim": "$CONFIG/nvim",
   "files/ripgrep": "$CONFIG/ripgrep",
   "files/ssh/config": "$HOME/.ssh/config",
