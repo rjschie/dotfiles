@@ -1,5 +1,6 @@
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments add --description "Create worktree"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments co --description "Switch to worktree"
+complete --command wt --exclusive --condition __fish_use_subcommand --arguments copy --description "Copy file between worktrees"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments rm --description "Remove worktree"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments merge --description "Merge worktree into main"
 complete --command wt --exclusive --condition __fish_use_subcommand --arguments ls --description "List worktrees"
@@ -15,6 +16,9 @@ complete --command wt --no-files --condition "__fish_seen_subcommand_from co add
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from co; and test (count (commandline -opc)) -le 2" --arguments "(__wt_complete_co)"
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from merge; and test (count (commandline -opc)) -le 2" --arguments "(__wt_complete_names)"
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from rm" --arguments "(__wt_complete_remaining)"
+
+# copy: source arg = <worktree>:<path> (no space split on ':'), dest arg = normal file completion
+complete --command wt --exclusive --condition "__fish_seen_subcommand_from copy cp; and test (count (commandline -opc)) -le 2" --arguments "(__wt_complete_copy_src)"
 
 complete --command wt --exclusive --condition "__fish_seen_subcommand_from add; and test (count (commandline -opc)) -le 2" \
   --arguments "(begin; set -l cur (git branch --show-current 2>/dev/null); set -l root_branch (git worktree list --porcelain 2>/dev/null | string match 'branch *' | head -1 | string replace 'branch refs/heads/' ''); git branch -a --format='%(refname:short)' 2>/dev/null | string replace 'origin/' '' | string match -v \$cur | string match -v \$root_branch | sort -u; end)"

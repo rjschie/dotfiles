@@ -19,6 +19,7 @@ function wt -d "Worktree management"
     echo "  config [-g]                Edit post-create config (-g for global)"
     echo "  add <name> [-n]            Create worktree & branch (-n dry-run wtrc preview)"
     echo "  co <name>                  Switch to worktree (no arg or '-' = root/prev)"
+    echo "  copy <wt>:<path> <dest>    Copy file from a worktree (root or name) into dest"
     echo "  rm <name>... [-k] [-f]     Remove worktree(s) & branch(es) (-k keeps, -f force)"
     echo "  rename <old> <new>         Rename worktree & branch"
     echo "  merge <name> [-k]          Squash-merge into main, removes worktree & branch (-k keeps branch)"
@@ -111,6 +112,47 @@ function wt -d "Worktree management"
       cd $dir
       __wt_set_title $root $name
       set -g __wt_previous $current
+
+    case copy cp
+      set -l src $argv[2]
+      set -l dest $argv[3]
+      if test -z "$src"; or test -z "$dest"
+        echo "wt: usage: wt copy <worktree>:<path> <dest>"
+        return 1
+      end
+
+      if not string match -q "*:*" $src
+        echo "wt: source must be <worktree>:<path> (e.g. root:.env or feat-x:src/a.ts)"
+        return 1
+      end
+      set -l wt_name (string split -m1 ":" $src)[1]
+      set -l rel (string split -m1 ":" $src)[2]
+      if test -z "$rel"
+        echo "wt: source path required after ':'"
+        return 1
+      end
+
+      set -l src_dir
+      if test "$wt_name" = root
+        set src_dir $root
+      else
+        set src_dir $wt_dir/$wt_name
+      end
+      if not test -d $src_dir
+        echo "wt: worktree '$wt_name' not found (try: wt ls)"
+        return 1
+      end
+
+      set -l src_file $src_dir/$rel
+      if not test -e $src_file
+        echo "wt: source not found: $wt_name:$rel"
+        return 1
+      end
+
+      mkdir -p (dirname $dest)
+      cp -R $src_file $dest
+      or return 1
+      echo "wt: copied $wt_name:$rel → $dest"
 
     case rm remove
       set -l patterns $argv[2..]
