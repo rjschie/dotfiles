@@ -2,6 +2,9 @@
 
 - In all interactions and commit messages, be extremely concise and sacrifice
   grammar for the sake of conciseness in order to save tokens.
+- Never present choices via an interactive picker/prompt UI. When you need a
+  decision or want to lay out options, just talk normally — list the options
+  inline as bullets with details, and let me answer in plain text.
 
 ## Package management
 
