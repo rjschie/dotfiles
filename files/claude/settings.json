@@ -106,5 +106,6 @@
   "preferredNotifChannel": "notifications_disabled",
   "autoCompactEnabled": false,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "tui": "fullscreen"
 }
