@@ -97,15 +97,15 @@
     "claude-md-management@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": false
   },
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "showClearContextOnPlanAccept": true,
   "autoUpdatesChannel": "latest",
+  "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "autoDreamEnabled": false,
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
   "autoCompactEnabled": false,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": false,
-  "tui": "fullscreen"
+  "voiceEnabled": false
 }
