@@ -80,6 +80,16 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-06-03T15:16:29.929Z",
       "updatedAt": "2026-06-03T15:16:29.929Z"
+    },
+    "teach": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/teach/SKILL.md",
+      "skillFolderHash": "fdc61615b4d56a04d88a69a135337f0cad9df235",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-06-09T07:51:21.338Z",
+      "updatedAt": "2026-06-09T07:51:21.338Z"
     }
   },
   "dismissed": {
