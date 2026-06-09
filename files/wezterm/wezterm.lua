@@ -105,6 +105,10 @@ config.keys = {
 	{ mods = "CTRL|SUPER", key = "h", action = act.AdjustPaneSize({ "Left", 2 }) },
 	{ mods = "CTRL|SUPER", key = "k", action = act.AdjustPaneSize({ "Up", 2 }) },
 	{ mods = "CTRL|SUPER", key = "j", action = act.AdjustPaneSize({ "Down", 2 }) },
+	{ mods = "CTRL|SUPER|SHIFT", key = "l", action = act.AdjustPaneSize({ "Right", 15 }) },
+	{ mods = "CTRL|SUPER|SHIFT", key = "h", action = act.AdjustPaneSize({ "Left", 15 }) },
+	{ mods = "CTRL|SUPER|SHIFT", key = "k", action = act.AdjustPaneSize({ "Up", 15 }) },
+	{ mods = "CTRL|SUPER|SHIFT", key = "j", action = act.AdjustPaneSize({ "Down", 15 }) },
 
 	-- Tabs
 	{
