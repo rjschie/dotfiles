@@ -310,8 +310,10 @@ function wt -d "Worktree management"
       end
 
       echo root
-      for n in (printf '%s\n' $migrated | sort)
-        echo $n
+      if test (count $migrated) -gt 0
+        for n in (printf '%s\n' $migrated | sort)
+          echo $n
+        end
       end
 
       if test (count $unmigrated) -gt 0
