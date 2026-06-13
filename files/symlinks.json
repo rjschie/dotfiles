@@ -1,5 +1,6 @@
 {
   "files/claude/*": "$HOME/.claude/*",
+  "files/codex/*": "$HOME/.codex/*",
   "files/fish": "$CONFIG/fish",
   "files/gh": "$CONFIG/gh",
   "files/ghostty": "$CONFIG/ghostty",
